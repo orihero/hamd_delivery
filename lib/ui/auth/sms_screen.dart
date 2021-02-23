@@ -111,21 +111,17 @@ class _SmsScreenState extends State<SmsScreen> {
         child: Column(
           children: [
             Container(
-              // height: MediaQuery.of(context).size.height * 4,
               height: 330,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(25),
-                  bottomRight: Radius.circular(25),
+                  bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
                 ),
-                color: ColorPalatte.strongRedColor,
+                color: Color(0xff9F111B),
               ),
-              child: Center(
-                child: Image.asset(
-                  'assets/images/logo-white.png',
-                  width: 200,
-                  height: 80,
-                ),
+              child: Image.asset(
+                'assets/images/splash.png',
               ),
             ),
             Container(
@@ -170,16 +166,16 @@ class _SmsScreenState extends State<SmsScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                         length: 4,
-                        obscureText: true,
+                        obscureText: false,
                         obscuringCharacter: '*',
                         blinkWhenObscuring: true,
                         animationType: AnimationType.fade,
                         validator: (v) {
-                          if (v.length < 3) {
-                            return "I'm from validator";
-                          } else {
-                            return null;
-                          }
+                          // if (v.length < 3) {
+                          //   return "I'm from validator";
+                          // } else {
+                          //   return null;
+                          // }
                         },
                         pinTheme: PinTheme(
                           activeColor: Colors.white,
@@ -191,23 +187,23 @@ class _SmsScreenState extends State<SmsScreen> {
                           shape: PinCodeFieldShape.box,
                           borderRadius: BorderRadius.circular(5),
                           fieldHeight: 50,
-                          fieldWidth: 70,
+                          fieldWidth: 75,
                           // activeFillColor:
                           //     hasError ? Colors.white : Colors.white,
                         ),
                         cursorColor: Colors.black,
                         animationDuration: Duration(milliseconds: 300),
-                        backgroundColor: Colors.blue.shade50,
+                        backgroundColor: Colors.grey.shade100,
                         enableActiveFill: true,
                         errorAnimationController: errorController,
                         controller: textEditingController,
                         keyboardType: TextInputType.number,
                         boxShadows: [
-                          BoxShadow(
-                            offset: Offset(0, 1),
-                            color: Colors.black12,
-                            blurRadius: 10,
-                          )
+                          // BoxShadow(
+                          //   offset: Offset(0, 1),
+                          //   color: Colors.black12,
+                          //   blurRadius: 10,
+                          // )
                         ],
                         onCompleted: (v) {
                           print("Completed");
