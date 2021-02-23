@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:HAMD_Delivery/constants/colors.dart';
+import 'package:HAMD_Delivery/ui/my_drewer/my_drewer.dart';
 import 'package:HAMD_Delivery/ui/new-order/new-order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,7 +33,7 @@ class MapScreenContentState extends State<MapScreenContent> {
     BitmapDescriptor.fromAssetImage(
             ImageConfiguration(), 'assets/images/marker.png')
         .then((value) => icon = value);
-    new Timer(Duration(seconds: 5), () => {Get.to(NewOrder())});
+    // new Timer(Duration(seconds: 5), () => {Get.to(NewOrder())});
   }
 
   // List for storing markers
@@ -40,14 +41,24 @@ class MapScreenContentState extends State<MapScreenContent> {
   // Custom marker icon
   BitmapDescriptor icon;
 
-
   String status = "ONLINE";
   String buttonText = "Я НА СМЕНЕ";
   Color buttonColor = Colors.green;
+  void _openDrawer() {
+    _scaffoldKey.currentState.openDrawer();
+  }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      key: _scaffoldKey,
+      drawer: SizedBox(
+        width: MediaQuery.of(context).size.width * .95,
+        child: Drawer(
+          child: MyDrewer(),
+        ),
+      ),
       body: Stack(
         children: [
           GoogleMap(
@@ -73,7 +84,12 @@ class MapScreenContentState extends State<MapScreenContent> {
             padding: EdgeInsets.symmetric(horizontal: 40, vertical: 50),
             child: Row(
               children: [
-                Icon(Icons.menu, size: 24, color: Colors.black),
+                IconButton(
+                  icon: Icon(Icons.menu, size: 24, color: Colors.black),
+                  onPressed: () {
+					  _openDrawer();
+				  },
+                ),
                 Expanded(
                   child: Row(
                     children: [

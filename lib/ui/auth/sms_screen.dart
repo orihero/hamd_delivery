@@ -22,6 +22,38 @@ class _SmsScreenState extends State<SmsScreen> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   // final formKey = GlobalKey<FormState>();
   StreamController<ErrorAnimationType> errorController;
+  Timer _timer;
+  int _start = 30;
+
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
 
   _showSnackBar(BuildContext context) {
     return showDialog(
@@ -231,8 +263,8 @@ class _SmsScreenState extends State<SmsScreen> {
                     padding: const EdgeInsets.symmetric(
                       horizontal: 50,
                     ),
-                    child:
-                        Center(child: Text('Запросить новый код через 30 сек')),
+                    child: Center(
+                        child: Text('Запросить новый код через $_start сек')),
                     // child:
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * .07),
@@ -244,11 +276,20 @@ class _SmsScreenState extends State<SmsScreen> {
                       child: RaisedButton(
                         elevation: 0,
                         color: ColorPalatte.strongRedColor,
-                        onPressed: () => _showSnackBar(context),
+                        onPressed: () {
+                          if (_start == 0) {
+                            setState(() {
+                              _start = 30;
+                            });
+                            startTimer();
+                          } else {
+                            _showSnackBar(context);
+                          }
+                        },
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
                         child: Text(
-                          'ЗАРЕГИСТРИРОВАТЬСЯ',
+                          _start == 0 ? "ОТПРАВИТЬ КОД" : 'ЗАРЕГИСТРИРОВАТЬСЯ',
                           style: FontStyles.boldStyle(
                               fontSize: 16,
                               fontFamily: 'Ubuntu',

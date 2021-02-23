@@ -43,24 +43,24 @@ class _NewOrderState extends State<NewOrder> {
     return Scaffold(
       body: Column(
         children: [
-          GoogleMap(
-            mapType: MapType.normal,
-            initialCameraPosition: _kGooglePlex,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-              setState(() {
-                allMarkers.add(Marker(
-                    markerId: MarkerId('Google'),
-                    draggable: false,
-                    icon: icon,
-                    position: LatLng(37.43296265331129, -122.08832357078792)));
-              });
-            },
-            myLocationButtonEnabled: false,
-            myLocationEnabled: true,
-            compassEnabled: false,
-            markers: allMarkers,
-          ),
+        //   GoogleMap(
+        //     mapType: MapType.normal,
+        //     initialCameraPosition: _kGooglePlex,
+        //     onMapCreated: (GoogleMapController controller) {
+        //       _controller.complete(controller);
+        //       setState(() {
+        //         allMarkers.add(Marker(
+        //             markerId: MarkerId('Google'),
+        //             draggable: false,
+        //             icon: icon,
+        //             position: LatLng(37.43296265331129, -122.08832357078792)));
+        //       });
+        //     },
+        //     myLocationButtonEnabled: false,
+        //     myLocationEnabled: true,
+        //     compassEnabled: false,
+        //     markers: allMarkers,
+        //   ),
         ],
       ),
     );
