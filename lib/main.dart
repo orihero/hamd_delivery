@@ -1,4 +1,5 @@
 import 'package:HAMD_Delivery/ui/landing/landing_screen.dart';
+import 'package:HAMD_Delivery/ui/map/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LandingScreen(),
+      home: MapScreen(),
     );
   }
 }
