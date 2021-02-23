@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/ui/my_drewer/my_drewer.dart';
 import 'package:HAMD_Delivery/ui/new-order/new-order.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +32,7 @@ class MapScreenContentState extends State<MapScreenContent> {
     BitmapDescriptor.fromAssetImage(
             ImageConfiguration(), 'assets/images/marker.png')
         .then((value) => icon = value);
-    // new Timer(Duration(seconds: 5), () => {Get.to(NewOrder())});
+    new Timer(Duration(seconds: 5), () => {Get.to(NewOrder())});
   }
 
   // List for storing markers
@@ -87,8 +86,8 @@ class MapScreenContentState extends State<MapScreenContent> {
                 IconButton(
                   icon: Icon(Icons.menu, size: 24, color: Colors.black),
                   onPressed: () {
-					  _openDrawer();
-				  },
+                    _openDrawer();
+                  },
                 ),
                 Expanded(
                   child: Row(

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/ui/new-order/widgets/new-order-card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class NewOrder extends StatefulWidget {
@@ -32,6 +33,7 @@ class _NewOrderState extends State<NewOrder> {
     BitmapDescriptor.fromAssetImage(
             ImageConfiguration(), 'assets/images/marker.png')
         .then((value) => icon = value);
+    Get.dialog(NewOrderCard());
   }
 
   // List for storing markers
@@ -41,27 +43,23 @@ class _NewOrderState extends State<NewOrder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-        //   GoogleMap(
-        //     mapType: MapType.normal,
-        //     initialCameraPosition: _kGooglePlex,
-        //     onMapCreated: (GoogleMapController controller) {
-        //       _controller.complete(controller);
-        //       setState(() {
-        //         allMarkers.add(Marker(
-        //             markerId: MarkerId('Google'),
-        //             draggable: false,
-        //             icon: icon,
-        //             position: LatLng(37.43296265331129, -122.08832357078792)));
-        //       });
-        //     },
-        //     myLocationButtonEnabled: false,
-        //     myLocationEnabled: true,
-        //     compassEnabled: false,
-        //     markers: allMarkers,
-        //   ),
-        ],
+      body: GoogleMap(
+        mapType: MapType.normal,
+        initialCameraPosition: _kGooglePlex,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+          setState(() {
+            allMarkers.add(Marker(
+                markerId: MarkerId('Google'),
+                draggable: false,
+                icon: icon,
+                position: LatLng(37.43296265331129, -122.08832357078792)));
+          });
+        },
+        myLocationButtonEnabled: false,
+        myLocationEnabled: true,
+        compassEnabled: false,
+        markers: allMarkers,
       ),
     );
   }
