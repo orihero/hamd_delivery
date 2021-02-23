@@ -125,19 +125,16 @@ class AuthScreen extends StatelessWidget {
             children: [
               Container(
                 height: 330,
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(25),
-                    bottomRight: Radius.circular(25),
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
                   ),
-                  color: ColorPalatte.strongRedColor,
+                  color: Color(0xff9F111B),
                 ),
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/logo-white.png',
-                    width: 200,
-                    height: 80,
-                  ),
+                child: Image.asset(
+                  'assets/images/splash.png',
                 ),
               ),
               Column(
