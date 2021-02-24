@@ -1,11 +1,10 @@
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/ui/income/income_sceen.dart';
-import 'package:HAMD_Delivery/ui/my_drewer/menu_options.dart';
-import 'package:HAMD_Delivery/ui/my_order.dart/my_order_srceen.dart';
+import 'package:HAMD_Delivery/ui/my-drewer/menu_options.dart';
+import 'package:HAMD_Delivery/ui/my-order/my_order_srceen.dart';
 import 'package:HAMD_Delivery/ui/settings/setting_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class MyDrewer extends StatelessWidget {

@@ -1,17 +1,22 @@
 import 'dart:async';
 
+import 'package:HAMD_Delivery/constants/colors.dart';
+import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/ui/my-drewer/my_drewer.dart';
-import 'package:HAMD_Delivery/ui/new-order/new-order.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class MapScreenContent extends StatefulWidget {
+class CurrentOrder extends StatefulWidget {
+  CurrentOrder({Key key}) : super(key: key);
+
   @override
-  State<MapScreenContent> createState() => MapScreenContentState();
+  _CurrentOrderState createState() => _CurrentOrderState();
 }
 
-class MapScreenContentState extends State<MapScreenContent> {
+class _CurrentOrderState extends State<CurrentOrder> {
   Completer<GoogleMapController> _controller = Completer();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -32,7 +37,7 @@ class MapScreenContentState extends State<MapScreenContent> {
     BitmapDescriptor.fromAssetImage(
             ImageConfiguration(), 'assets/images/marker.png')
         .then((value) => icon = value);
-    new Timer(Duration(seconds: 5), () => {Get.to(NewOrder())});
+    // new Timer(Duration(seconds: 5), () => {Get.to(NewOrder())});
   }
 
   // List for storing markers
@@ -50,7 +55,8 @@ class MapScreenContentState extends State<MapScreenContent> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    double width = MediaQuery.of(context).size.width;
+    return Scaffold(
       key: _scaffoldKey,
       drawer: SizedBox(
         width: MediaQuery.of(context).size.width * .95,
@@ -81,59 +87,52 @@ class MapScreenContentState extends State<MapScreenContent> {
           ),
           Container(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.menu, size: 24, color: Colors.black),
-                    onPressed: () {
-                      _openDrawer();
-                    },
-                  ),
-                  Expanded(
-                    child: Row(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+                child: Column(
+                  children: [
+                    Row(
                       children: [
-                        Text(
-                          "Текущий статус $status",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
+                        IconButton(
+                          icon: Icon(Icons.menu, size: 24, color: Colors.black),
+                          onPressed: () {
+                            _openDrawer();
+                          },
+                        ),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Text(
+                                "Принятый заказ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              )
+                            ],
+                            mainAxisAlignment: MainAxisAlignment.center,
+                          ),
                         )
                       ],
-                      mainAxisAlignment: MainAxisAlignment.center,
                     ),
-                  )
-                ],
-              ),
+                    Row(
+                      children: [
+                        Text('Оплата заказа: Наличными'),
+                        IconButton(
+                            icon: Icon(
+                          Icons.phone,
+                          color: Colors.red,
+                        ))
+                      ],
+                    )
+                  ],
+                )),
+            width: width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.horizontal(
+                  left: Radius.circular(15), right: Radius.circular(15)),
+              color: ColorPalatte.mainPageColor,
             ),
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
-        label: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 40),
-          child: Text(
-            buttonText,
-          ),
-        ),
-        backgroundColor: buttonColor,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
-  }
-
-  void _goToTheLake() {
-    setState(() {
-      var isOnline = buttonColor == Colors.green;
-      if (isOnline) {
-        buttonColor = Colors.red;
-        status = "OFFLINE";
-        buttonText = "ЗАКОНЧИТЬ СМЕНУ";
-      } else {
-        buttonColor = Colors.green;
-        status = "ONLINE";
-        buttonText = "Я НА СМЕНЕ";
-      }
-    });
   }
 }
