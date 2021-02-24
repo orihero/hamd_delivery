@@ -3,10 +3,13 @@ import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/ui/income/income_sceen.dart';
 import 'package:HAMD_Delivery/ui/my_drewer/menu_options.dart';
 import 'package:HAMD_Delivery/ui/my_order.dart/my_order_srceen.dart';
+import 'package:HAMD_Delivery/ui/my_platic_card/my_plastic_card.dart';
 import 'package:HAMD_Delivery/ui/settings/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+
+import '../settings/profile_settings/profile_settings.dart';
 
 class MyDrewer extends StatelessWidget {
   @override
@@ -147,6 +150,7 @@ class MyDrewer extends StatelessWidget {
                     ),
                     MenuOptions(
                       title: 'Мой профиль',
+                      onpress: () => Get.to(ProfileSettings()),
                     ),
                     SizedBox(height: 10),
                     Divider(
@@ -155,6 +159,7 @@ class MyDrewer extends StatelessWidget {
                     ),
                     MenuOptions(
                       title: 'Моя карта',
+                      onpress: () => Get.to(MyPlasticCard()),
                     ),
                     SizedBox(height: 10),
                     Divider(
