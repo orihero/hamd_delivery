@@ -38,6 +38,8 @@ class _CurrentOrderState extends State<CurrentOrder> {
     // new Timer(Duration(seconds: 5), () => {Get.to(NewOrder())});
   }
 
+  bool isFinished = false;
+
   // List for storing markers
   Set<Marker> allMarkers = Set<Marker>();
   // Custom marker icon
@@ -101,7 +103,7 @@ class _CurrentOrderState extends State<CurrentOrder> {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 50.0),
                           child: Text(
-                            "Принятый заказ",
+                            isFinished ? "Завершение заказа" : "Принятый заказ",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
@@ -111,57 +113,58 @@ class _CurrentOrderState extends State<CurrentOrder> {
                   ],
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(15.0),
-                      bottomRight: Radius.circular(15.0),
-                    )),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12.0, vertical: 20.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Оплата заказа: Наличными',
-                        style: TextStyle(
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        width: 45.0,
-                        height: 45.0,
-                        decoration: BoxDecoration(
-                          color: ColorPalatte.callButtonBackground,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset:
-                                  Offset(0, 4), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.phone,
-                              color: Colors.red,
-                            ),
+              if (!isFinished)
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(15.0),
+                        bottomRight: Radius.circular(15.0),
+                      )),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 20.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Оплата заказа: Наличными',
+                          style: TextStyle(
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      )
-                    ],
+                        Container(
+                          width: 45.0,
+                          height: 45.0,
+                          decoration: BoxDecoration(
+                            color: ColorPalatte.callButtonBackground,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset:
+                                    Offset(0, 4), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.phone,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
           Positioned(
@@ -188,14 +191,17 @@ class _CurrentOrderState extends State<CurrentOrder> {
                   ),
                 ),
                 ClipPath(
-                  clipper: DolDurmaClipper(right: 160.0, holeRadius: 50.0),
+                  clipper: DolDurmaClipper(
+                    right: 163.0,
+                    holeRadius: 50.0,
+                  ),
                   child: Container(
                     decoration: BoxDecoration(
                       color: ColorPalatte.mainPageColor,
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     width: width,
-                    height: 363.0,
+                    height: isFinished ? 280 : 363.0,
                     padding: EdgeInsets.all(15.0),
                     child: Column(
                       children: [
@@ -217,207 +223,273 @@ class _CurrentOrderState extends State<CurrentOrder> {
                           ),
                         ),
                         SizedBox(height: 28.0),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * .1,
-                                color: Colors.white,
-                                child: Column(
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/icons/location.svg',
-                                      height: 35,
-                                    ),
-                                    SizedBox(height: 5),
-                                    Container(
-                                      width: 5,
-                                      height: 5,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color(0xffB6C5EE),
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Container(
-                                      width: 5,
-                                      height: 5,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color(0xffB6C5EE),
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Container(
-                                      width: 5,
-                                      height: 5,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color(0xffB6C5EE),
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Container(
-                                      width: 10,
-                                      height: 10,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color(0xff9F111B),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Expanded(
-                              flex: 9,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * .9,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Заказ из',
-                                      style: FontStyles.regularStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xffAAAEB7),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 7,
-                                    ),
-                                    Text(
-                                      'HAMD центральный филиал',
-                                      style: FontStyles.boldStyle(
-                                        fontSize: 15,
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xff232323),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      'Едем в',
-                                      style: FontStyles.regularStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xffAAAEB7),
-                                      ),
-                                    ),
-                                    Text(
-                                      'Ул. Нукусская, 92, кв.21',
-                                      style: FontStyles.boldStyle(
-                                        fontSize: 15,
-                                        fontFamily: 'Montserrat',
-                                        color: Color(0xff232323),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 50.0,
-                            vertical: 25.0,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        if (!isFinished)
+                          Column(
                             children: [
-                              Container(
-                                width: 56.0,
-                                height: 56.0,
-                                decoration: BoxDecoration(
-                                  color: ColorPalatte.callButtonBackground,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 5,
-                                      offset: Offset(
-                                          0, 4), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.map,
-                                      color: Colors.black,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          .1,
+                                      color: ColorPalatte.mainPageColor,
+                                      child: Column(
+                                        children: [
+                                          SvgPicture.asset(
+                                            'assets/icons/location.svg',
+                                            height: 35,
+                                          ),
+                                          SizedBox(height: 5),
+                                          Container(
+                                            width: 5,
+                                            height: 5,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(0xffB6C5EE),
+                                            ),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Container(
+                                            width: 5,
+                                            height: 5,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(0xffB6C5EE),
+                                            ),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Container(
+                                            width: 5,
+                                            height: 5,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(0xffB6C5EE),
+                                            ),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Container(
+                                            width: 10,
+                                            height: 10,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(0xff9F111B),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Expanded(
+                                    flex: 9,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          .9,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Заказ из',
+                                            style: FontStyles.regularStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xffAAAEB7),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 7,
+                                          ),
+                                          Text(
+                                            'HAMD центральный филиал',
+                                            style: FontStyles.boldStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xff232323),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          SizedBox(height: 5),
+                                          Divider(
+                                            height: 1,
+                                          ),
+                                          Text(
+                                            'Едем в',
+                                            style: FontStyles.regularStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xffAAAEB7),
+                                            ),
+                                          ),
+                                          Text(
+                                            'Ул. Нукусская, 92, кв.21',
+                                            style: FontStyles.boldStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xff232323),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Container(
-                                width: 56.0,
-                                height: 56.0,
-                                decoration: BoxDecoration(
-                                  color: ColorPalatte.callButtonBackground,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 5,
-                                      offset: Offset(
-                                          0, 4), // changes position of shadow
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 50.0,
+                                  vertical: 25.0,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width: 56.0,
+                                      height: 56.0,
+                                      decoration: BoxDecoration(
+                                        color:
+                                            ColorPalatte.callButtonBackground,
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 2,
+                                            blurRadius: 5,
+                                            offset: Offset(0,
+                                                4), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                      child: Center(
+                                        child: IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.map,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 56.0,
+                                      height: 56.0,
+                                      decoration: BoxDecoration(
+                                        color:
+                                            ColorPalatte.callButtonBackground,
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 2,
+                                            blurRadius: 5,
+                                            offset: Offset(0,
+                                                4), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                      child: Center(
+                                        child: IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.chat,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 56.0,
+                                      height: 56.0,
+                                      decoration: BoxDecoration(
+                                        color:
+                                            ColorPalatte.callButtonBackground,
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 2,
+                                            blurRadius: 5,
+                                            offset: Offset(0,
+                                                4), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                      child: Center(
+                                        child: IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.car_repair,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
-                                ),
-                                child: Center(
-                                  child: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.chat,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 56.0,
-                                height: 56.0,
-                                decoration: BoxDecoration(
-                                  color: ColorPalatte.callButtonBackground,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 5,
-                                      offset: Offset(
-                                          0, 4), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.car_repair,
-                                      color: Colors.black,
-                                    ),
-                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
+                        if (isFinished)
+                          Column(
+                            children: [
+                              Divider(
+                                height: 1,
+                              ),
+                              SizedBox(height: 10.0),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Стоимость заказа",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                  Text(
+                                    "35 500 сум",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 23),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 10.0),
+                              Divider(
+                                height: 1,
+                              ),
+                              SizedBox(height: 10.0),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Время с момента готовности",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                  Text(
+                                    "12 мин",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  )
+                                ],
+                              ),
+                              SizedBox(height: 20.0),
+                            ],
+                          ),
                         Flexible(
                           child: SizedBox(
                             width: double.infinity,
@@ -429,13 +501,17 @@ class _CurrentOrderState extends State<CurrentOrder> {
                               color: ColorPalatte.strongRedColor,
                               elevation: 0,
                               child: Text(
-                                'ПОЕХАЛИ К КЛИЕНТУ',
+                                isFinished ? "ЗАВЕРШИТЬ" : 'ПОЕХАЛИ К КЛИЕНТУ',
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   color: Colors.white,
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  isFinished = !isFinished;
+                                });
+                              },
                             ),
                           ),
                         )
