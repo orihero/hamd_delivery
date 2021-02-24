@@ -106,38 +106,56 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             Container(
                               height: 95,
                               width: 95,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
                               child: _userImage == null
                                   ? CircleAvatar(
-                                      child: IconButton(
-                                        icon: Icon(Icons.add),
-                                        onPressed: getUserImage,
-                                      ),
+                                      backgroundColor: Colors.white,
+                                      // child: IconButton(
+                                      //   icon: Icon(
+                                      //     Icons.add,
+                                      //     color: Colors.black,
+                                      //   ),
+                                      //   onPressed: getUserImage,
+                                      // ),
                                     )
-                                  : CircleAvatar(
-                                      child: Image.file(_userImage),
+                                  : Container(
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                          image: DecorationImage(
+                                              image:
+                                                  Image.file(_userImage).image,
+                                              fit: BoxFit.cover)),
+                                      // child: Image.file(
+                                      //   _userImage,
+                                      //   fit: BoxFit.scaleDown,
+                                      // ),
                                     ),
                             ),
-                            _userImage == null
-                                ? Container()
-                                : Positioned(
-                                    right: 25,
-                                    bottom: -10,
-                                    child: Container(
-                                      width: 36,
-                                      height: 36,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
-                                      ),
-                                      child: IconButton(
-                                          icon: Icon(
-                                            Icons.add,
-                                            color: Color(0xff575F6B),
-                                            size: 25,
-                                          ),
-                                          onPressed: null),
+                            // _userImage == null
+                            //     ? Container()
+                            //     :
+                            Positioned(
+                              right: 25,
+                              bottom: -10,
+                              child: Container(
+                                width: 36,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                ),
+                                child: IconButton(
+                                    icon: Icon(
+                                      Icons.add,
+                                      color: Color(0xff575F6B),
+                                      size: 25,
                                     ),
-                                  ),
+                                    onPressed: getUserImage),
+                              ),
+                            ),
                           ],
                         )),
                     Expanded(
@@ -263,7 +281,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                         icon: Icon(Icons.add),
                                         onPressed: getdrivingCertificate,
                                       )
-                                    : Image.file(_userImage),
+                                    : Image.file(_drivingCertificate),
                               ),
                             ),
                           ),
@@ -292,14 +310,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             child: Padding(
                               padding: const EdgeInsets.all(10),
                               child: Container(
-                                child: _drivingCertificate == null
+                                child: _drivingLicence == null
                                     ? Container(
                                         child: IconButton(
                                           icon: Icon(Icons.add),
                                           onPressed: getdrivingLicencee,
                                         ),
                                       )
-                                    : Image.asset('assets/images/prava.png'),
+                                    : Image.file(_drivingLicence),
                               ),
                             ),
                           ),
