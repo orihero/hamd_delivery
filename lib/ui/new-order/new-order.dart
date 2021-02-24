@@ -33,7 +33,6 @@ class _NewOrderState extends State<NewOrder> {
     BitmapDescriptor.fromAssetImage(
             ImageConfiguration(), 'assets/images/marker.png')
         .then((value) => icon = value);
-    Get.dialog(NewOrderCard());
   }
 
   // List for storing markers
@@ -43,23 +42,30 @@ class _NewOrderState extends State<NewOrder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-          setState(() {
-            allMarkers.add(Marker(
-                markerId: MarkerId('Google'),
-                draggable: false,
-                icon: icon,
-                position: LatLng(37.43296265331129, -122.08832357078792)));
-          });
-        },
-        myLocationButtonEnabled: false,
-        myLocationEnabled: true,
-        compassEnabled: false,
-        markers: allMarkers,
+      body: Stack(
+        children: [
+          GoogleMap(
+            mapType: MapType.normal,
+            initialCameraPosition: _kGooglePlex,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+              setState(() {
+                allMarkers.add(Marker(
+                    markerId: MarkerId('Google'),
+                    draggable: false,
+                    icon: icon,
+                    position: LatLng(37.43296265331129, -122.08832357078792)));
+              });
+            },
+            myLocationButtonEnabled: false,
+            myLocationEnabled: true,
+            compassEnabled: false,
+            markers: allMarkers,
+          ),
+          Column(
+            children: [NewOrderCard()],
+          )
+        ],
       ),
     );
   }

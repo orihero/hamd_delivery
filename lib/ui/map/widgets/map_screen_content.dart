@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:HAMD_Delivery/ui/my_drewer/my_drewer.dart';
-// import 'package:HAMD_Delivery/ui/new-order/new-order.dart';
+import 'package:HAMD_Delivery/ui/my-drewer/my_drewer.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapScreenContent extends StatefulWidget {
@@ -79,29 +77,31 @@ class MapScreenContentState extends State<MapScreenContent> {
             myLocationEnabled: true,
             compassEnabled: false,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 50),
-            child: Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.menu, size: 24, color: Colors.black),
-                  onPressed: () {
-                    _openDrawer();
-                  },
-                ),
-                Expanded(
-                  child: Row(
-                    children: [
-                      Text(
-                        "Текущий статус $status",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
-                      )
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.center,
+          Container(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.menu, size: 24, color: Colors.black),
+                    onPressed: () {
+                      _openDrawer();
+                    },
                   ),
-                )
-              ],
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Text(
+                          "Текущий статус $status",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        )
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ),
+                  )
+                ],
+              ),
             ),
           )
         ],
