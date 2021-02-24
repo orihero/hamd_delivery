@@ -157,7 +157,7 @@ class MyDrewer extends StatelessWidget {
                     ),
                     MenuOptions(
                       title: 'Моя карта',
-                      onpress: () => Get.to(MyPlasticCard()),
+                      onpress: () {},
                     ),
                     SizedBox(height: 10),
                     Divider(
