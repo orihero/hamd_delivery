@@ -7,6 +7,8 @@ import 'package:HAMD_Delivery/ui/settings/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../settings/profile_settings/profile_settings.dart';
+
 class MyDrewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -146,6 +148,7 @@ class MyDrewer extends StatelessWidget {
                     ),
                     MenuOptions(
                       title: 'Мой профиль',
+                      onpress: () => Get.to(ProfileSettings()),
                     ),
                     SizedBox(height: 10),
                     Divider(
@@ -154,6 +157,7 @@ class MyDrewer extends StatelessWidget {
                     ),
                     MenuOptions(
                       title: 'Моя карта',
+                      onpress: () => Get.to(MyPlasticCard()),
                     ),
                     SizedBox(height: 10),
                     Divider(

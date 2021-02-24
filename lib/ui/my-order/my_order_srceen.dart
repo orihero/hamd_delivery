@@ -202,11 +202,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                 ),
                 Row(
                   children: [
-                    SvgPicture.asset(
-                      'assets/icons/cards.svg',
-                      height: 20,
-                      width: 20,
-                    ),
+                    Image.asset('assets/images/cards.png'),
                     SizedBox(
                       width: 7,
                     ),
@@ -439,11 +435,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                 ),
                 Row(
                   children: [
-                    SvgPicture.asset(
-                      'assets/icons/cards.svg',
-                      height: 20,
-                      width: 20,
-                    ),
+                    Image.asset('assets/images/cards.png'),
                     SizedBox(
                       width: 7,
                     ),
@@ -676,11 +668,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                 ),
                 Row(
                   children: [
-                    SvgPicture.asset(
-                      'assets/icons/cards.svg',
-                      height: 20,
-                      width: 20,
-                    ),
+                    Image.asset('assets/images/cards.png'),
                     SizedBox(
                       width: 7,
                     ),
@@ -916,11 +904,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                 ),
                 Row(
                   children: [
-                    SvgPicture.asset(
-                      'assets/icons/cards.svg',
-                      height: 20,
-                      width: 20,
-                    ),
+                    Image.asset('assets/images/cards.png'),
                     SizedBox(
                       width: 7,
                     ),
@@ -1134,11 +1118,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                 ),
                 Row(
                   children: [
-                    SvgPicture.asset(
-                      'assets/icons/cards.svg',
-                      height: 20,
-                      width: 20,
-                    ),
+                    Image.asset('assets/images/cards.png'),
                     SizedBox(
                       width: 7,
                     ),
@@ -1352,11 +1332,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                 ),
                 Row(
                   children: [
-                    SvgPicture.asset(
-                      'assets/icons/cards.svg',
-                      height: 20,
-                      width: 20,
-                    ),
+                    Image.asset('assets/images/cards.png'),
                     SizedBox(
                       width: 7,
                     ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
@@ -5,11 +7,63 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
-class ProfileSettings extends StatelessWidget {
+class ProfileSettings extends StatefulWidget {
+  @override
+  _ProfileSettingsState createState() => _ProfileSettingsState();
+}
+
+class _ProfileSettingsState extends State<ProfileSettings> {
   String _phoneNumber = "998905858565";
+
   var controllerNumber =
       MaskedTextController(mask: '000 (00) 000 00 00', text: '+998 ');
+
+  File _userImage;
+  File _drivingLicence;
+  File _drivingCertificate;
+
+  final userImagePicker = ImagePicker();
+  final drivingLicencePicker = ImagePicker();
+  final drivingCertificatePicker = ImagePicker();
+
+  Future getUserImage() async {
+    final pickedUserImage =
+        await userImagePicker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedUserImage != null) {
+        _userImage = File(pickedUserImage.path);
+      } else {
+        print('No Image Selected');
+      }
+    });
+  }
+
+  Future getdrivingLicencee() async {
+    final pickedDrivingLicence =
+        await drivingLicencePicker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedDrivingLicence != null) {
+        _drivingLicence = File(pickedDrivingLicence.path);
+      } else {
+        print('No Image Selected');
+      }
+    });
+  }
+
+  Future getdrivingCertificate() async {
+    final pickedDrivingCertificate =
+        await drivingCertificatePicker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedDrivingCertificate != null) {
+        _drivingCertificate = File(pickedDrivingCertificate.path);
+      } else {
+        print('No Image Selected');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,29 +106,38 @@ class ProfileSettings extends StatelessWidget {
                             Container(
                               height: 95,
                               width: 95,
-                              child: CircleAvatar(
-                                child: Image.asset('assets/images/user.png'),
-                              ),
-                            ),
-                            Positioned(
-                              right: 25,
-                              bottom: -10,
-                              child: Container(
-                                width: 36,
-                                height: 36,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                ),
-                                child: IconButton(
-                                    icon: Icon(
-                                      Icons.add,
-                                      color: Color(0xff575F6B),
-                                      size: 25,
+                              child: _userImage == null
+                                  ? CircleAvatar(
+                                      child: IconButton(
+                                        icon: Icon(Icons.add),
+                                        onPressed: getUserImage,
+                                      ),
+                                    )
+                                  : CircleAvatar(
+                                      child: Image.file(_userImage),
                                     ),
-                                    onPressed: null),
-                              ),
                             ),
+                            _userImage == null
+                                ? Container()
+                                : Positioned(
+                                    right: 25,
+                                    bottom: -10,
+                                    child: Container(
+                                      width: 36,
+                                      height: 36,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white,
+                                      ),
+                                      child: IconButton(
+                                          icon: Icon(
+                                            Icons.add,
+                                            color: Color(0xff575F6B),
+                                            size: 25,
+                                          ),
+                                          onPressed: null),
+                                    ),
+                                  ),
                           ],
                         )),
                     Expanded(
@@ -188,23 +251,85 @@ class ProfileSettings extends StatelessWidget {
                               color: Color(0xffAAAEB7),
                             ),
                           ),
-                          Card(),
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Container(
+                                child: _drivingCertificate == null
+                                    ? IconButton(
+                                        icon: Icon(Icons.add),
+                                        onPressed: getdrivingCertificate,
+                                      )
+                                    : Image.file(_userImage),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Expanded(
-                      child: Text(
-                        'Паспорт',
-                        style: FontStyles.regularStyle(
-                          fontSize: 15,
-                          fontFamily: 'Montserrat',
-                          color: Color(0xffAAAEB7),
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Паспорт',
+                            style: FontStyles.regularStyle(
+                              fontSize: 15,
+                              fontFamily: 'Montserrat',
+                              color: Color(0xffAAAEB7),
+                            ),
+                          ),
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Container(
+                                child: _drivingCertificate == null
+                                    ? Container(
+                                        child: IconButton(
+                                          icon: Icon(Icons.add),
+                                          onPressed: getdrivingLicencee,
+                                        ),
+                                      )
+                                    : Image.asset('assets/images/prava.png'),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
+                // Spacer(),
               ],
+            ),
+          ),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15, bottom: 40),
+            child: Container(
+              height: 54,
+              width: double.infinity,
+              child: RaisedButton(
+                elevation: 0,
+                color: ColorPalatte.strongRedColor,
+                onPressed: () => Get.back(),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
+                child: Text(
+                  'СОХРАНИТЬ ИЗМЕНЕНИЯ',
+                  style: FontStyles.boldStyle(
+                      fontSize: 16, fontFamily: 'Ubuntu', color: Colors.white),
+                ),
+              ),
             ),
           ),
         ],

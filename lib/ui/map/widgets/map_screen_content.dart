@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:HAMD_Delivery/ui/my-drewer/my_drewer.dart';
-import 'package:HAMD_Delivery/ui/new-order/new-order.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapScreenContent extends StatefulWidget {
@@ -29,10 +27,10 @@ class MapScreenContentState extends State<MapScreenContent> {
   // ignore: unused_element
   void initState() {
     super.initState();
-    BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(), 'assets/images/marker.png')
-        .then((value) => icon = value);
-    new Timer(Duration(seconds: 5), () => {Get.to(NewOrder())});
+    // BitmapDescriptor.fromAssetImage(
+    //         ImageConfiguration(), 'assets/images/marker.png')
+    //     .then((value) => icon = value);
+    // new Timer(Duration(seconds: 5), () => {Get.to(NewOrder())});
   }
 
   // List for storing markers
