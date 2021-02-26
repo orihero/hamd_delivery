@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:HAMD_Delivery/constants/colors.dart';
+import 'package:HAMD_Delivery/ui/map/map_screen.dart';
 import 'package:HAMD_Delivery/ui/new-order/widgets/new-order-card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -67,6 +68,19 @@ class _NewOrderState extends State<NewOrder> {
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Get.to(MapScreen());
+        },
+        label: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40),
+          child: Text(
+            "ПРОПУСТИТЬ",
+          ),
+        ),
+        backgroundColor: ColorPalatte.strongRedColor,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

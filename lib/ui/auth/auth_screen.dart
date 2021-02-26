@@ -131,10 +131,13 @@ class AuthScreen extends StatelessWidget {
                     bottomLeft: Radius.circular(15),
                     bottomRight: Radius.circular(15),
                   ),
-                  color: Color(0xff9F111B),
+                  color: ColorPalatte.strongRedColor,
                 ),
-                child: Image.asset(
-                  'assets/images/splash.png',
+                child: Padding(
+                  padding: const EdgeInsets.all(80),
+                  child: Image.asset(
+                    'assets/images/logo-back.png',
+                  ),
                 ),
               ),
               Column(

@@ -152,8 +152,11 @@ class _SmsScreenState extends State<SmsScreen> {
                 ),
                 color: Color(0xff9F111B),
               ),
-              child: Image.asset(
-                'assets/images/splash.png',
+              child: Padding(
+                padding: const EdgeInsets.all(80),
+                child: Image.asset(
+                  'assets/images/logo-back.png',
+                ),
               ),
             ),
             Container(

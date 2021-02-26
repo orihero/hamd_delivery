@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
+import 'package:HAMD_Delivery/ui/map/map_screen.dart';
 import 'package:HAMD_Delivery/ui/my-drewer/my_drewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CurrentOrder extends StatefulWidget {
@@ -192,7 +194,7 @@ class _CurrentOrderState extends State<CurrentOrder> {
                 ),
                 ClipPath(
                   clipper: DolDurmaClipper(
-                    right: 163.0,
+                    right: (width / 2) - 45,
                     holeRadius: 50.0,
                   ),
                   child: Container(
@@ -509,7 +511,11 @@ class _CurrentOrderState extends State<CurrentOrder> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  isFinished = !isFinished;
+                                  if (isFinished) {
+                                    Get.to(MapScreen());
+                                  } else {
+                                    isFinished = !isFinished;
+                                  }
                                 });
                               },
                             ),

@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:HAMD_Delivery/ui/my-drewer/my_drewer.dart';
+import 'package:HAMD_Delivery/ui/new-order/new-order.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapScreenContent extends StatefulWidget {
@@ -27,10 +29,9 @@ class MapScreenContentState extends State<MapScreenContent> {
   // ignore: unused_element
   void initState() {
     super.initState();
-    // BitmapDescriptor.fromAssetImage(
-    //         ImageConfiguration(), 'assets/images/marker.png')
-    //     .then((value) => icon = value);
-    // new Timer(Duration(seconds: 5), () => {Get.to(NewOrder())});
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(), 'assets/images/marker.png')
+        .then((value) => icon = value);
   }
 
   // List for storing markers
@@ -38,7 +39,7 @@ class MapScreenContentState extends State<MapScreenContent> {
   // Custom marker icon
   BitmapDescriptor icon;
 
-  String status = "ONLINE";
+  String status = "OFFLINE";
   String buttonText = "Я НА СМЕНЕ";
   Color buttonColor = Colors.green;
   void _openDrawer() {
@@ -125,11 +126,16 @@ class MapScreenContentState extends State<MapScreenContent> {
       var isOnline = buttonColor == Colors.green;
       if (isOnline) {
         buttonColor = Colors.red;
-        status = "OFFLINE";
+        status = "ONLINE";
         buttonText = "ЗАКОНЧИТЬ СМЕНУ";
+        new Timer(
+            Duration(seconds: 5),
+            () => {
+                  if (status == "ONLINE") {Get.to(NewOrder())}
+                });
       } else {
         buttonColor = Colors.green;
-        status = "ONLINE";
+        status = "OFFLINE";
         buttonText = "Я НА СМЕНЕ";
       }
     });
