@@ -52,7 +52,7 @@ class MapScreenContentState extends State<MapScreenContent> {
     return new Scaffold(
       key: _scaffoldKey,
       drawer: SizedBox(
-        width: MediaQuery.of(context).size.width * .95,
+        width: MediaQuery.of(context).size.width * .80,
         child: Drawer(
           child: MyDrewer(),
         ),

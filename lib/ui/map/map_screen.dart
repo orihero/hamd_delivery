@@ -18,7 +18,7 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       //   appBar: AppBar(),
       drawer: SizedBox(
-        width: MediaQuery.of(context).size.width * .95,
+        width: MediaQuery.of(context).size.width * .75,
         child: Drawer(
           child: MyDrewer(),
         ),

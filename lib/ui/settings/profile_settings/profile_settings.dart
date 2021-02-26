@@ -289,86 +289,80 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    Row(
+
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Text(
-                                'В.удостоверение',
-                                style: FontStyles.regularStyle(
-                                  fontSize: 13,
-                                  fontFamily: 'Montserrat',
-                                  color: Color(0xffAAAEB7),
-                                ),
-                              ),
-                              Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Container(
-                                    child: _drivingCertificate == null
-                                        ? IconButton(
-                                            icon: Icon(Icons.add),
-                                            onPressed: getdrivingCertificate,
-                                          )
-                                        : Image.file(
-                                            _drivingCertificate,
-                                            height: 140,
-                                          ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                        Text(
+                          'Водительское удостоверение',
+                          style: FontStyles.regularStyle(
+                            fontSize: 13,
+                            fontFamily: 'Montserrat',
+                            color: Color(0xffAAAEB7),
                           ),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Паспорт',
-                                style: FontStyles.regularStyle(
-                                  fontSize: 13,
-                                  fontFamily: 'Montserrat',
-                                  color: Color(0xffAAAEB7),
-                                ),
-                              ),
-                              Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Container(
-                                    child: _drivingLicence == null
-                                        ? Container(
-                                            child: IconButton(
-                                              icon: Icon(Icons.add),
-                                              onPressed: getdrivingLicencee,
-                                            ),
-                                          )
-                                        : Image.file(
-                                            _drivingLicence,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: 140,
-                                          ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(30),
+                            child: Container(
+                              child: _drivingCertificate == null
+                                  ? IconButton(
+                                      icon: Icon(Icons.add, size: 35,),
+                                      onPressed: getdrivingCertificate,
+                                    )
+                                  : Image.file(
+                                      _drivingCertificate,
+                                      height: 140,
+                                    ),
+                            ),
                           ),
                         ),
                       ],
                     ),
+
+                    SizedBox(
+                      height: 15,
+                    ),
+
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Паспорт',
+                          style: FontStyles.regularStyle(
+                            fontSize: 13,
+                            fontFamily: 'Montserrat',
+                            color: Color(0xffAAAEB7),
+                          ),
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(30),
+                            child: Container(
+                              child: _drivingLicence == null
+                                  ? Container(
+                                      child: IconButton(
+                                        icon: Icon(Icons.add, size: 35,),
+                                        onPressed: getdrivingLicencee,
+                                      ),
+                                    )
+                                  : Image.file(
+                                      _drivingLicence,
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 140,
+                                    ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
                     // Spacer(),
                   ],
                 ),

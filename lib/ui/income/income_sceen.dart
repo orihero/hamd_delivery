@@ -51,12 +51,13 @@ class _IncomeSreenState extends State<IncomeSreen> {
       case 1:
         return Container(
           width: MediaQuery.of(context).size.width,
-          height: 70,
+          
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             color: Colors.white,
           ),
-          child: Column(
+          child: Padding(padding: EdgeInsets.symmetric(vertical: 10),
+		  child: Column(
             children: [
               Text(
                 'За неделю',
@@ -79,17 +80,21 @@ class _IncomeSreenState extends State<IncomeSreen> {
               ),
             ],
           ),
-        );
+        
+		  )
+		
+		);
         break;
       default:
         return Container(
           width: MediaQuery.of(context).size.width,
-          height: 70,
+        
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             color: Colors.white,
           ),
-          child: Column(
+          child: Padding(padding: EdgeInsets.symmetric(vertical: 10),
+		  child: Column(
             children: [
               Text(
                 'За месяц',
@@ -112,7 +117,10 @@ class _IncomeSreenState extends State<IncomeSreen> {
               ),
             ],
           ),
-        );
+        
+		  )
+		
+		);
     }
   }
 

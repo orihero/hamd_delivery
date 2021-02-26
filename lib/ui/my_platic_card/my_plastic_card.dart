@@ -137,6 +137,16 @@ class _MyPlasticCardState extends State<MyPlasticCard> {
                                       ],
                                     ),
                                     SizedBox(height: 20),
+                                    Padding(
+                                        padding: EdgeInsets.only(bottom: 15),
+                                        child: Text(
+                                          'Фарход Мирмахмудов',
+                                          style: FontStyles.regularStyle(
+                                            fontSize: 13,
+                                            fontFamily: 'Montserrat',
+                                            color: Color(0xff646974),
+                                          ),
+                                        )),
                                   ],
                                 ),
                               ),

@@ -25,7 +25,7 @@ class MyDrewer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 20),
@@ -41,32 +41,7 @@ class MyDrewer extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Мирмахмудов Фарход',
-                          style: FontStyles.regularStyle(
-                            fontSize: 15,
-                            fontFamily: 'Ubuntu',
-                            color: Color(0xff232323),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          '+998 90 377 33 85',
-                          style: FontStyles.boldStyle(
-                            fontSize: 18,
-                            fontFamily: 'Ubuntu',
-                            color: Color(0xff232323),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                 
                   Column(
                     children: [
                       Container(
@@ -108,6 +83,32 @@ class MyDrewer extends StatelessWidget {
                   ),
                 ],
               ),
+			   Padding(
+                    padding: const EdgeInsets.only(left: 13, top: 13),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Мирмахмудов Фарход',
+                          style: FontStyles.regularStyle(
+                            fontSize: 15,
+                            fontFamily: 'Ubuntu',
+                            color: Color(0xff232323),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          '+998 90 377 33 85',
+                          style: FontStyles.boldStyle(
+                            fontSize: 18,
+                            fontFamily: 'Ubuntu',
+                            color: Color(0xff232323),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
               SizedBox(height: 15),
               Divider(
                 color: Color(0xffEAECF1),
