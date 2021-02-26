@@ -16,36 +16,35 @@ class _IncomeSreenState extends State<IncomeSreen> {
       case 0:
         return Container(
           width: MediaQuery.of(context).size.width,
-          height: 70,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             color: Colors.white,
           ),
-          child: Column(
-            children: [
-              Text(
-                'За день',
-                style: FontStyles.boldStyle(
-                  fontSize: 14,
-                  fontFamily: 'Montserrat',
-                  color: Color(0xff232323),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              children: [
+                Text(
+                  'За день',
+                  style: FontStyles.boldStyle(
+                    fontSize: 14,
+                    fontFamily: 'Montserrat',
+                    color: Color(0xff232323),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 7,
-              ),
-              Text(
-                '1 245 500 сум',
-                style: FontStyles.boldStyle(
-                  fontSize: 25,
-                  fontFamily: 'Montserrat',
-                  color: Colors.black,
+                SizedBox(
+                  height: 7,
                 ),
-              ),
-              SizedBox(
-                height: 14,
-              ),
-            ],
+                Text(
+                  '1 245 500 сум',
+                  style: FontStyles.boldStyle(
+                    fontSize: 25,
+                    fontFamily: 'Montserrat',
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
           ),
         );
         break;
