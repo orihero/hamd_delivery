@@ -13,108 +13,194 @@ import '../settings/profile_settings/profile_settings.dart';
 class MyDrewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        color: ColorPalatte.mainPageColor,
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints:
+            BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
         child: Padding(
           padding: const EdgeInsets.only(
-            top: 25,
+            top: 45,
             left: 17,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Container(
-                      width: 75,
-                      height: 75,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.red,
-                      ),
-                      child: Center(
-                        child: Image.asset('assets/images/user.png'),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   children: [
+              //     Padding(
+              //       padding: const EdgeInsets.only(top: 20),
+              // child: Container(
+              //   width: 75,
+              //   height: 75,
+              //   decoration: BoxDecoration(
+              //     shape: BoxShape.circle,
+              //     color: Colors.red,
+              //   ),
+              //   child: Center(
+              //     child: Image.asset('assets/images/user.png'),
+              //   ),
+              // ),
+              //     ),
+              //     Column(
+              //       children: [
+              //         Container(
+              //           width: 50,
+              //           height: 50,
+              //           decoration: BoxDecoration(
+              //               shape: BoxShape.circle, color: Colors.white),
+              //           child: IconButton(
+              //               icon: Icon(
+              //                 Icons.star,
+              //                 size: 30,
+              //                 color: Color(0xff9F111B),
+              //               ),
+              //               onPressed: () {}),
+              //         ),
+              //         SizedBox(
+              //           height: 12,
+              //         ),
+              //         Text(
+              //           '4.5',
+              //           style: FontStyles.boldStyle(
+              //             fontSize: 18,
+              //             fontFamily: 'Ubuntu',
+              //             color: Color(0xff232323),
+              //           ),
+              //         ),
+              //         SizedBox(
+              //           height: 8,
+              //         ),
+              // Text(
+              //   'Рейтинг',
+              //   style: FontStyles.lightStyle(
+              //     fontSize: 18,
+              //     fontFamily: 'Ubuntu',
+              //     color: Color(0xff232323),
+              //   ),
+              // ),
+              //       ],
+              //     ),
+              //   ],
+              // ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 22,
+                  top: 13,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 65,
+                            height: 65,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Image.asset('assets/images/user.png'),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Мирмахмудов Фарход',
+                                style: FontStyles.regularStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'Ubuntu',
+                                  color: Color(0xff232323),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                '+998 90 377 33 85',
+                                style: FontStyles.boldStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'Ubuntu',
+                                  color: Color(0xff232323),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                 
-                  Column(
-                    children: [
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.white),
-                        child: IconButton(
-                            icon: Icon(
-                              Icons.star,
-                              size: 30,
-                              color: Color(0xff9F111B),
-                            ),
-                            onPressed: () {}),
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Text(
-                        '4.5',
-                        style: FontStyles.boldStyle(
-                          fontSize: 18,
-                          fontFamily: 'Ubuntu',
-                          color: Color(0xff232323),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'Рейтинг',
-                        style: FontStyles.lightStyle(
-                          fontSize: 18,
-                          fontFamily: 'Ubuntu',
-                          color: Color(0xff232323),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-			   Padding(
-                    padding: const EdgeInsets.only(left: 13, top: 13),
-                    child: Column(
+                    // Text(
+                    //   'Мирмахмудов Фарход',
+                    //   style: FontStyles.regularStyle(
+                    //     fontSize: 15,
+                    //     fontFamily: 'Ubuntu',
+                    //     color: Color(0xff232323),
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   height: 10,
+                    // ),
+                    // Text(
+                    //   '+998 90 377 33 85',
+                    //   style: FontStyles.boldStyle(
+                    //     fontSize: 18,
+                    //     fontFamily: 'Ubuntu',
+                    //     color: Color(0xff232323),
+                    //   ),
+                    // ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
                       children: [
-                        Text(
-                          'Мирмахмудов Фарход',
-                          style: FontStyles.regularStyle(
-                            fontSize: 15,
-                            fontFamily: 'Ubuntu',
-                            color: Color(0xff232323),
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            'Рейтинг',
+                            style: FontStyles.lightStyle(
+                              fontSize: 18,
+                              fontFamily: 'Ubuntu',
+                              color: Color(0xff232323),
+                            ),
                           ),
                         ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          '+998 90 377 33 85',
-                          style: FontStyles.boldStyle(
-                            fontSize: 18,
-                            fontFamily: 'Ubuntu',
-                            color: Color(0xff232323),
+                        Expanded(
+                          flex: 2,
+                          child: Row(
+                            children: [
+                              Text(
+                                '4.5',
+                                style: FontStyles.lightStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'Ubuntu',
+                                  color: Color(0xff232323),
+                                ),
+                              ),
+                              Icon(
+                                Icons.star,
+                                size: 18,
+                                color: Color(0xff9F111B),
+                              )
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ),
-              SizedBox(height: 15),
+                  ],
+                ),
+              ),
+              SizedBox(height: 0),
               Divider(
                 color: Color(0xffEAECF1),
                 thickness: 2.0,
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 0),
               Padding(
                 padding: const EdgeInsets.only(left: 13),
                 child: Column(
@@ -124,7 +210,7 @@ class MyDrewer extends StatelessWidget {
                       title: 'Мой Заработок',
                       onpress: () => Get.to(IncomeSreen()),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 0),
                     Divider(
                       color: Color(0xffEAECF1),
                       thickness: 2.0,
@@ -133,7 +219,7 @@ class MyDrewer extends StatelessWidget {
                       title: 'Заказы',
                       onpress: () => Get.to(MyOrdersScreen()),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 0),
                     Divider(
                       color: Color(0xffEAECF1),
                       thickness: 2.0,
@@ -143,7 +229,7 @@ class MyDrewer extends StatelessWidget {
                         onpress: () => Get.to(
                               SettingScreen(),
                             )),
-                    SizedBox(height: 10),
+                    SizedBox(height: 0),
                     Divider(
                       color: Color(0xffEAECF1),
                       thickness: 2.0,
@@ -152,7 +238,7 @@ class MyDrewer extends StatelessWidget {
                       title: 'Мой профиль',
                       onpress: () => Get.to(ProfileSettings()),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 0),
                     Divider(
                       color: Color(0xffEAECF1),
                       thickness: 2.0,
@@ -163,7 +249,7 @@ class MyDrewer extends StatelessWidget {
                         Get.to(MyPlasticCard());
                       },
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 0),
                     Divider(
                       color: Color(0xffEAECF1),
                       thickness: 2.0,
@@ -172,10 +258,25 @@ class MyDrewer extends StatelessWidget {
                 ),
               ),
               Spacer(),
+              Divider(
+                color: Color(0xffEAECF1),
+                thickness: 2.0,
+              ),
               Padding(
                 padding: EdgeInsets.only(left: 15),
-                child: MenuOptions(
-                  title: 'Версия 1.0',
+                child: TextButton(
+                  onPressed: () {},
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Text(
+                      'Версия 1.0',
+                      style: FontStyles.regularStyle(
+                        fontSize: 10,
+                        fontFamily: 'Ubuntu',
+                        color: Color(0xff232323),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

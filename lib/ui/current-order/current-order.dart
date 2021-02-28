@@ -172,7 +172,7 @@ class _CurrentOrderState extends State<CurrentOrder> {
           Positioned(
             left: 20.0,
             right: 20.0,
-            bottom: 30.0,
+            bottom: 0.0,
             child: Column(
               children: [
                 Container(
@@ -192,18 +192,21 @@ class _CurrentOrderState extends State<CurrentOrder> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 10,
+                ),
                 ClipPath(
-                  clipper: DolDurmaClipper(
-                    right: (width / 2) - 45,
-                    holeRadius: 50.0,
-                  ),
+                  // clipper: DolDurmaClipper(
+                  //   right: (width / 2) - 45,
+                  //   holeRadius: 50.0,
+                  // ),
                   child: Container(
                     decoration: BoxDecoration(
                       color: ColorPalatte.mainPageColor,
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     width: width,
-                    height: isFinished ? 280 : 363.0,
+                    height: isFinished ? 280 : 390.0,
                     padding: EdgeInsets.all(15.0),
                     child: Column(
                       children: [
@@ -495,7 +498,7 @@ class _CurrentOrderState extends State<CurrentOrder> {
                         Flexible(
                           child: SizedBox(
                             width: double.infinity,
-                            height: 50.0,
+                            height: 58.0,
                             child: RaisedButton(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0),
