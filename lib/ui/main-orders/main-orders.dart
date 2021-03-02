@@ -1,6 +1,7 @@
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
+import 'package:HAMD_Delivery/ui/main-orders/widget/orders_card.dart';
 import 'package:HAMD_Delivery/ui/my-drewer/my_drewer.dart';
 import 'package:flutter/material.dart';
 
@@ -142,6 +143,16 @@ class _MainOrdersState extends State<MainOrders> {
           SizedBox(
             height: 12,
           ),
+          Expanded(
+              child: ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (context, index) => Column(
+                        children: [
+                          OrdersCard(),
+                          SizedBox(height: 15),
+                          OrdersCard(),
+                        ],
+                      )))
         ],
       ),
     );
