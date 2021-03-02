@@ -3,13 +3,12 @@ import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-AppBar customAppBar(
-  BuildContext context, {
-  String title,
-  Function onpress1,
-  double width1,
-  double height1,
-}) {
+AppBar customAppBar(BuildContext context,
+    {String title,
+    Function onpress1,
+    double width1,
+    double height1,
+    Widget icon}) {
   return AppBar(
     automaticallyImplyLeading: false,
     backgroundColor: ColorPalatte.strongRedColor,
@@ -26,18 +25,20 @@ AppBar customAppBar(
                 shape: BoxShape.circle,
                 color: Colors.white,
               ),
-              child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                    size: 26,
-                  ),
-                  onPressed: onpress1),
+              child: icon != null
+                  ? icon
+                  : IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Colors.black,
+                        size: 26,
+                      ),
+                      onPressed: onpress1),
             ),
             Align(
-              alignment: Alignment.centerLeft,
+              alignment: Alignment.center,
               child: SizedBox(
-                width: 250,
+                width: 300,
                 child: Text(
                   title,
                   textAlign: TextAlign.center,

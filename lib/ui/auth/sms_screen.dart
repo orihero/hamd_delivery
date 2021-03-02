@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/ui/auth/widgets/pincode_textField.dart';
+import 'package:HAMD_Delivery/ui/main-orders/main-orders.dart';
 import 'package:HAMD_Delivery/ui/map/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -115,7 +116,7 @@ class _SmsScreenState extends State<SmsScreen> {
                       child: RaisedButton(
                         elevation: 0,
                         color: ColorPalatte.strongRedColor,
-                        onPressed: () => Get.to(MapScreen()),
+                        onPressed: () => Get.to(MainOrders()),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
                         child: Text(

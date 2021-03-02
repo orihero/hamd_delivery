@@ -310,7 +310,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             child: Container(
                               child: _drivingCertificate == null
                                   ? IconButton(
-                                      icon: Icon(Icons.add, size: 35,),
+                                      icon: Icon(
+                                        Icons.add,
+                                        size: 35,
+                                      ),
                                       onPressed: getdrivingCertificate,
                                     )
                                   : Image.file(
@@ -348,7 +351,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               child: _drivingLicence == null
                                   ? Container(
                                       child: IconButton(
-                                        icon: Icon(Icons.add, size: 35,),
+                                        icon: Icon(
+                                          Icons.add,
+                                          size: 35,
+                                        ),
                                         onPressed: getdrivingLicencee,
                                       ),
                                     )

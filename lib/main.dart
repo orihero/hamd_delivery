@@ -1,6 +1,4 @@
-import 'package:HAMD_Delivery/ui/current-order/current-order.dart';
 import 'package:HAMD_Delivery/ui/landing/landing_screen.dart';
-import 'package:HAMD_Delivery/ui/map/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
