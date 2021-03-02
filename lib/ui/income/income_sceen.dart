@@ -1,6 +1,8 @@
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
+import 'package:HAMD_Delivery/ui/income/widgets/income_list_card.dart';
+import 'package:HAMD_Delivery/ui/income/widgets/tab_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,329 +16,36 @@ class _IncomeSreenState extends State<IncomeSreen> {
   _callContent() {
     switch (selectedIndex) {
       case 0:
-        return Container(
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Column(
-              children: [
-                Text(
-                  'За день',
-                  style: FontStyles.boldStyle(
-                    fontSize: 14,
-                    fontFamily: 'Montserrat',
-                    color: Color(0xff232323),
-                  ),
-                ),
-                SizedBox(
-                  height: 7,
-                ),
-                Text(
-                  '1 245 500 сум',
-                  style: FontStyles.boldStyle(
-                    fontSize: 25,
-                    fontFamily: 'Montserrat',
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
+        return TabButton(
+          title: 'За день',
+          income: '200 000',
         );
+
         break;
       case 1:
-        return Container(
-          width: MediaQuery.of(context).size.width,
-          
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white,
-          ),
-          child: Padding(padding: EdgeInsets.symmetric(vertical: 10),
-		  child: Column(
-            children: [
-              Text(
-                'За неделю',
-                style: FontStyles.boldStyle(
-                  fontSize: 14,
-                  fontFamily: 'Montserrat',
-                  color: Color(0xff232323),
-                ),
-              ),
-              SizedBox(
-                height: 7,
-              ),
-              Text(
-                '1 245 500 сум',
-                style: FontStyles.boldStyle(
-                  fontSize: 25,
-                  fontFamily: 'Montserrat',
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-        
-		  )
-		
-		);
+        return TabButton(
+          title: 'За неделю',
+          income: '1 200 000',
+        );
+
         break;
       default:
-        return Container(
-          width: MediaQuery.of(context).size.width,
-        
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white,
-          ),
-          child: Padding(padding: EdgeInsets.symmetric(vertical: 10),
-		  child: Column(
-            children: [
-              Text(
-                'За месяц',
-                style: FontStyles.boldStyle(
-                  fontSize: 14,
-                  fontFamily: 'Montserrat',
-                  color: Color(0xff232323),
-                ),
-              ),
-              SizedBox(
-                height: 7,
-              ),
-              Text(
-                '1 245 500 сум',
-                style: FontStyles.boldStyle(
-                  fontSize: 25,
-                  fontFamily: 'Montserrat',
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-        
-		  )
-		
-		);
+        return TabButton(
+          title: 'За месяц',
+          income: '12 000 000',
+        );
     }
   }
 
   incomeList() {
     switch (selectedIndex) {
       case 0:
-        return ListView.separated(
-          separatorBuilder: (context, index) => SizedBox(height: 12),
-          itemCount: 11,
-          itemBuilder: (context, index) => Container(
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding:
-                  EdgeInsets.only(top: 18, left: 17, right: 17, bottom: 18),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Заказ:',
-                        style: FontStyles.boldStyle(
-                          fontSize: 16,
-                          fontFamily: 'Montserrat',
-                          color: Color(0xff646974),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Text(
-                        'Id 4562455865',
-                        style: FontStyles.boldStyle(
-                          fontSize: 16,
-                          fontFamily: 'Montserrat',
-                          color: Color(0xff323637),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    thickness: 1,
-                    color: Color(0xffEAECF1),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Стоимость доставки:',
-                        style: FontStyles.boldStyle(
-                          fontSize: 16,
-                          fontFamily: 'Montserrat',
-                          color: Color(0xff646974),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 12,
-                      ),
-                      Text(
-                        '12 500 сум ',
-                        style: FontStyles.boldStyle(
-                          fontSize: 16,
-                          fontFamily: 'Montserrat',
-                          color: Color(0xff323637),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
+        return IncomeListCard();
       case 1:
-        return ListView.separated(
-          separatorBuilder: (context, index) => SizedBox(height: 12),
-          itemCount: 11,
-          itemBuilder: (context, index) => Container(
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding:
-                  EdgeInsets.only(top: 18, left: 17, right: 17, bottom: 18),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Заказ:',
-                        style: FontStyles.boldStyle(
-                          fontSize: 16,
-                          fontFamily: 'Montserrat',
-                          color: Color(0xff646974),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Text(
-                        'Id 4562455865',
-                        style: FontStyles.boldStyle(
-                          fontSize: 16,
-                          fontFamily: 'Montserrat',
-                          color: Color(0xff323637),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    thickness: 1,
-                    color: Color(0xffEAECF1),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Стоимость доставки:',
-                        style: FontStyles.boldStyle(
-                          fontSize: 16,
-                          fontFamily: 'Montserrat',
-                          color: Color(0xff646974),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 12,
-                      ),
-                      Text(
-                        '12 500 сум ',
-                        style: FontStyles.boldStyle(
-                          fontSize: 16,
-                          fontFamily: 'Montserrat',
-                          color: Color(0xff323637),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
+        return IncomeListCard();
         break;
       default:
-        return ListView.separated(
-          separatorBuilder: (context, index) => SizedBox(height: 12),
-          itemCount: 11,
-          itemBuilder: (context, index) => Container(
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding:
-                  EdgeInsets.only(top: 18, left: 17, right: 17, bottom: 18),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Заказ:',
-                        style: FontStyles.boldStyle(
-                          fontSize: 16,
-                          fontFamily: 'Montserrat',
-                          color: Color(0xff646974),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Text(
-                        'Id 4562455865',
-                        style: FontStyles.boldStyle(
-                          fontSize: 16,
-                          fontFamily: 'Montserrat',
-                          color: Color(0xff323637),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    thickness: 1,
-                    color: Color(0xffEAECF1),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Стоимость доставки:',
-                        style: FontStyles.boldStyle(
-                          fontSize: 16,
-                          fontFamily: 'Montserrat',
-                          color: Color(0xff646974),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 12,
-                      ),
-                      Text(
-                        '12 500 сум ',
-                        style: FontStyles.boldStyle(
-                          fontSize: 16,
-                          fontFamily: 'Montserrat',
-                          color: Color(0xff323637),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
+        return IncomeListCard();
     }
   }
 
