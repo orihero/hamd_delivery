@@ -1,7 +1,6 @@
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 AppBar customAppBar(BuildContext context,
     {String title,
@@ -14,41 +13,47 @@ AppBar customAppBar(BuildContext context,
     backgroundColor: ColorPalatte.strongRedColor,
     elevation: 0,
     flexibleSpace: Padding(
-      padding: const EdgeInsets.only(top: 40, left: 16, right: 26, bottom: 10),
+      padding: const EdgeInsets.only(top: 40, bottom: 10),
       child: Container(
         width: MediaQuery.of(context).size.width,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white,
-              ),
-              child: icon != null
-                  ? icon
-                  : IconButton(
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                        size: 26,
-                      ),
-                      onPressed: onpress1),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                width: 300,
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: FontStyles.boldStyle(
-                    fontSize: 18,
-                    fontFamily: 'Montserrat',
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
                     color: Colors.white,
                   ),
+                  child: icon != null
+                      ? icon
+                      : IconButton(
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: Colors.black,
+                            size: 26,
+                          ),
+                          onPressed: onpress1),
                 ),
               ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: FontStyles.boldStyle(
+                  fontSize: 18,
+                  fontFamily: 'Montserrat',
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Spacer(
+              flex: 1,
             ),
           ],
         ),

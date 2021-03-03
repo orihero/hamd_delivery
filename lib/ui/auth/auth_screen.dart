@@ -111,8 +111,6 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
-
     String _phoneNumber;
     var controllerNumber =
         MaskedTextController(mask: '000 00 000 00 00', text: '+998 ');

@@ -122,13 +122,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                           backgroundColor: Colors.white,
                                           child: SvgPicture.asset(
                                               'assets/icons/avatar.svg'),
-                                          // child: IconButton(
-                                          //   icon: Icon(
-                                          //     Icons.add,
-                                          //     color: Colors.black,
-                                          //   ),
-                                          //   onPressed: getUserImage,
-                                          // ),
                                         )
                                       : Container(
                                           decoration: BoxDecoration(
@@ -138,15 +131,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                   image: Image.file(_userImage)
                                                       .image,
                                                   fit: BoxFit.cover)),
-                                          // child: Image.file(
-                                          //   _userImage,
-                                          //   fit: BoxFit.scaleDown,
-                                          // ),
                                         ),
                                 ),
-                                // _userImage == null
-                                //     ? Container()
-                                //     :
                                 Positioned(
                                   right: 25,
                                   bottom: -10,
@@ -182,7 +168,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 ),
                               ),
                               TextFormField(
-                                // controller: fname..text = 'Фарход',
                                 keyboardType: TextInputType.name,
                                 decoration: InputDecoration(
                                   contentPadding:
@@ -198,7 +183,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   color: Colors.black,
                                   fontSize: 16.0,
                                 ),
-                                // onSaved: (input) => _phoneNumber = input,
                               ),
                               Divider(
                                 thickness: 1,
@@ -212,7 +196,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 ),
                               ),
                               TextFormField(
-                                // controller: lname..text = 'Мирмахмудов',
                                 keyboardType: TextInputType.name,
                                 decoration: InputDecoration(
                                   contentPadding:
@@ -228,7 +211,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   color: Colors.black,
                                   fontSize: 16.0,
                                 ),
-                                // onSaved: (input) => _phoneNumber = input,
                               ),
                             ],
                           ),

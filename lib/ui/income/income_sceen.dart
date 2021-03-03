@@ -51,7 +51,6 @@ class _IncomeSreenState extends State<IncomeSreen> {
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: ColorPalatte.mainPageColor,
       appBar: PreferredSize(

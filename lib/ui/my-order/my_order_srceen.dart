@@ -4,7 +4,6 @@ import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
 import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card.dart';
 import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class MyOrdersScreen extends StatefulWidget {

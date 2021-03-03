@@ -1,7 +1,7 @@
-import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/ui/income/income_sceen.dart';
-import 'package:HAMD_Delivery/ui/my-drewer/menu_options.dart';
+import 'package:HAMD_Delivery/ui/my-drewer/widgets/menu_options.dart';
+import 'package:HAMD_Delivery/ui/my-drewer/widgets/user_info.dart';
 import 'package:HAMD_Delivery/ui/my-order/my_order_srceen.dart';
 import 'package:HAMD_Delivery/ui/my_platic_card/my_plastic_card.dart';
 import 'package:HAMD_Delivery/ui/settings/setting_screen.dart';
@@ -25,64 +25,6 @@ class MyDrewer extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.start,
-              //   children: [
-              //     Padding(
-              //       padding: const EdgeInsets.only(top: 20),
-              // child: Container(
-              //   width: 75,
-              //   height: 75,
-              //   decoration: BoxDecoration(
-              //     shape: BoxShape.circle,
-              //     color: Colors.red,
-              //   ),
-              //   child: Center(
-              //     child: Image.asset('assets/images/user.png'),
-              //   ),
-              // ),
-              //     ),
-              //     Column(
-              //       children: [
-              //         Container(
-              //           width: 50,
-              //           height: 50,
-              //           decoration: BoxDecoration(
-              //               shape: BoxShape.circle, color: Colors.white),
-              //           child: IconButton(
-              //               icon: Icon(
-              //                 Icons.star,
-              //                 size: 30,
-              //                 color: Color(0xff9F111B),
-              //               ),
-              //               onPressed: () {}),
-              //         ),
-              //         SizedBox(
-              //           height: 12,
-              //         ),
-              //         Text(
-              //           '4.5',
-              //           style: FontStyles.boldStyle(
-              //             fontSize: 18,
-              //             fontFamily: 'Ubuntu',
-              //             color: Color(0xff232323),
-              //           ),
-              //         ),
-              //         SizedBox(
-              //           height: 8,
-              //         ),
-              // Text(
-              //   'Рейтинг',
-              //   style: FontStyles.lightStyle(
-              //     fontSize: 18,
-              //     fontFamily: 'Ubuntu',
-              //     color: Color(0xff232323),
-              //   ),
-              // ),
-              //       ],
-              //     ),
-              //   ],
-              // ),
               Padding(
                 padding: const EdgeInsets.only(
                   left: 22,
@@ -91,69 +33,7 @@ class MyDrewer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 65,
-                            height: 65,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: Image.asset('assets/images/user.png'),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Мирмахмудов Фарход',
-                                style: FontStyles.regularStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Ubuntu',
-                                  color: Color(0xff232323),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                '+998 90 377 33 85',
-                                style: FontStyles.boldStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Ubuntu',
-                                  color: Color(0xff232323),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Text(
-                    //   'Мирмахмудов Фарход',
-                    //   style: FontStyles.regularStyle(
-                    //     fontSize: 15,
-                    //     fontFamily: 'Ubuntu',
-                    //     color: Color(0xff232323),
-                    //   ),
-                    // ),
-                    // SizedBox(
-                    //   height: 10,
-                    // ),
-                    // Text(
-                    //   '+998 90 377 33 85',
-                    //   style: FontStyles.boldStyle(
-                    //     fontSize: 18,
-                    //     fontFamily: 'Ubuntu',
-                    //     color: Color(0xff232323),
-                    //   ),
-                    // ),
+                    UserInfo(),
                     SizedBox(
                       height: 15,
                     ),
@@ -196,13 +76,12 @@ class MyDrewer extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 0),
-              Divider(
-                color: Color(0xffEAECF1),
-                thickness: 2.0,
-              ),
               SizedBox(height: 0),
               Padding(
-                padding: const EdgeInsets.only(left: 13),
+                padding: const EdgeInsets.only(
+                  left: 13,
+                  top: 50,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

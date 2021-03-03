@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
-import 'package:HAMD_Delivery/ui/auth/widgets/pincode_textField.dart';
 import 'package:HAMD_Delivery/ui/main-orders/main-orders.dart';
-import 'package:HAMD_Delivery/ui/map/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
