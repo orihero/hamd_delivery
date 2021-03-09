@@ -88,19 +88,19 @@ class SettingScreen extends StatelessWidget {
                     trailing: IconButton(
                         icon: Icon(Icons.navigate_next), onPressed: null),
                   ),
-                  ListTile(
-                    onTap: () => Get.to(ProfileSettings()),
-                    title: Text(
-                      'Настройки профиля',
-                      style: FontStyles.boldStyle(
-                        fontSize: 15,
-                        fontFamily: 'Montserrat',
-                        color: Color(0xff232323),
-                      ),
-                    ),
-                    trailing: IconButton(
-                        icon: Icon(Icons.navigate_next), onPressed: null),
-                  ),
+                  // ListTile(
+                  //   onTap: () => Get.to(ProfileSettings()),
+                  //   title: Text(
+                  //     'Настройки профиля',
+                  //     style: FontStyles.boldStyle(
+                  //       fontSize: 15,
+                  //       fontFamily: 'Montserrat',
+                  //       color: Color(0xff232323),
+                  //     ),
+                  //   ),
+                  //   trailing: IconButton(
+                  //       icon: Icon(Icons.navigate_next), onPressed: null),
+                  // ),
                 ],
               ),
             ),

@@ -1,7 +1,9 @@
 import 'package:HAMD_Delivery/constants/fonts.dart';
+import 'package:HAMD_Delivery/ui/main-orders/widget/location_in_map.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/my_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 class AccptedOrders extends StatelessWidget {
   @override
@@ -228,7 +230,7 @@ class AccptedOrders extends StatelessWidget {
                         Icons.map,
                         color: Colors.black,
                       ),
-                      onPressed: () {},
+                      onPressed: () => Get.to(MyApp()),
                     ),
                   ),
                   MyIcons(

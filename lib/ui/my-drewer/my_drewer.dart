@@ -1,5 +1,7 @@
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/ui/income/income_sceen.dart';
+import 'package:HAMD_Delivery/ui/main-orders/main-orders.dart';
+import 'package:HAMD_Delivery/ui/my-drewer/menu_options.dart';
 import 'package:HAMD_Delivery/ui/my-drewer/widgets/menu_options.dart';
 import 'package:HAMD_Delivery/ui/my-drewer/widgets/user_info.dart';
 import 'package:HAMD_Delivery/ui/my-order/my_order_srceen.dart';
@@ -85,18 +87,30 @@ class MyDrewer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MenuOptions(
-                      title: 'Мой Заработок',
-                      onpress: () => Get.to(IncomeSreen()),
-                    ),
                     SizedBox(height: 0),
+
+                    MenuOptions(
+                      title: 'Главная',
+                      onpress: () {
+                        Get.back();
+                      },
+                    ),
                     Divider(
                       color: Color(0xffEAECF1),
                       thickness: 2.0,
                     ),
                     MenuOptions(
-                      title: 'Заказы',
+                      title: 'Мои заказы',
                       onpress: () => Get.to(MyOrdersScreen()),
+                    ),
+                    Divider(
+                      color: Color(0xffEAECF1),
+                      thickness: 2.0,
+                    ),
+
+                    MenuOptions(
+                      title: 'Мой Заработок',
+                      onpress: () => Get.to(IncomeSreen()),
                     ),
                     SizedBox(height: 0),
                     Divider(
@@ -118,16 +132,13 @@ class MyDrewer extends StatelessWidget {
                       onpress: () => Get.to(ProfileSettings()),
                     ),
                     SizedBox(height: 0),
-                    Divider(
-                      color: Color(0xffEAECF1),
-                      thickness: 2.0,
-                    ),
-                    MenuOptions(
-                      title: 'Моя карта',
-                      onpress: () {
-                        Get.to(MyPlasticCard());
-                      },
-                    ),
+
+                    // MenuOptions(
+                    //   title: 'Моя карта',
+                    //   onpress: () {
+                    //     Get.to(MyPlasticCard());
+                    //   },
+                    // ),
                     SizedBox(height: 0),
                     Divider(
                       color: Color(0xffEAECF1),
