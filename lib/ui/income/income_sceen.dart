@@ -110,7 +110,7 @@ class _IncomeSreenState extends State<IncomeSreen> {
                           child: Text(
                             'За день',
                             style: FontStyles.boldStyle(
-                              fontSize: 14,
+                              fontSize: 13,
                               fontFamily: 'Montserrat',
                               color: selectedIndex == 0
                                   ? Colors.black
@@ -143,7 +143,7 @@ class _IncomeSreenState extends State<IncomeSreen> {
                           child: Text(
                             'За неделю',
                             style: FontStyles.boldStyle(
-                              fontSize: 14,
+                              fontSize: 13,
                               fontFamily: 'Montserrat',
                               color: selectedIndex == 1
                                   ? Colors.black
@@ -176,7 +176,7 @@ class _IncomeSreenState extends State<IncomeSreen> {
                         child: Text(
                           'За месяц',
                           style: FontStyles.boldStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontFamily: 'Montserrat',
                             color: selectedIndex == 2
                                 ? Colors.black

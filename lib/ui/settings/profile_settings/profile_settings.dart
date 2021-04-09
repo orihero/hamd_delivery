@@ -1,13 +1,18 @@
 import 'dart:io';
 
+import 'package:HAMD_Delivery/constants/api.dart';
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
-import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
+import 'package:HAMD_Delivery/controllers/profile_controller.dart';
+import 'package:HAMD_Delivery/ui/masks/masks.dart';
+import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' as g;
+import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
 
 class ProfileSettings extends StatefulWidget {
   @override
@@ -15,6 +20,9 @@ class ProfileSettings extends StatefulWidget {
 }
 
 class _ProfileSettingsState extends State<ProfileSettings> {
+  final UserProfileController usrController =
+      g.Get.find<UserProfileController>();
+  Dio dio = Dio();
   int cardNumber = 0;
   String cardDetail;
   String expireDate;
@@ -42,7 +50,22 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       MaskedTextController(mask: '000 00 000 00 00', text: '998');
 
   TextEditingController nameController = TextEditingController();
-  final globalKey = GlobalKey<ScaffoldState>();
+  TextEditingController uzCardController = TextEditingController();
+  TextEditingController humoController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController expireDateController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+  // void validateAndSave(form) {
+  //   // final FormState form = _formKey.currentState;
+  //   if (form.currens.validate()) {
+  //     print('Form is valid');
+  //     Get.back();
+  //   } else {
+  //     print('Form is invalid');
+  //   }
+  // }
+
   String _phoneNumber = "998905858565";
 
   var controllerNumber =
@@ -95,15 +118,22 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   }
 
   @override
+  void initState() {
+    nameController..text = usrController.profileList.first.name;
+    phoneController..text = usrController.profileList.first.phone.toString();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       backgroundColor: ColorPalatte.mainPageColor,
       appBar: PreferredSize(
         child: customAppBar(
           context,
           title: 'Мой профиль',
-          onpress1: () => Get.back(),
+          onpress1: () => g.Get.back(),
         ),
         preferredSize: Size.fromHeight(
             kToolbarHeight + MediaQuery.of(context).viewPadding.top),
@@ -137,27 +167,24 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             overflow: Overflow.visible,
                             children: [
                               Container(
-                                height: 95,
-                                width: 95,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: _userImage == null
-                                    ? CircleAvatar(
-                                        backgroundColor: Colors.white,
-                                        child: SvgPicture.asset(
-                                            'assets/icons/avatar.svg'),
-                                      )
-                                    : Container(
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white,
-                                            image: DecorationImage(
-                                                image: Image.file(_userImage)
-                                                    .image,
-                                                fit: BoxFit.cover)),
-                                      ),
-                              ),
+                                  height: 95,
+                                  width: 95,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: _userImage == null
+                                      ? CircleAvatar(
+                                          radius: 60,
+                                          backgroundImage: NetworkImage(
+                                            'http://hamd.loko.uz/' +
+                                                usrController
+                                                    .profileList.first.photo,
+                                          ))
+                                      : CircleAvatar(
+                                          radius: 60,
+                                          backgroundImage:
+                                              FileImage(_userImage),
+                                        )),
                               Positioned(
                                 right: 25,
                                 bottom: -10,
@@ -193,6 +220,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               ),
                             ),
                             TextFormField(
+                              controller: nameController,
                               keyboardType: TextInputType.name,
                               decoration: InputDecoration(
                                 contentPadding:
@@ -212,31 +240,31 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             Divider(
                               thickness: 1,
                             ),
-                            Text(
-                              'Фамилия',
-                              style: FontStyles.regularStyle(
-                                fontSize: 14,
-                                fontFamily: 'Montserrat',
-                                color: Color(0xff232323),
-                              ),
-                            ),
-                            TextFormField(
-                              keyboardType: TextInputType.name,
-                              decoration: InputDecoration(
-                                contentPadding:
-                                    const EdgeInsets.only(left: 15.0),
-                                hintText: 'Введите ваше фамилию',
-                                hintStyle: FontStyles.regularStyle(
-                                    fontSize: 17,
-                                    fontFamily: 'Ubuntu',
-                                    color: Color(0xff232323)),
-                                border: InputBorder.none,
-                              ),
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.0,
-                              ),
-                            ),
+                            // Text(
+                            //   'Фамилия',
+                            //   style: FontStyles.regularStyle(
+                            //     fontSize: 14,
+                            //     fontFamily: 'Montserrat',
+                            //     color: Color(0xff232323),
+                            //   ),
+                            // ),
+                            // TextFormField(
+                            //   keyboardType: TextInputType.name,
+                            //   decoration: InputDecoration(
+                            //     contentPadding:
+                            //         const EdgeInsets.only(left: 15.0),
+                            //     hintText: 'Введите ваше фамилию',
+                            //     hintStyle: FontStyles.regularStyle(
+                            //         fontSize: 17,
+                            //         fontFamily: 'Ubuntu',
+                            //         color: Color(0xff232323)),
+                            //     border: InputBorder.none,
+                            //   ),
+                            //   style: TextStyle(
+                            //     color: Colors.black,
+                            //     fontSize: 16.0,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -272,7 +300,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         ),
                         Flexible(
                           child: TextFormField(
-                            controller: controllerNumber..text = '998909858565',
+                            controller: phoneController,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.only(left: 15.0),
@@ -409,12 +437,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                             children: [
                                               Text(
                                                 ssCard == 1
-                                                    ? uzCardNumberConteoller
-                                                        .text
+                                                    ? uzCardController.text
                                                         .toString()
                                                         .substring(0, 4)
-                                                    : humoCardNumberConteoller
-                                                        .text
+                                                    : humoController.text
                                                         .toString()
                                                         .substring(0, 4),
                                                 style: FontStyles.boldStyle(
@@ -425,12 +451,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                               ),
                                               Text(
                                                 ssCard == 1
-                                                    ? uzCardNumberConteoller
-                                                        .text
+                                                    ? uzCardController.text
                                                         .toString()
                                                         .substring(4, 8)
-                                                    : humoCardNumberConteoller
-                                                        .text
+                                                    : humoController.text
                                                         .toString()
                                                         .substring(4, 8),
                                                 style: FontStyles.boldStyle(
@@ -441,12 +465,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                               ),
                                               Text(
                                                 ssCard == 1
-                                                    ? uzCardNumberConteoller
-                                                        .text
+                                                    ? uzCardController.text
                                                         .toString()
                                                         .substring(8, 12)
-                                                    : humoCardNumberConteoller
-                                                        .text
+                                                    : humoController.text
                                                         .toString()
                                                         .substring(8, 12),
                                                 style: FontStyles.boldStyle(
@@ -457,12 +479,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                               ),
                                               Text(
                                                 ssCard == 1
-                                                    ? uzCardNumberConteoller
-                                                        .text
+                                                    ? uzCardController.text
                                                         .toString()
                                                         .substring(12, 19)
-                                                    : humoCardNumberConteoller
-                                                        .text
+                                                    : humoController.text
                                                         .toString()
                                                         .substring(12, 19),
                                                 style: FontStyles.boldStyle(
@@ -492,7 +512,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    expireController.text
+                                                    expireDateController.text
                                                         .toString(),
                                                     style: FontStyles.boldStyle(
                                                       fontSize: 13,
@@ -514,10 +534,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    '+' +
-                                                        phoneNumberController
-                                                            .text
-                                                            .toString(),
+                                                    phoneController.text
+                                                        .toString(),
                                                     style: FontStyles.boldStyle(
                                                       fontSize: 13,
                                                       fontFamily: 'Montserrat',
@@ -668,7 +686,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                       //////////////////////////////////
                                                                       //////////////////////////////////////
 
-                                                                      Get.back();
+                                                                      g.Get
+                                                                          .back();
                                                                       showModalBottomSheet(
                                                                           shape:
                                                                               RoundedRectangleBorder(
@@ -684,212 +703,246 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                               context,
                                                                           builder:
                                                                               (context) {
-                                                                            return Padding(
-                                                                              padding: MediaQuery.of(context).viewInsets,
-                                                                              child: StatefulBuilder(builder: (context, StateSetter state) {
-                                                                                return Container(
-                                                                                  padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-                                                                                  child: Padding(
-                                                                                    padding: const EdgeInsets.symmetric(vertical: 15),
-                                                                                    child: Column(
-                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                      mainAxisSize: MainAxisSize.min,
-                                                                                      children: [
-                                                                                        Text(
-                                                                                          'Добавление карты',
-                                                                                          style: FontStyles.boldStyle(
-                                                                                            fontSize: 17,
-                                                                                            fontFamily: 'Montserrat',
-                                                                                            color: Color(0xff232323),
+                                                                            return Form(
+                                                                              key: _formKey,
+                                                                              child: Padding(
+                                                                                padding: MediaQuery.of(context).viewInsets,
+                                                                                child: StatefulBuilder(builder: (context, StateSetter state) {
+                                                                                  return Container(
+                                                                                    padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                                                                                    child: Padding(
+                                                                                      padding: const EdgeInsets.symmetric(vertical: 15),
+                                                                                      child: Column(
+                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                        mainAxisSize: MainAxisSize.min,
+                                                                                        children: [
+                                                                                          Text(
+                                                                                            'Добавление карты',
+                                                                                            style: FontStyles.boldStyle(
+                                                                                              fontSize: 17,
+                                                                                              fontFamily: 'Montserrat',
+                                                                                              color: Color(0xff232323),
+                                                                                            ),
                                                                                           ),
-                                                                                        ),
-                                                                                        SizedBox(
-                                                                                          height: 15,
-                                                                                        ),
-                                                                                        Container(
-                                                                                          width: MediaQuery.of(context).size.width,
-                                                                                          child: Card(
-                                                                                            color: Colors.white,
-                                                                                            shape: RoundedRectangleBorder(
-                                                                                              borderRadius: BorderRadius.all(
-                                                                                                Radius.circular(15),
+                                                                                          SizedBox(
+                                                                                            height: 15,
+                                                                                          ),
+                                                                                          Container(
+                                                                                            width: MediaQuery.of(context).size.width,
+                                                                                            child: Card(
+                                                                                              color: Colors.white,
+                                                                                              shape: RoundedRectangleBorder(
+                                                                                                borderRadius: BorderRadius.all(
+                                                                                                  Radius.circular(15),
+                                                                                                ),
+                                                                                              ),
+                                                                                              child: Padding(
+                                                                                                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 17),
+                                                                                                child: Column(
+                                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                  children: [
+                                                                                                    Text(
+                                                                                                      'Номер карты',
+                                                                                                      style: FontStyles.regularStyle(
+                                                                                                        fontSize: 13,
+                                                                                                        fontFamily: 'Montserrat',
+                                                                                                        color: Color(0xff646974),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Container(
+                                                                                                      margin: EdgeInsets.only(top: 5),
+                                                                                                      padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                                                                                                      decoration: BoxDecoration(
+                                                                                                          color: const Color(0xffFFFFFF),
+                                                                                                          borderRadius: BorderRadius.circular(15),
+                                                                                                          border: Border.all(
+                                                                                                            width: 1,
+                                                                                                            color: Color(0xffE1E1E1),
+                                                                                                          )),
+                                                                                                      child: TextFormField(
+                                                                                                        controller: uzCardController,
+                                                                                                        inputFormatters: [InputMask.maskUzCard],
+                                                                                                        keyboardType: TextInputType.number,
+                                                                                                        decoration: InputDecoration(
+                                                                                                          contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
+                                                                                                          // hintText: '0000 0000 0000 0000',
+                                                                                                          hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
+                                                                                                          border: InputBorder.none,
+                                                                                                        ),
+                                                                                                        style: TextStyle(
+                                                                                                          color: Colors.black,
+                                                                                                          fontSize: 16.0,
+                                                                                                        ),
+                                                                                                        validator: (value) {
+                                                                                                          if (value.isEmpty) {
+                                                                                                            return "Value can not be empty";
+                                                                                                          } else if (value.length < 19) {
+                                                                                                            return 'Value can not be less than 16';
+                                                                                                          }
+                                                                                                          return null;
+                                                                                                        },
+                                                                                                        onSaved: (input) => nameValue = input,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    SizedBox(
+                                                                                                      height: 8,
+                                                                                                    ),
+                                                                                                    Row(
+                                                                                                      children: [
+                                                                                                        Expanded(
+                                                                                                          flex: 3,
+                                                                                                          child: Column(
+                                                                                                            mainAxisSize: MainAxisSize.min,
+                                                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                            children: [
+                                                                                                              Text(
+                                                                                                                'год/месяц',
+                                                                                                                style: FontStyles.regularStyle(
+                                                                                                                  fontSize: 13,
+                                                                                                                  fontFamily: 'Montserrat',
+                                                                                                                  color: Color(0xff646974),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                              Container(
+                                                                                                                margin: EdgeInsets.only(top: 5),
+                                                                                                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                                                                                                decoration: BoxDecoration(
+                                                                                                                    color: const Color(0xffFFFFFF),
+                                                                                                                    borderRadius: BorderRadius.circular(15),
+                                                                                                                    border: Border.all(
+                                                                                                                      width: 1,
+                                                                                                                      color: Color(0xffE1E1E1),
+                                                                                                                    )),
+                                                                                                                child: TextFormField(
+                                                                                                                  controller: expireDateController,
+                                                                                                                  inputFormatters: [InputMask.maskDate],
+                                                                                                                  keyboardType: TextInputType.number,
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
+                                                                                                                    // hintText:
+                                                                                                                    //     '08/24',
+                                                                                                                    hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
+                                                                                                                    border: InputBorder.none,
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                    color: Colors.black,
+                                                                                                                    fontSize: 16.0,
+                                                                                                                  ),
+                                                                                                                  validator: (value) {
+                                                                                                                    if (value.isEmpty) {
+                                                                                                                      return "Value can not be empty";
+                                                                                                                    } else if (value.length < 5) {
+                                                                                                                      return 'Value can not be less than 5';
+                                                                                                                    }
+                                                                                                                    return null;
+                                                                                                                  },
+                                                                                                                  onSaved: (input) => expireDate = input,
+                                                                                                                ),
+                                                                                                              )
+                                                                                                            ],
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        SizedBox(
+                                                                                                          width: 16,
+                                                                                                        ),
+                                                                                                        Expanded(
+                                                                                                          flex: 8,
+                                                                                                          child: Column(
+                                                                                                            mainAxisSize: MainAxisSize.min,
+                                                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                            children: [
+                                                                                                              Text(
+                                                                                                                'номер телефона',
+                                                                                                                style: FontStyles.regularStyle(
+                                                                                                                  fontSize: 13,
+                                                                                                                  fontFamily: 'Montserrat',
+                                                                                                                  color: Color(0xff646974),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                              Container(
+                                                                                                                margin: EdgeInsets.only(top: 5),
+                                                                                                                padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                                                                                                                decoration: BoxDecoration(
+                                                                                                                    color: const Color(0xffFFFFFF),
+                                                                                                                    borderRadius: BorderRadius.circular(15),
+                                                                                                                    border: Border.all(
+                                                                                                                      width: 1,
+                                                                                                                      color: Color(0xffE1E1E1),
+                                                                                                                    )),
+                                                                                                                child: TextFormField(
+                                                                                                                  controller: phoneController,
+                                                                                                                  inputFormatters: [InputMask.maskPhoneNumber],
+                                                                                                                  keyboardType: TextInputType.number,
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
+                                                                                                                    // hintText:
+                                                                                                                    //     hintText,
+                                                                                                                    hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
+                                                                                                                    border: InputBorder.none,
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                    color: Colors.black,
+                                                                                                                    fontSize: 16.0,
+                                                                                                                  ),
+                                                                                                                  validator: (value) {
+                                                                                                                    if (value.isEmpty) {
+                                                                                                                      return "Value can not be empty";
+                                                                                                                    } else if (value.length < 17) {
+                                                                                                                      return 'Value can not be less than 13';
+                                                                                                                    }
+                                                                                                                    return null;
+                                                                                                                  },
+                                                                                                                  onSaved: (input) => phoneNumber = input,
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ],
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                    SizedBox(
+                                                                                                      height: 8,
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                ),
                                                                                               ),
                                                                                             ),
-                                                                                            child: Padding(
-                                                                                              padding: EdgeInsets.symmetric(horizontal: 18, vertical: 17),
-                                                                                              child: Column(
-                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                children: [
-                                                                                                  Text(
-                                                                                                    'Номер карты',
-                                                                                                    style: FontStyles.regularStyle(
-                                                                                                      fontSize: 13,
-                                                                                                      fontFamily: 'Montserrat',
-                                                                                                      color: Color(0xff646974),
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  Container(
-                                                                                                    margin: EdgeInsets.only(top: 5),
-                                                                                                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                                                                                                    decoration: BoxDecoration(
-                                                                                                        color: const Color(0xffFFFFFF),
-                                                                                                        borderRadius: BorderRadius.circular(15),
-                                                                                                        border: Border.all(
-                                                                                                          width: 1,
-                                                                                                          color: Color(0xffE1E1E1),
-                                                                                                        )),
-                                                                                                    child: TextFormField(
-                                                                                                      controller: uzCardNumberConteoller,
-                                                                                                      keyboardType: TextInputType.number,
-                                                                                                      decoration: InputDecoration(
-                                                                                                        contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
-                                                                                                        // hintText: '0000 0000 0000 0000',
-                                                                                                        hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
-                                                                                                        border: InputBorder.none,
-                                                                                                      ),
-                                                                                                      style: TextStyle(
-                                                                                                        color: Colors.black,
-                                                                                                        fontSize: 16.0,
-                                                                                                      ),
-                                                                                                      onSaved: (input) => nameValue = input,
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  SizedBox(
-                                                                                                    height: 8,
-                                                                                                  ),
-                                                                                                  Row(
-                                                                                                    children: [
-                                                                                                      Expanded(
-                                                                                                        flex: 3,
-                                                                                                        child: Column(
-                                                                                                          mainAxisSize: MainAxisSize.min,
-                                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                          children: [
-                                                                                                            Text(
-                                                                                                              'год/месяц',
-                                                                                                              style: FontStyles.regularStyle(
-                                                                                                                fontSize: 13,
-                                                                                                                fontFamily: 'Montserrat',
-                                                                                                                color: Color(0xff646974),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            Container(
-                                                                                                              margin: EdgeInsets.only(top: 5),
-                                                                                                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                                                                                              decoration: BoxDecoration(
-                                                                                                                  color: const Color(0xffFFFFFF),
-                                                                                                                  borderRadius: BorderRadius.circular(15),
-                                                                                                                  border: Border.all(
-                                                                                                                    width: 1,
-                                                                                                                    color: Color(0xffE1E1E1),
-                                                                                                                  )),
-                                                                                                              child: TextFormField(
-                                                                                                                controller: expireController,
-                                                                                                                keyboardType: TextInputType.number,
-                                                                                                                decoration: InputDecoration(
-                                                                                                                  contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
-                                                                                                                  // hintText:
-                                                                                                                  //     '08/24',
-                                                                                                                  hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
-                                                                                                                  border: InputBorder.none,
-                                                                                                                ),
-                                                                                                                style: TextStyle(
-                                                                                                                  color: Colors.black,
-                                                                                                                  fontSize: 16.0,
-                                                                                                                ),
-                                                                                                                onSaved: (input) => expireDate = input,
-                                                                                                              ),
-                                                                                                            )
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                      SizedBox(
-                                                                                                        width: 16,
-                                                                                                      ),
-                                                                                                      Expanded(
-                                                                                                        flex: 8,
-                                                                                                        child: Column(
-                                                                                                          mainAxisSize: MainAxisSize.min,
-                                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                          children: [
-                                                                                                            Text(
-                                                                                                              'номер телефона',
-                                                                                                              style: FontStyles.regularStyle(
-                                                                                                                fontSize: 13,
-                                                                                                                fontFamily: 'Montserrat',
-                                                                                                                color: Color(0xff646974),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            Container(
-                                                                                                              margin: EdgeInsets.only(top: 5),
-                                                                                                              padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                                                                                                              decoration: BoxDecoration(
-                                                                                                                  color: const Color(0xffFFFFFF),
-                                                                                                                  borderRadius: BorderRadius.circular(15),
-                                                                                                                  border: Border.all(
-                                                                                                                    width: 1,
-                                                                                                                    color: Color(0xffE1E1E1),
-                                                                                                                  )),
-                                                                                                              child: TextFormField(
-                                                                                                                controller: phoneNumberController,
-                                                                                                                keyboardType: TextInputType.number,
-                                                                                                                decoration: InputDecoration(
-                                                                                                                  contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
-                                                                                                                  // hintText:
-                                                                                                                  //     hintText,
-                                                                                                                  hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
-                                                                                                                  border: InputBorder.none,
-                                                                                                                ),
-                                                                                                                style: TextStyle(
-                                                                                                                  color: Colors.black,
-                                                                                                                  fontSize: 16.0,
-                                                                                                                ),
-                                                                                                                onSaved: (input) => phoneNumber = input,
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ],
-                                                                                                  ),
-                                                                                                  SizedBox(
-                                                                                                    height: 8,
-                                                                                                  ),
-                                                                                                ],
+                                                                                          ),
+                                                                                          SizedBox(
+                                                                                            height: 15,
+                                                                                          ),
+                                                                                          Container(
+                                                                                            height: 54,
+                                                                                            width: double.infinity,
+                                                                                            child: RaisedButton(
+                                                                                              elevation: 0,
+                                                                                              color: ColorPalatte.strongRedColor,
+                                                                                              onPressed: () {
+                                                                                                setState(() {
+                                                                                                  ++cardNumber;
+                                                                                                });
+                                                                                                print('index is: $cardNumber');
+                                                                                                if (_formKey.currentState.validate()) {
+                                                                                                  g.Get.back();
+                                                                                                } else {
+                                                                                                  print('no');
+                                                                                                }
+                                                                                                // Scaffold.of(context).hideCurrentSnackBar();
+                                                                                                // validateAndSave();
+                                                                                              },
+                                                                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                                                                                              child: Text(
+                                                                                                'ДОБАВИТЬ',
+                                                                                                style: FontStyles.boldStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Colors.white),
                                                                                               ),
                                                                                             ),
                                                                                           ),
-                                                                                        ),
-                                                                                        SizedBox(
-                                                                                          height: 15,
-                                                                                        ),
-                                                                                        Container(
-                                                                                          height: 54,
-                                                                                          width: double.infinity,
-                                                                                          child: RaisedButton(
-                                                                                            elevation: 0,
-                                                                                            color: ColorPalatte.strongRedColor,
-                                                                                            onPressed: () {
-                                                                                              setState(() {
-                                                                                                ++cardNumber;
-                                                                                              });
-                                                                                              print('index is: $cardNumber');
-
-                                                                                              // Scaffold.of(context).hideCurrentSnackBar();
-                                                                                              Get.back();
-                                                                                            },
-                                                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                                                                                            child: Text(
-                                                                                              'ДОБАВИТЬ',
-                                                                                              style: FontStyles.boldStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Colors.white),
-                                                                                            ),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ],
+                                                                                        ],
+                                                                                      ),
                                                                                     ),
-                                                                                  ),
-                                                                                );
-                                                                              }),
+                                                                                  );
+                                                                                }),
+                                                                              ),
                                                                             );
                                                                           });
 
@@ -971,7 +1024,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                       /////////////THird ModalShitt//////////////
                                                                       //////////////////////////////////////////
 
-                                                                      Get.back();
+                                                                      g.Get
+                                                                          .back();
                                                                       showModalBottomSheet(
                                                                           shape:
                                                                               RoundedRectangleBorder(
@@ -987,212 +1041,247 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                               context,
                                                                           builder:
                                                                               (context) {
-                                                                            return Padding(
-                                                                              padding: MediaQuery.of(context).viewInsets,
-                                                                              child: StatefulBuilder(builder: (context, StateSetter state) {
-                                                                                return Container(
-                                                                                  padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-                                                                                  child: Padding(
-                                                                                    padding: const EdgeInsets.symmetric(vertical: 15),
-                                                                                    child: Column(
-                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                      mainAxisSize: MainAxisSize.min,
-                                                                                      children: [
-                                                                                        Text(
-                                                                                          'Добавление карты',
-                                                                                          style: FontStyles.regularStyle(
-                                                                                            fontSize: 17,
-                                                                                            fontFamily: 'Montserrat',
-                                                                                            color: Color(0xff232323),
-                                                                                          ),
-                                                                                        ),
-                                                                                        SizedBox(
-                                                                                          height: 15,
-                                                                                        ),
-                                                                                        Container(
-                                                                                          width: MediaQuery.of(context).size.width,
-                                                                                          child: Card(
-                                                                                            color: Colors.white,
-                                                                                            shape: RoundedRectangleBorder(
-                                                                                              borderRadius: BorderRadius.all(
-                                                                                                Radius.circular(15),
-                                                                                              ),
-                                                                                            ),
-                                                                                            child: Padding(
-                                                                                              padding: EdgeInsets.symmetric(horizontal: 18, vertical: 17),
-                                                                                              child: Column(
-                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                children: [
-                                                                                                  Text(
-                                                                                                    'Номер карты',
-                                                                                                    style: FontStyles.regularStyle(
-                                                                                                      fontSize: 13,
-                                                                                                      fontFamily: 'Montserrat',
-                                                                                                      color: Color(0xff646974),
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  Container(
-                                                                                                    margin: EdgeInsets.only(top: 5),
-                                                                                                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                                                                                                    decoration: BoxDecoration(
-                                                                                                        color: const Color(0xffFFFFFF),
-                                                                                                        borderRadius: BorderRadius.circular(15),
-                                                                                                        border: Border.all(
-                                                                                                          width: 1,
-                                                                                                          color: Color(0xffE1E1E1),
-                                                                                                        )),
-                                                                                                    child: TextFormField(
-                                                                                                      controller: humoCardNumberConteoller,
-                                                                                                      keyboardType: TextInputType.number,
-                                                                                                      decoration: InputDecoration(
-                                                                                                        contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
-                                                                                                        // hintText: '0000 0000 0000 0000',
-                                                                                                        hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
-                                                                                                        border: InputBorder.none,
-                                                                                                      ),
-                                                                                                      style: TextStyle(
-                                                                                                        color: Colors.black,
-                                                                                                        fontSize: 16.0,
-                                                                                                      ),
-                                                                                                      onSaved: (input) => nameValue = input,
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  SizedBox(
-                                                                                                    height: 8,
-                                                                                                  ),
-                                                                                                  Row(
-                                                                                                    children: [
-                                                                                                      Expanded(
-                                                                                                        flex: 3,
-                                                                                                        child: Column(
-                                                                                                          mainAxisSize: MainAxisSize.min,
-                                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                          children: [
-                                                                                                            Text(
-                                                                                                              'год/месяц',
-                                                                                                              style: FontStyles.regularStyle(
-                                                                                                                fontSize: 13,
-                                                                                                                fontFamily: 'Montserrat',
-                                                                                                                color: Color(0xff646974),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            Container(
-                                                                                                              margin: EdgeInsets.only(top: 5),
-                                                                                                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                                                                                                              decoration: BoxDecoration(
-                                                                                                                  color: const Color(0xffFFFFFF),
-                                                                                                                  borderRadius: BorderRadius.circular(15),
-                                                                                                                  border: Border.all(
-                                                                                                                    width: 1,
-                                                                                                                    color: Color(0xffE1E1E1),
-                                                                                                                  )),
-                                                                                                              child: TextFormField(
-                                                                                                                controller: expireController,
-                                                                                                                keyboardType: TextInputType.number,
-                                                                                                                decoration: InputDecoration(
-                                                                                                                  contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
-                                                                                                                  // hintText:
-                                                                                                                  //     '08/24',
-                                                                                                                  hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
-                                                                                                                  border: InputBorder.none,
-                                                                                                                ),
-                                                                                                                style: TextStyle(
-                                                                                                                  color: Colors.black,
-                                                                                                                  fontSize: 16.0,
-                                                                                                                ),
-                                                                                                                onSaved: (input) => expireDate = input,
-                                                                                                              ),
-                                                                                                            )
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                      SizedBox(
-                                                                                                        width: 16,
-                                                                                                      ),
-                                                                                                      Expanded(
-                                                                                                        flex: 8,
-                                                                                                        child: Column(
-                                                                                                          mainAxisSize: MainAxisSize.min,
-                                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                          children: [
-                                                                                                            Text(
-                                                                                                              'номер телефона',
-                                                                                                              style: FontStyles.regularStyle(
-                                                                                                                fontSize: 13,
-                                                                                                                fontFamily: 'Montserrat',
-                                                                                                                color: Color(0xff646974),
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                            Container(
-                                                                                                              margin: EdgeInsets.only(top: 5),
-                                                                                                              padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                                                                                                              decoration: BoxDecoration(
-                                                                                                                  color: const Color(0xffFFFFFF),
-                                                                                                                  borderRadius: BorderRadius.circular(15),
-                                                                                                                  border: Border.all(
-                                                                                                                    width: 1,
-                                                                                                                    color: Color(0xffE1E1E1),
-                                                                                                                  )),
-                                                                                                              child: TextFormField(
-                                                                                                                controller: phoneNumberController,
-                                                                                                                keyboardType: TextInputType.number,
-                                                                                                                decoration: InputDecoration(
-                                                                                                                  contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
-                                                                                                                  // hintText:
-                                                                                                                  //     hintText,
-                                                                                                                  hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
-                                                                                                                  border: InputBorder.none,
-                                                                                                                ),
-                                                                                                                style: TextStyle(
-                                                                                                                  color: Colors.black,
-                                                                                                                  fontSize: 16.0,
-                                                                                                                ),
-                                                                                                                onSaved: (input) => phoneNumber = input,
-                                                                                                              ),
-                                                                                                            ),
-                                                                                                          ],
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                    ],
-                                                                                                  ),
-                                                                                                  SizedBox(
-                                                                                                    height: 8,
-                                                                                                  ),
-                                                                                                ],
-                                                                                              ),
+                                                                            return Form(
+                                                                              key: _formKey,
+                                                                              child: Padding(
+                                                                                padding: MediaQuery.of(context).viewInsets,
+                                                                                child: StatefulBuilder(builder: (context, StateSetter state) {
+                                                                                  return Container(
+                                                                                    padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                                                                                    child: Padding(
+                                                                                      padding: const EdgeInsets.symmetric(vertical: 15),
+                                                                                      child: Column(
+                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                        mainAxisSize: MainAxisSize.min,
+                                                                                        children: [
+                                                                                          Text(
+                                                                                            'Добавление карты',
+                                                                                            style: FontStyles.regularStyle(
+                                                                                              fontSize: 17,
+                                                                                              fontFamily: 'Montserrat',
+                                                                                              color: Color(0xff232323),
                                                                                             ),
                                                                                           ),
-                                                                                        ),
-                                                                                        SizedBox(
-                                                                                          height: 15,
-                                                                                        ),
-                                                                                        Container(
-                                                                                          height: 54,
-                                                                                          width: double.infinity,
-                                                                                          child: RaisedButton(
-                                                                                            elevation: 0,
-                                                                                            color: ColorPalatte.strongRedColor,
-                                                                                            onPressed: () {
-                                                                                              setState(() {
-                                                                                                ++cardNumber;
-                                                                                              });
-                                                                                              print('index is: $cardNumber');
+                                                                                          SizedBox(
+                                                                                            height: 15,
+                                                                                          ),
+                                                                                          Container(
+                                                                                            width: MediaQuery.of(context).size.width,
+                                                                                            child: Card(
+                                                                                              color: Colors.white,
+                                                                                              shape: RoundedRectangleBorder(
+                                                                                                borderRadius: BorderRadius.all(
+                                                                                                  Radius.circular(15),
+                                                                                                ),
+                                                                                              ),
+                                                                                              child: Padding(
+                                                                                                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 17),
+                                                                                                child: Column(
+                                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                  children: [
+                                                                                                    Text(
+                                                                                                      'Номер карты',
+                                                                                                      style: FontStyles.regularStyle(
+                                                                                                        fontSize: 13,
+                                                                                                        fontFamily: 'Montserrat',
+                                                                                                        color: Color(0xff646974),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Container(
+                                                                                                      margin: EdgeInsets.only(top: 5),
+                                                                                                      padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                                                                                                      decoration: BoxDecoration(
+                                                                                                          color: const Color(0xffFFFFFF),
+                                                                                                          borderRadius: BorderRadius.circular(15),
+                                                                                                          border: Border.all(
+                                                                                                            width: 1,
+                                                                                                            color: Color(0xffE1E1E1),
+                                                                                                          )),
+                                                                                                      child: TextFormField(
+                                                                                                        controller: humoController,
+                                                                                                        inputFormatters: [InputMask.maskHumo],
+                                                                                                        keyboardType: TextInputType.number,
+                                                                                                        decoration: InputDecoration(
+                                                                                                          contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
+                                                                                                          // hintText: '0000 0000 0000 0000',
+                                                                                                          hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
+                                                                                                          border: InputBorder.none,
+                                                                                                        ),
+                                                                                                        style: TextStyle(
+                                                                                                          color: Colors.black,
+                                                                                                          fontSize: 16.0,
+                                                                                                        ),
+                                                                                                        validator: (value) {
+                                                                                                          if (value.isEmpty) {
+                                                                                                            return "Value can not be empty";
+                                                                                                          } else if (value.length < 19) {
+                                                                                                            return 'Value can not be less than 16';
+                                                                                                          }
+                                                                                                          return null;
+                                                                                                        },
+                                                                                                        onSaved: (input) => nameValue = input,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    SizedBox(
+                                                                                                      height: 8,
+                                                                                                    ),
+                                                                                                    Row(
+                                                                                                      children: [
+                                                                                                        Expanded(
+                                                                                                          flex: 3,
+                                                                                                          child: Column(
+                                                                                                            mainAxisSize: MainAxisSize.min,
+                                                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                            children: [
+                                                                                                              Text(
+                                                                                                                'год/месяц',
+                                                                                                                style: FontStyles.regularStyle(
+                                                                                                                  fontSize: 13,
+                                                                                                                  fontFamily: 'Montserrat',
+                                                                                                                  color: Color(0xff646974),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                              Container(
+                                                                                                                margin: EdgeInsets.only(top: 5),
+                                                                                                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                                                                                                decoration: BoxDecoration(
+                                                                                                                    color: const Color(0xffFFFFFF),
+                                                                                                                    borderRadius: BorderRadius.circular(15),
+                                                                                                                    border: Border.all(
+                                                                                                                      width: 1,
+                                                                                                                      color: Color(0xffE1E1E1),
+                                                                                                                    )),
+                                                                                                                child: TextFormField(
+                                                                                                                  controller: expireDateController,
+                                                                                                                  inputFormatters: [InputMask.maskDate],
+                                                                                                                  keyboardType: TextInputType.number,
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
+                                                                                                                    // hintText:
+                                                                                                                    //     '08/24',
+                                                                                                                    hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
+                                                                                                                    border: InputBorder.none,
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                    color: Colors.black,
+                                                                                                                    fontSize: 16.0,
+                                                                                                                  ),
+                                                                                                                  validator: (value) {
+                                                                                                                    if (value.isEmpty) {
+                                                                                                                      return "Value can not be empty";
+                                                                                                                    } else if (value.length < 5) {
+                                                                                                                      return 'Value can not be less than 4';
+                                                                                                                    }
+                                                                                                                    return null;
+                                                                                                                  },
+                                                                                                                  onSaved: (input) => expireDate = input,
+                                                                                                                ),
+                                                                                                              )
+                                                                                                            ],
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        SizedBox(
+                                                                                                          width: 16,
+                                                                                                        ),
+                                                                                                        Expanded(
+                                                                                                          flex: 8,
+                                                                                                          child: Column(
+                                                                                                            mainAxisSize: MainAxisSize.min,
+                                                                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                            children: [
+                                                                                                              Text(
+                                                                                                                'номер телефона',
+                                                                                                                style: FontStyles.regularStyle(
+                                                                                                                  fontSize: 13,
+                                                                                                                  fontFamily: 'Montserrat',
+                                                                                                                  color: Color(0xff646974),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                              Container(
+                                                                                                                margin: EdgeInsets.only(top: 5),
+                                                                                                                padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                                                                                                                decoration: BoxDecoration(
+                                                                                                                    color: const Color(0xffFFFFFF),
+                                                                                                                    borderRadius: BorderRadius.circular(15),
+                                                                                                                    border: Border.all(
+                                                                                                                      width: 1,
+                                                                                                                      color: Color(0xffE1E1E1),
+                                                                                                                    )),
+                                                                                                                child: TextFormField(
+                                                                                                                  controller: phoneController,
+                                                                                                                  inputFormatters: [InputMask.maskPhoneNumber],
+                                                                                                                  keyboardType: TextInputType.number,
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
+                                                                                                                    // hintText:
+                                                                                                                    //     hintText,
+                                                                                                                    hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
+                                                                                                                    border: InputBorder.none,
+                                                                                                                  ),
+                                                                                                                  style: TextStyle(
+                                                                                                                    color: Colors.black,
+                                                                                                                    fontSize: 16.0,
+                                                                                                                  ),
+                                                                                                                  validator: (value) {
+                                                                                                                    if (value.isEmpty) {
+                                                                                                                      return "Value can not be empty";
+                                                                                                                    } else if (value.length < 17) {
+                                                                                                                      return 'Value can not be less than 13';
+                                                                                                                    }
+                                                                                                                    return null;
+                                                                                                                  },
+                                                                                                                  onSaved: (input) => phoneNumber = input,
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ],
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                    SizedBox(
+                                                                                                      height: 8,
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                          SizedBox(
+                                                                                            height: 15,
+                                                                                          ),
+                                                                                          Container(
+                                                                                            height: 54,
+                                                                                            width: double.infinity,
+                                                                                            child: RaisedButton(
+                                                                                              elevation: 0,
+                                                                                              color: ColorPalatte.strongRedColor,
+                                                                                              onPressed: () async {
+                                                                                                setState(() {
+                                                                                                  ++cardNumber;
+                                                                                                });
+                                                                                                print('index is: $cardNumber');
 
-                                                                                              // Scaffold.of(context).hideCurrentSnackBar();
-                                                                                              Get.back();
-                                                                                            },
-                                                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                                                                                            child: Text(
-                                                                                              'ДОБАВИТЬ',
-                                                                                              style: FontStyles.boldStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Colors.white),
+                                                                                                // Scaffold.of(context).hideCurrentSnackBar();
+                                                                                                // validateAndSave();
+                                                                                                if (_formKey.currentState.validate()) {
+                                                                                                  g.Get.back();
+                                                                                                } else {
+                                                                                                  print('no');
+                                                                                                }
+                                                                                              },
+                                                                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                                                                                              child: Text(
+                                                                                                'ДОБАВИТЬ',
+                                                                                                style: FontStyles.boldStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Colors.white),
+                                                                                              ),
                                                                                             ),
                                                                                           ),
-                                                                                        ),
-                                                                                      ],
+                                                                                        ],
+                                                                                      ),
                                                                                     ),
-                                                                                  ),
-                                                                                );
-                                                                              }),
+                                                                                  );
+                                                                                }),
+                                                                              ),
                                                                             );
                                                                           });
 
@@ -1249,7 +1338,46 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 child: RaisedButton(
                   elevation: 0,
                   color: ColorPalatte.strongRedColor,
-                  onPressed: () => Get.back(),
+                  onPressed: () async {
+                    FormData formData = FormData.fromMap({
+                      'name': nameController.text,
+                      'phone': phoneController.text,
+                    });
+
+                    if (_userImage != null) {
+                      String fileName = _userImage.path.split('/').last;
+                      formData.files.addAll([
+                        MapEntry(
+                          "photo",
+                          await MultipartFile.fromFile(
+                            _userImage.path,
+                            filename: fileName,
+                          ),
+                        ),
+                      ]);
+                    }
+                    final token = MyPref.secondToken;
+                    var response = await dio.post(
+                      ApiUrl.updateProfile,
+                      data: formData,
+                      options: Options(
+                        headers: {
+                          HttpHeaders.authorizationHeader: 'Bearer $token'
+                        },
+                      ),
+                      // body: {
+                      //   'name': nameController.text,
+                      //   'phone': phoneController.text,
+                      // },
+                    );
+                    if (response.statusCode == 200) {
+                      print('okayy');
+                      g.Get.snackbar('ваши данные были успешно изменены', '',
+                          colorText: Colors.white,
+                          backgroundColor: Colors.grey[500]);
+                      usrController.fetchProfileData();
+                    }
+                  },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: Text(

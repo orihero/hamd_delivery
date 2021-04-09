@@ -101,7 +101,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                           child: Text(
                             'За день',
                             style: FontStyles.boldStyle(
-                              fontSize: 14,
+                              fontSize: 13,
                               fontFamily: 'Montserrat',
                               color: selectedIndex == 0
                                   ? Colors.black
@@ -134,7 +134,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                           child: Text(
                             'За неделю',
                             style: FontStyles.boldStyle(
-                              fontSize: 14,
+                              fontSize: 13,
                               fontFamily: 'Montserrat',
                               color: selectedIndex == 1
                                   ? Colors.black
@@ -167,7 +167,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                         child: Text(
                           'За месяц',
                           style: FontStyles.boldStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontFamily: 'Montserrat',
                             color: selectedIndex == 2
                                 ? Colors.black

@@ -1,11 +1,8 @@
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/ui/income/income_sceen.dart';
-import 'package:HAMD_Delivery/ui/main-orders/main-orders.dart';
 import 'package:HAMD_Delivery/ui/my-drewer/menu_options.dart';
-import 'package:HAMD_Delivery/ui/my-drewer/widgets/menu_options.dart';
 import 'package:HAMD_Delivery/ui/my-drewer/widgets/user_info.dart';
 import 'package:HAMD_Delivery/ui/my-order/my_order_srceen.dart';
-import 'package:HAMD_Delivery/ui/my_platic_card/my_plastic_card.dart';
 import 'package:HAMD_Delivery/ui/settings/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,66 +26,62 @@ class MyDrewer extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(
-                  left: 22,
-                  top: 13,
+                  left: 10,
+                  top: 10,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     UserInfo(),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'Рейтинг',
-                            style: FontStyles.lightStyle(
-                              fontSize: 18,
-                              fontFamily: 'Ubuntu',
-                              color: Color(0xff232323),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Row(
-                            children: [
-                              Text(
-                                '4.5',
-                                style: FontStyles.lightStyle(
-                                  fontSize: 18,
-                                  fontFamily: 'Ubuntu',
-                                  color: Color(0xff232323),
-                                ),
-                              ),
-                              Icon(
-                                Icons.star,
-                                size: 18,
-                                color: Color(0xff9F111B),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                    // SizedBox(
+                    //   height: 15,
+                    // ),
+                    // Row(
+                    //   children: [
+                    //     Expanded(
+                    //       flex: 1,
+                    //       child: Text(
+                    //         'Рейтинг',
+                    //         style: FontStyles.lightStyle(
+                    //           fontSize: 18,
+                    //           fontFamily: 'Ubuntu',
+                    //           color: Color(0xff232323),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     Expanded(
+                    //       flex: 2,
+                    //       child: Row(
+                    //         children: [
+                    //           Text(
+                    //             '4.5',
+                    //             style: FontStyles.lightStyle(
+                    //               fontSize: 18,
+                    //               fontFamily: 'Ubuntu',
+                    //               color: Color(0xff232323),
+                    //             ),
+                    //           ),
+                    //           Icon(
+                    //             Icons.star,
+                    //             size: 18,
+                    //             color: Color(0xff9F111B),
+                    //           )
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
-              SizedBox(height: 0),
-              SizedBox(height: 0),
               Padding(
                 padding: const EdgeInsets.only(
-                  left: 13,
+                  left: 10,
                   top: 50,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 0),
-
                     MenuOptions(
                       title: 'Главная',
                       onpress: () {
@@ -109,10 +102,10 @@ class MyDrewer extends StatelessWidget {
                     ),
 
                     MenuOptions(
-                      title: 'Мой Заработок',
+                      title: 'Мой заработок',
                       onpress: () => Get.to(IncomeSreen()),
                     ),
-                    SizedBox(height: 0),
+
                     Divider(
                       color: Color(0xffEAECF1),
                       thickness: 2.0,
@@ -122,7 +115,7 @@ class MyDrewer extends StatelessWidget {
                         onpress: () => Get.to(
                               SettingScreen(),
                             )),
-                    SizedBox(height: 0),
+
                     Divider(
                       color: Color(0xffEAECF1),
                       thickness: 2.0,
@@ -131,7 +124,6 @@ class MyDrewer extends StatelessWidget {
                       title: 'Мой профиль',
                       onpress: () => Get.to(ProfileSettings()),
                     ),
-                    SizedBox(height: 0),
 
                     // MenuOptions(
                     //   title: 'Моя карта',
@@ -139,7 +131,7 @@ class MyDrewer extends StatelessWidget {
                     //     Get.to(MyPlasticCard());
                     //   },
                     // ),
-                    SizedBox(height: 0),
+
                     Divider(
                       color: Color(0xffEAECF1),
                       thickness: 2.0,

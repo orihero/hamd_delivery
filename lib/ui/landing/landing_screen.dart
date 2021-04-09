@@ -28,7 +28,7 @@ class LandingScreen extends StatelessWidget {
                   padding: EdgeInsets.only(top: 67),
                   child: LanguageChoosing(
                     function: () {
-                      Get.to(AuthScreen());
+                      Get.to(() => AuthScreen());
                     },
                     iconName: 'assets/icons/russia.svg',
                     text: 'Русский язык',
@@ -39,7 +39,7 @@ class LandingScreen extends StatelessWidget {
                 ),
                 LanguageChoosing(
                   function: () {
-                    Get.to(AuthScreen());
+                    Get.to(() => AuthScreen());
                   },
                   iconName: 'assets/icons/uzbekistan.svg',
                   text: 'O\'zbek tili',

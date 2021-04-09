@@ -1,12 +1,116 @@
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
+import 'package:HAMD_Delivery/services/sign_in.dart';
 import 'package:HAMD_Delivery/ui/auth/sms_screen.dart';
+import 'package:HAMD_Delivery/ui/masks/masks.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:get/get.dart';
 
-class AuthScreen extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
+class AuthScreen extends StatefulWidget {
+  @override
+  _AuthScreenState createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController smsController = TextEditingController();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  void validateAndSave() async {
+    final FormState form = _formKey.currentState;
+    if (form.validate()) {
+      Get.to(SmsScreen());
+      print('Form is valid');
+      Get.dialog(
+        Scaffold(
+          backgroundColor: Colors.black.withOpacity(.1),
+          body: Center(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              color: Colors.white,
+              width: double.infinity,
+              height: 100.0,
+              child: Row(
+                children: [
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        ColorPalatte.strongRedColor),
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Text(
+                    'пожалуйста, подождите',
+                    style: FontStyles.lightStyle(
+                      fontSize: 19,
+                      fontFamily: 'Ubuntu',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+      SignIn.signInUser(userNumber: smsController.text);
+      // showDialog(
+      //     context: context,
+      //     barrierDismissible: false,
+      //     builder: (BuildContext context) {
+      //       return Dialog(
+      //         child: new Row(
+      //           mainAxisSize: MainAxisSize.min,
+      //           children: [
+      //             new CircularProgressIndicator(),
+      //             new Text("Loading"),
+      //           ],
+      //         ),
+      //       );
+      //     });
+
+      // var response = await http.post(
+      //   ApiUrl.signIn,
+      //   body: {'phone': authSmsController.text, 'role': '4'},
+      // );
+      // if (response.statusCode == 200) {
+      //   var body = SignUpModel.fromJson(json.decode(response.body));
+      //   print(response.body);
+      //   print('bu yearda toke');
+      //   print(body.data.token);
+      //   print('bu yearda code');
+      //   print(body.data.code.code);
+
+      //   MyPref.token = body.data.token;
+      //   MyPref.code = body.data.code.code;
+      //   //confirm sms
+      //   // var confirmSmsRresponse = await http.post(
+      //   //   ApiUrl.sendSmsCode,
+      //   //   body: {
+      //   //     'code': MyPref.code,
+      //   //   },
+      //   // );
+
+      //   //Start Confirm number
+
+      //   ConfrimSms.smsFonfirm();
+
+      //   //End Confirm
+
+      //   // ConfrimSms.smsFonfirm();
+      //   Get.to(MainOrders());
+      // } else {
+      //   Get.back();
+      //   _scaffoldKey.currentState.showSnackBar(SnackBar(
+      //     content: Text('Error in server'),
+      //   ));
+      //   print(response.reasonPhrase);
+      // }
+    } else {
+      print('Form is invalid');
+    }
+  }
 
   _showSnackBar(BuildContext context) {
     return showDialog(
@@ -115,6 +219,7 @@ class AuthScreen extends StatelessWidget {
     var controllerNumber =
         MaskedTextController(mask: '000 00 000 00 00', text: '+998 ');
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: ColorPalatte.mainPageColor,
       body: SingleChildScrollView(
         child: Form(
@@ -122,7 +227,8 @@ class AuthScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: 330,
+                // height: 330,
+                height: MediaQuery.of(context).size.height * .35,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -132,7 +238,10 @@ class AuthScreen extends StatelessWidget {
                   color: ColorPalatte.strongRedColor,
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(80),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * .12,
+                    vertical: MediaQuery.of(context).size.height * .12,
+                  ),
                   child: Image.asset(
                     'assets/images/logo-back.png',
                   ),
@@ -172,24 +281,31 @@ class AuthScreen extends StatelessWidget {
                           ),
                           Flexible(
                             child: TextFormField(
-                              controller: controllerNumber,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                contentPadding:
-                                    const EdgeInsets.only(left: 15.0),
-                                hintText: 'Введите свой номер телефона',
-                                hintStyle: FontStyles.regularStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'Ubuntu',
-                                    color: Color(0xff9E9E9E)),
-                                border: InputBorder.none,
-                              ),
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.0,
-                              ),
-                              onSaved: (input) => _phoneNumber = input,
-                            ),
+                                inputFormatters: [InputMask.maskPhoneNumber],
+                                controller: smsController,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  contentPadding:
+                                      const EdgeInsets.only(left: 15.0),
+                                  hintText: 'Введите свой номер телефона',
+                                  hintStyle: FontStyles.regularStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'Ubuntu',
+                                      color: Color(0xff9E9E9E)),
+                                  border: InputBorder.none,
+                                ),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                ),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Value can not be empty";
+                                  } else if (value.length < 17) {
+                                    return 'Value can not be less than 13';
+                                  }
+                                  return null;
+                                }),
                           ),
                         ],
                       ),
@@ -225,7 +341,7 @@ class AuthScreen extends StatelessWidget {
                       child: RaisedButton(
                         elevation: 0,
                         color: ColorPalatte.strongRedColor,
-                        onPressed: () => _showSnackBar(context),
+                        onPressed: validateAndSave,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
                         child: Text(
@@ -239,6 +355,9 @@ class AuthScreen extends StatelessWidget {
                     ),
                   )
                 ],
+              ),
+              SizedBox(
+                height: 15,
               ),
             ],
           ),

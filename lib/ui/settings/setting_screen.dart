@@ -2,7 +2,6 @@ import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
 import 'package:HAMD_Delivery/ui/landing/widgets/language_choice.dart';
-import 'package:HAMD_Delivery/ui/settings/profile_settings/profile_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -86,7 +85,8 @@ class SettingScreen extends StatelessWidget {
                       ),
                     ),
                     trailing: IconButton(
-                        icon: Icon(Icons.navigate_next), onPressed: null),
+                        icon: Icon(Icons.navigate_next_rounded),
+                        onPressed: null),
                   ),
                   // ListTile(
                   //   onTap: () => Get.to(ProfileSettings()),

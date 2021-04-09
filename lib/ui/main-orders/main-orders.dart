@@ -1,10 +1,12 @@
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
+import 'package:HAMD_Delivery/controllers/all_orders_controller.dart';
 import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/accpted_order.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/all_order_card.dart';
 import 'package:HAMD_Delivery/ui/my-drewer/my_drewer.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MainOrders extends StatefulWidget {
   @override
@@ -19,13 +21,15 @@ class _MainOrdersState extends State<MainOrders> {
   }
 
   int selectedIndex = 0;
+  final AllOrdersController allOrdersController =
+      Get.find<AllOrdersController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorPalatte.mainPageColor,
       key: _scaffoldKey,
       drawer: SizedBox(
-        width: MediaQuery.of(context).size.width * .80,
+        width: MediaQuery.of(context).size.width * .85,
         child: Drawer(
           child: MyDrewer(),
         ),
@@ -91,7 +95,7 @@ class _MainOrdersState extends State<MainOrders> {
                           child: Text(
                             'Все заказы',
                             style: FontStyles.boldStyle(
-                              fontSize: 14,
+                              fontSize: 13,
                               fontFamily: 'Montserrat',
                               color: selectedIndex == 0
                                   ? Colors.black
@@ -124,7 +128,7 @@ class _MainOrdersState extends State<MainOrders> {
                           child: Text(
                             'Принятые заказы',
                             style: FontStyles.boldStyle(
-                              fontSize: 14,
+                              fontSize: 13,
                               fontFamily: 'Montserrat',
                               color: selectedIndex == 1
                                   ? Colors.black

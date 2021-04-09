@@ -5,7 +5,30 @@ class IncomeListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      separatorBuilder: (context, index) => SizedBox(height: 12),
+      separatorBuilder: (context, index) => index.remainder(3) == 1
+          ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    '10.03.2021',
+                    style: FontStyles.regularStyle(
+                      fontSize: 13,
+                      fontFamily: 'Montserrat',
+                      color: Color(0xff323637),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                ],
+              ),
+            )
+          : SizedBox(height: 12),
       itemCount: 11,
       itemBuilder: (context, index) => Container(
         width: MediaQuery.of(context).size.width,

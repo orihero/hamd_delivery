@@ -185,7 +185,7 @@ class _CurrentOrderState extends State<CurrentOrder> {
                   child: Transform.rotate(
                     angle: 3.14,
                     child: IconButton(
-                      icon: Icon(Icons.navigation),
+                      icon: Icon(Icons.navigation_outlined),
                       onPressed: () {},
                       iconSize: 35.0,
                       color: ColorPalatte.strongRedColor,

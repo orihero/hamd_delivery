@@ -25,16 +25,16 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   bool hasError = false;
   String currentText = "";
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey3 = GlobalKey<FormState>();
 
   @override
   void initState() {
+    super.initState();
     onTapRecognizer = TapGestureRecognizer()
       ..onTap = () {
         Navigator.pop(context);
       };
     errorController = StreamController<ErrorAnimationType>();
-    super.initState();
   }
 
   @override
@@ -99,7 +99,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               //   height: 20,
               // ),
               Form(
-                key: formKey,
+                key: _formKey3,
                 child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 30),
@@ -201,7 +201,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   height: 50,
                   child: FlatButton(
                     onPressed: () {
-                      formKey.currentState.validate();
+                      _formKey3.currentState.validate();
                       // conditions for validating
                       if (currentText.length != 6 || currentText != "towtow") {
                         errorController.add(ErrorAnimationType
