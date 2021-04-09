@@ -12,7 +12,7 @@ class AcceptedOrdersController extends GetxController {
     super.onInit();
   }
 
-  void fetchAllAcceptedOrders() async {
+  Future fetchAllAcceptedOrders() async {
     try {
       isLoading(true);
       var allAcceptedOrders = await AcceptedOrdersServices.allAcceptedOrders();

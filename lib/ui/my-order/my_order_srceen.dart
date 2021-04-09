@@ -3,6 +3,9 @@ import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
 import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card.dart';
 import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card2.dart';
+import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card_day.dart';
+import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card_month.dart';
+import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card_week.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,30 +16,30 @@ class MyOrdersScreen extends StatefulWidget {
 
 class _MyOrdersScreenState extends State<MyOrdersScreen> {
   int selectedIndex = 0;
-  _callContent() {
-    switch (selectedIndex) {
-      case 0:
-        return OrderListCard();
-        break;
-      case 1:
-        return OrderListCard();
+  // _callContent() {
+  //   switch (selectedIndex) {
+  //     case 0:
+  //       return OrderListCard();
+  //       break;
+  //     case 1:
+  //       return OrderListCard();
 
-        break;
-      default:
-        return OrderListCard();
-    }
-  }
+  //       break;
+  //     default:
+  //       return OrderListCard();
+  //   }
+  // }
 
   _callContent2() {
     switch (selectedIndex) {
       case 0:
-        return OrderListCard2();
+        return OrderListCardDay();
         break;
       case 1:
-        return OrderListCard2();
+        return OrderListCardWeek();
         break;
       default:
-        return OrderListCard2();
+        return OrderListCardMonth();
     }
   }
 
@@ -187,32 +190,34 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
             height: 12,
           ),
           Expanded(
-            child: ListView.builder(
-                itemCount: 1,
-                itemBuilder: (context, index) => Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        children: [
-                          _callContent(),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          _callContent2(),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          _callContent(),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          _callContent2(),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          SizedBox(height: 25),
-                        ],
-                      ),
-                    )),
+            child: _callContent2(),
+
+            // ListView.builder(
+            //     itemCount: 1,
+            //     itemBuilder: (context, index) => Padding(
+            //           padding: EdgeInsets.symmetric(horizontal: 16),
+            //           child: Column(
+            //             children: [
+            //               // _callContent(),
+            //               SizedBox(
+            //                 height: 15,
+            //               ),
+            //               _callContent2(),
+            //               // SizedBox(
+            //               //   height: 15,
+            //               // ),
+            //               // _callContent(),
+            //               // SizedBox(
+            //               //   height: 15,
+            //               // ),
+            //               // _callContent2(),
+            //               // SizedBox(
+            //               //   height: 15,
+            //               // ),
+            //               // SizedBox(height: 25),
+            //             ],
+            //           ),
+            //         )),
           ),
         ],
       ),

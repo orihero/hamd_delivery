@@ -4,6 +4,7 @@ import 'package:HAMD_Delivery/constants/api.dart';
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/controllers/profile_controller.dart';
+import 'package:HAMD_Delivery/ui/landing/landing_screen.dart';
 import 'package:HAMD_Delivery/ui/masks/masks.dart';
 import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'package:flutter/material.dart';
@@ -130,10 +131,104 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       resizeToAvoidBottomInset: false,
       backgroundColor: ColorPalatte.mainPageColor,
       appBar: PreferredSize(
-        child: customAppBar(
-          context,
-          title: 'Мой профиль',
-          onpress1: () => g.Get.back(),
+        // child: customAppBar(
+        //   context,
+        //   title: 'Мой профиль',
+        //   onpress1: () => g.Get.back(),
+        // ),
+        //
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: ColorPalatte.strongRedColor,
+          elevation: 0,
+          flexibleSpace: Padding(
+            padding: const EdgeInsets.only(top: 40, bottom: 10),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 12.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                        child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: Colors.black,
+                              size: 26,
+                            ),
+                            onPressed: () {}),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      'Мой профиль',
+                      textAlign: TextAlign.center,
+                      style: FontStyles.boldStyle(
+                        fontSize: 18,
+                        fontFamily: 'Montserrat',
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 12.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                        child: IconButton(
+                            icon: Icon(
+                              Icons.exit_to_app,
+                              color: Colors.black,
+                              size: 26,
+                            ),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      content: Text(
+                                          'Вы действительно хотите выйти?'),
+                                      actions: [
+                                        FlatButton(
+                                          onPressed: () => g.Get.back(),
+                                          child: Text('нет'),
+                                        ),
+                                        FlatButton(
+                                          child: Text('да'),
+                                          onPressed: () {
+                                            MyPref.clearToken();
+                                            MyPref.clearSecondToken();
+                                            print('toke after exiting');
+                                            print(MyPref.token);
+                                            print('second toke after exiting');
+                                            print(MyPref.secondToken);
+                                            g.Get.offAll(LandingScreen());
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            }),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
         preferredSize: Size.fromHeight(
             kToolbarHeight + MediaQuery.of(context).viewPadding.top),
