@@ -41,7 +41,7 @@ class _AccptedOrdersState extends State<AccptedOrders> {
   @override
   void initState() {
     print('init state in accepted oreders');
-    AcceptedOrdersServices.allAcceptedOrders();
+    acceptedOrdersController.fetchAllAcceptedOrders();
     super.initState();
   }
 
