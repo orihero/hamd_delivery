@@ -1,5 +1,6 @@
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
+import 'package:HAMD_Delivery/controllers/accepted_orders_controller.dart';
 import 'package:HAMD_Delivery/controllers/all_orders_controller.dart';
 import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/accpted_order.dart';
@@ -16,13 +17,14 @@ class MainOrders extends StatefulWidget {
 class _MainOrdersState extends State<MainOrders> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   void _openDrawer() {
-    //   print("Loll")
     _scaffoldKey.currentState.openDrawer();
   }
 
   int selectedIndex = 0;
   final AllOrdersController allOrdersController =
       Get.find<AllOrdersController>();
+  final AcceptedOrdersController acceptedOrdersController =
+      Get.find<AcceptedOrdersController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,6 +89,7 @@ class _MainOrdersState extends State<MainOrders> {
                               setState(() {
                                 selectedIndex = 0;
                               });
+                              allOrdersController.fetchAllOrders();
                               print(selectedIndex.toString());
                             }
                           },
@@ -120,6 +123,7 @@ class _MainOrdersState extends State<MainOrders> {
                               setState(() {
                                 selectedIndex = 1;
                               });
+                              acceptedOrdersController.fetchAllAcceptedOrders();
                             }
                             print(selectedIndex.toString());
                           },

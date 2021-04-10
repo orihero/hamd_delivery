@@ -2,6 +2,7 @@ import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/controllers/my_income_controller.dart';
 import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
+import 'package:HAMD_Delivery/ui/income/widgets/income_list_card.dart';
 import 'package:HAMD_Delivery/ui/income/widgets/income_list_card_day.dart';
 import 'package:HAMD_Delivery/ui/income/widgets/income_list_card_month.dart';
 import 'package:HAMD_Delivery/ui/income/widgets/income_list_card_week.dart';
@@ -16,80 +17,121 @@ class IncomeSreen extends StatefulWidget {
 
 class _IncomeSreenState extends State<IncomeSreen> {
   final MyIncomeController myIncomeController = Get.find<MyIncomeController>();
+
+  @override
+  void initState() {
+    myIncomeController.fetchMyIncomeDay();
+    myIncomeController.fetchMyIncomeWeek();
+    myIncomeController.fetchMyIncomeMonth();
+    super.initState();
+  }
+
   int selectedIndex = 0;
   _callContent() {
-    switch (selectedIndex) {
-      case 0:
-        return Obx(() {
-          if (myIncomeController.isLoading.value) {
-            return Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  ColorPalatte.strongRedColor,
-                ),
+    return Obx(
+      () {
+        if (myIncomeController.isLoading.value) {
+          return Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                ColorPalatte.strongRedColor,
               ),
-            );
-          } else {
-            return TabButton(
-              title: 'За день',
-              income: myIncomeController.myIncomeDayList[0].total.toString() +
-                  'сум',
-            );
-          }
-        });
-        break;
-      case 1:
-        return Obx(() {
-          if (myIncomeController.isLoading.value) {
-            return Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  ColorPalatte.strongRedColor,
-                ),
-              ),
-            );
-          } else {
-            return TabButton(
-              title: 'За неделю',
-              income: myIncomeController.myIncomeWeekList[0].total.toString() +
-                  'сум',
-            );
-          }
-        });
-        break;
-      default:
-        return Obx(() {
-          if (myIncomeController.isLoading.value) {
-            return Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  ColorPalatte.strongRedColor,
-                ),
-              ),
-            );
-          } else {
-            return TabButton(
-              title: 'За месяц',
-              income: myIncomeController.myIncomeMonthList[0].total.toString() +
-                  'сум',
-            );
-          }
-        });
-    }
+            ),
+          );
+        } else if (selectedIndex == 0) {
+          return TabButton(
+            title: 'За день',
+            income:
+                myIncomeController.myIncomeDayList[0].total.toString() + ' сум',
+          );
+        } else if (selectedIndex == 1) {
+          return TabButton(
+            title: 'За неделю',
+            income: myIncomeController.myIncomeWeekList[0].total.toString() +
+                ' сум',
+          );
+        }
+
+        return TabButton(
+          title: 'За месяц',
+          income:
+              myIncomeController.myIncomeMonthList[0].total.toString() + ' сум',
+        );
+      },
+    );
+
+    // switch (selectedIndex) {
+    //   case 0:
+    //     return Obx(() {
+    //       if (myIncomeController.isLoading.value) {
+    //         return Center(
+    //           child: CircularProgressIndicator(
+    //             valueColor: AlwaysStoppedAnimation<Color>(
+    //               ColorPalatte.strongRedColor,
+    //             ),
+    //           ),
+    //         );
+    //       } else {
+    //         return TabButton(
+    //           title: 'За день',
+    //           income: myIncomeController.myIncomeDayList[0].total.toString() +
+    //               ' сум',
+    //         );
+    //       }
+    //     });
+    //     break;
+    //   case 1:
+    //     return Obx(() {
+    //       if (myIncomeController.isLoading.value) {
+    //         return Center(
+    //           child: CircularProgressIndicator(
+    //             valueColor: AlwaysStoppedAnimation<Color>(
+    //               ColorPalatte.strongRedColor,
+    //             ),
+    //           ),
+    //         );
+    //       } else {
+    //         return TabButton(
+    //           title: 'За неделю',
+    //           income: myIncomeController.myIncomeWeekList[0].total.toString() +
+    //               ' сум',
+    //         );
+    //       }
+    //     });
+    //     break;
+    //   default:
+    //     return Obx(() {
+    //       if (myIncomeController.isLoading.value) {
+    //         return Center(
+    //           child: CircularProgressIndicator(
+    //             valueColor: AlwaysStoppedAnimation<Color>(
+    //               ColorPalatte.strongRedColor,
+    //             ),
+    //           ),
+    //         );
+    //       } else {
+    //         return TabButton(
+    //           title: 'За месяц',
+    //           income: myIncomeController.myIncomeMonthList[0].total.toString() +
+    //               ' сум',
+    //         );
+    //       }
+    //     });
+    // }
   }
 
-  incomeList() {
-    switch (selectedIndex) {
-      case 0:
-        return IncomeListCardDay();
-      case 1:
-        return IncomeListCardWeek();
-        break;
-      default:
-        return IncomeListCardMonth();
-    }
-  }
-
+  // incomeList() {
+  //   switch (selectedIndex) {
+  //     case 0:
+  //       return IncomeListCardDay();
+  //     case 1:
+  //       return IncomeListCardWeek();
+  //       break;
+  //     default:
+  //       return IncomeListCardMonth();
+  //   }
+  // }
+  //
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,6 +185,7 @@ class _IncomeSreenState extends State<IncomeSreen> {
                               setState(() {
                                 selectedIndex = 0;
                               });
+                              myIncomeController.fetchMyIncomeDay();
                               print(selectedIndex.toString());
                             }
                           },
@@ -176,6 +219,7 @@ class _IncomeSreenState extends State<IncomeSreen> {
                               setState(() {
                                 selectedIndex = 1;
                               });
+                              myIncomeController.fetchMyIncomeWeek();
                             }
                             print(selectedIndex.toString());
                           },
@@ -209,6 +253,7 @@ class _IncomeSreenState extends State<IncomeSreen> {
                             setState(() {
                               selectedIndex = 2;
                             });
+                            myIncomeController.fetchMyIncomeMonth();
                           }
                           print(selectedIndex.toString());
                         },
@@ -233,22 +278,18 @@ class _IncomeSreenState extends State<IncomeSreen> {
               ),
             ),
           ),
-          SizedBox(
-            height: 12,
-          ),
+          const SizedBox(height: 12),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [_callContent()],
             ),
           ),
-          SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
           Expanded(
               child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: incomeList(),
+            child: IncomeListCard(selected: selectedIndex),
           )),
         ],
       ),

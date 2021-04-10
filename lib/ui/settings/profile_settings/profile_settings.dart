@@ -13,7 +13,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart' as g;
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
 
 class ProfileSettings extends StatefulWidget {
   @override
@@ -158,12 +157,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           color: Colors.white,
                         ),
                         child: IconButton(
-                            icon: Icon(
-                              Icons.arrow_back,
-                              color: Colors.black,
-                              size: 26,
-                            ),
-                            onPressed: () {}),
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: Colors.black,
+                            size: 26,
+                          ),
+                          onPressed: () => g.Get.back(),
+                        ),
                       ),
                     ),
                   ),
@@ -189,39 +189,41 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           color: Colors.white,
                         ),
                         child: IconButton(
-                            icon: Icon(
-                              Icons.exit_to_app,
-                              color: Colors.black,
-                              size: 26,
-                            ),
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      content: Text(
-                                          'Вы действительно хотите выйти?'),
-                                      actions: [
-                                        FlatButton(
-                                          onPressed: () => g.Get.back(),
-                                          child: Text('нет'),
-                                        ),
-                                        FlatButton(
-                                          child: Text('да'),
-                                          onPressed: () {
-                                            MyPref.clearToken();
-                                            MyPref.clearSecondToken();
-                                            print('toke after exiting');
-                                            print(MyPref.token);
-                                            print('second toke after exiting');
-                                            print(MyPref.secondToken);
-                                            g.Get.offAll(LandingScreen());
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  });
-                            }),
+                          icon: Icon(
+                            Icons.exit_to_app,
+                            color: Colors.black,
+                            size: 26,
+                          ),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content:
+                                      Text('Вы действительно хотите выйти?'),
+                                  actions: [
+                                    FlatButton(
+                                      onPressed: () => g.Get.back(),
+                                      child: Text('нет'),
+                                    ),
+                                    FlatButton(
+                                      child: Text('да'),
+                                      onPressed: () {
+                                        MyPref.clearToken();
+                                        MyPref.clearSecondToken();
+                                        print('toke after exiting');
+                                        print(MyPref.token);
+                                        print('second toke after exiting');
+                                        print(MyPref.secondToken);
+                                        g.Get.offAll(LandingScreen());
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

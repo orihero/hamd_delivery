@@ -290,7 +290,7 @@ class User {
   String language;
   String phone;
   String name;
-  Null lastname;
+  String lastname;
   String photo;
 
   User(

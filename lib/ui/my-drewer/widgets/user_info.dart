@@ -22,14 +22,12 @@ class UserInfo extends StatelessWidget {
           return Row(
             children: [
               CircleAvatar(
-                radius: 60,
+                radius: 40,
                 backgroundImage: NetworkImage(
                   'http://hamd.loko.uz/' + ppController.profileList.first.photo,
                 ),
               ),
-              SizedBox(
-                width: 5,
-              ),
+              const SizedBox(width: 15),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,14 +43,12 @@ class UserInfo extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Center(
-                      child: Text(
-                        ppController.profileList.first.phone,
-                        style: FontStyles.boldStyle(
-                          fontSize: 15,
-                          fontFamily: 'Ubuntu',
-                          color: Color(0xff232323),
-                        ),
+                    Text(
+                      ppController.profileList.first.phone,
+                      style: FontStyles.boldStyle(
+                        fontSize: 15,
+                        fontFamily: 'Ubuntu',
+                        color: Color(0xff232323),
                       ),
                     ),
                     SizedBox(
