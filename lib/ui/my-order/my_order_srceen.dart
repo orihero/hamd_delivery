@@ -1,10 +1,13 @@
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
+import 'package:HAMD_Delivery/controllers/my_accepted_day_orders_controller.dart';
+import 'package:HAMD_Delivery/controllers/my_accepted_month_orders_controller.dart';
+import 'package:HAMD_Delivery/controllers/my_accepted_orders_unversal_controller.dart';
+import 'package:HAMD_Delivery/controllers/my_accepted_week_orders_controller.dart';
 import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
-import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card.dart';
-import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card2.dart';
 import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card_day.dart';
 import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card_month.dart';
+import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card_univeral.dart';
 import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card_week.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,6 +19,17 @@ class MyOrdersScreen extends StatefulWidget {
 
 class _MyOrdersScreenState extends State<MyOrdersScreen> {
   int selectedIndex = 0;
+  final MyAcceptedOrdersUniversalController
+      myAccpetedOrdersUniversalController =
+      Get.find<MyAcceptedOrdersUniversalController>();
+  @override
+  void initState() {
+    myAccpetedOrdersUniversalController.fetchAllAcceptedOrdersDay();
+    myAccpetedOrdersUniversalController.fetchAllAcceptedOrdersWeek();
+    myAccpetedOrdersUniversalController.fetchAllAcceptedOrdersMonth();
+    super.initState();
+  }
+
   // _callContent() {
   //   switch (selectedIndex) {
   //     case 0:
@@ -30,18 +44,18 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
   //   }
   // }
 
-  _callContent2() {
-    switch (selectedIndex) {
-      case 0:
-        return OrderListCardDay();
-        break;
-      case 1:
-        return OrderListCardWeek();
-        break;
-      default:
-        return OrderListCardMonth();
-    }
-  }
+  // _callContent2() {
+  //   switch (selectedIndex) {
+  //     case 0:
+  //       return OrderListCardDay();
+  //       break;
+  //     case 1:
+  //       return OrderListCardWeek();
+  //       break;
+  //     default:
+  //       return OrderListCardMonth();
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +110,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                               setState(() {
                                 selectedIndex = 0;
                               });
+                              myAccpetedOrdersUniversalController
+                                  .fetchAllAcceptedOrdersDay();
                               print(selectedIndex.toString());
                             }
                           },
@@ -129,6 +145,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                               setState(() {
                                 selectedIndex = 1;
                               });
+                              myAccpetedOrdersUniversalController
+                                  .allAcceptedOrdersWeekList();
                             }
                             print(selectedIndex.toString());
                           },
@@ -162,6 +180,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                             setState(() {
                               selectedIndex = 2;
                             });
+                            myAccpetedOrdersUniversalController
+                                .allAcceptedOrdersMonthList();
                           }
                           print(selectedIndex.toString());
                         },
@@ -190,7 +210,9 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
             height: 12,
           ),
           Expanded(
-            child: _callContent2(),
+            child: OrderListCardUniversal(
+              selected: selectedIndex,
+            ),
 
             // ListView.builder(
             //     itemCount: 1,
