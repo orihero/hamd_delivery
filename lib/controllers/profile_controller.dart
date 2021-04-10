@@ -13,7 +13,6 @@ class UserProfileController extends GetxController {
       var profile = await ProfileFetch.profileFetch();
 
       if (profile != null) {
-        profileList.clear();
         profileList.add(profile.data);
         print(profile);
       }

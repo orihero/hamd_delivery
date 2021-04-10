@@ -1,7 +1,6 @@
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/controllers/accepted_orders_controller.dart';
-import 'package:HAMD_Delivery/services/accepted_orders_services.dart';
 import 'package:HAMD_Delivery/ui/main-orders/location/maps_sheet.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/my_icons.dart';
 import 'package:flutter/material.dart';
@@ -37,13 +36,6 @@ class _AccptedOrdersState extends State<AccptedOrders> {
   ];
   final AcceptedOrdersController acceptedOrdersController =
       Get.find<AcceptedOrdersController>();
-
-  @override
-  void initState() {
-    print('init state in accepted oreders');
-    acceptedOrdersController.fetchAllAcceptedOrders();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

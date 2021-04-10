@@ -14,12 +14,6 @@ class AllOrderCard extends StatefulWidget {
 class _AllOrderCardState extends State<AllOrderCard> {
   final AllOrdersController allOrdersController =
       Get.find<AllOrdersController>();
-  @override
-  void initState() {
-    print('init state in all oreders');
-    allOrdersController.fetchAllOrders();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

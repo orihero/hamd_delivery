@@ -8,6 +8,7 @@ import 'package:HAMD_Delivery/ui/landing/landing_screen.dart';
 import 'package:HAMD_Delivery/ui/main-orders/main-orders.dart';
 import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -16,6 +17,8 @@ import 'controllers/my_accepted_week_orders_controller.dart';
 
 void main() async {
   await GetStorage.init();
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   runApp(MyApp());
 }
 
