@@ -1,6 +1,7 @@
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/controllers/accepted_orders_controller.dart';
+import 'package:HAMD_Delivery/services/finish_order.dart';
 import 'package:HAMD_Delivery/ui/main-orders/location/maps_sheet.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/my_icons.dart';
 import 'package:flutter/material.dart';
@@ -309,9 +310,27 @@ class _AccptedOrdersState extends State<AccptedOrders> {
                             icon: IconButton(
                               icon: Icon(
                                 Icons.phone,
-                                color: Colors.red,
+                                color: Colors.green,
                               ),
                               onPressed: () {},
+                            ),
+                          ),
+                          MyIcons(
+                            icon: IconButton(
+                              icon: Icon(
+                                Icons.done,
+                                color: Colors.red,
+                              ),
+                              onPressed: () async {
+                                print('finished order id ');
+                                print(acceptedOrdersController
+                                    .allAcceptedOrdersList[index].id);
+                                await FinishOrder.finishOrder(
+                                    acceptedOrdersController
+                                        .allAcceptedOrdersList[index].id);
+                                acceptedOrdersController
+                                    .fetchAllAcceptedOrders();
+                              },
                             ),
                           ),
                         ],
