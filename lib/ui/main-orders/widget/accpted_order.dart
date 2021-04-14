@@ -15,28 +15,28 @@ class AccptedOrders extends StatefulWidget {
 }
 
 class _AccptedOrdersState extends State<AccptedOrders> {
-  double destinationLatitude = 41.29146678606526;
+  final AcceptedOrdersController acceptedOrdersController =
+      Get.find<AcceptedOrdersController>();
+  // double destinationLatitude = 41.29146678606526;
 
-  double destinationLongitude = 69.26455854348644;
+  // double destinationLongitude = 69.26455854348644;
 
   String destinationTitle = 'Ocean Beach';
 
-  double originLatitude = 41.2849910828198;
+  double originLatitude = 41.26465;
 
-  double originLongitude = 69.25855289260954;
+  double originLongitude = 69.21627;
 
   String originTitle = 'Pier 33';
 
-  List<Coords> waypoints = [
-    Coords(41.2849910828198, 69.2585528926095),
-    Coords(41.29146678606526, 69.26455854348644),
+//   List<Coords> waypoints = [
+//     Coords(41.2849910828198, 69.2585528926095),
+//     Coords(41.29146678606526, 69.26455854348644),
 
-//41.2849910828198, 69.25855289260954
-//41.29146678606526, 69.26455854348644
-    // Coords(37.7935754, -122.483654),
-  ];
-  final AcceptedOrdersController acceptedOrdersController =
-      Get.find<AcceptedOrdersController>();
+// //41.2849910828198, 69.25855289260954
+// //41.29146678606526, 69.26455854348644
+//     // Coords(37.7935754, -122.483654),
+//   ];
 
   @override
   Widget build(BuildContext context) {
@@ -52,313 +52,358 @@ class _AccptedOrdersState extends State<AccptedOrders> {
               ),
             ),
           );
-        } else {
+        }
+        // if (acceptedOrdersController.allAcceptedOrdersList.isEmpty &&
+        //     !acceptedOrdersController.isLoading.value) {
+        //   return Center(
+        //     child: Text('Вы ещё не заказов'),
+        //   );
+        // }
+        else {
           return RefreshIndicator(
             color: ColorPalatte.strongRedColor,
             onRefresh: () => acceptedOrdersController.fetchAllAcceptedOrders(),
-            child: ListView.separated(
-              separatorBuilder: (context, index) => SizedBox(
-                height: 15,
-              ),
-              itemCount: acceptedOrdersController.allAcceptedOrdersList.length,
-              itemBuilder: (context, index) => Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.white,
-                ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 17, vertical: 19),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Id ${acceptedOrdersController.allAcceptedOrdersList[index].id}',
-                            style: FontStyles.regularStyle(
-                              fontSize: 14,
-                              fontFamily: 'Montserrat',
-                              color: Color(0xff646974),
-                            ),
-                          ),
-                          Text(
-                            acceptedOrdersController
-                                .allAcceptedOrdersList[index].date
-                                .toString(),
-                            style: FontStyles.regularStyle(
-                              fontSize: 14,
-                              fontFamily: 'Montserrat',
-                              color: Color(0xff646974),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 25),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * .1,
-                              color: Colors.white,
-                              child: Column(
+            child: acceptedOrdersController.allAcceptedOrdersList.isEmpty
+                ? Center(
+                    child: Text('У вас ещё нет принятые заказы'),
+                  )
+                : ListView.separated(
+                    separatorBuilder: (context, index) => SizedBox(
+                          height: 15,
+                        ),
+                    itemCount:
+                        acceptedOrdersController.allAcceptedOrdersList.length,
+                    itemBuilder: (context, index) {
+                      double destinationLatitude;
+                      double destinationLongitude;
+                      var parts = acceptedOrdersController
+                          .allAcceptedOrdersList[index].mapLocation
+                          .split(',');
+                      var prefix = parts[0].trim();
+                      var date = parts[1].trim();
+                      destinationLatitude = double.parse(prefix);
+                      destinationLongitude = double.parse(date);
+                      // var date = parts.sublist(1).join(':').trim();
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 17, vertical: 19),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/location.svg',
-                                    height: 35,
-                                  ),
-                                  SizedBox(height: 5),
-                                  Container(
-                                    width: 5,
-                                    height: 5,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xffB6C5EE),
+                                  Text(
+                                    'Id ${acceptedOrdersController.allAcceptedOrdersList[index].id}',
+                                    style: FontStyles.regularStyle(
+                                      fontSize: 14,
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xff646974),
                                     ),
                                   ),
-                                  SizedBox(height: 5),
-                                  Container(
-                                    width: 5,
-                                    height: 5,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xffB6C5EE),
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Container(
-                                    width: 5,
-                                    height: 5,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xffB6C5EE),
-                                    ),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Container(
-                                    width: 10,
-                                    height: 10,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xff9F111B),
+                                  Text(
+                                    acceptedOrdersController
+                                        .allAcceptedOrdersList[index].date
+                                        .toString(),
+                                    style: FontStyles.regularStyle(
+                                      fontSize: 14,
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xff646974),
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Expanded(
-                            flex: 9,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * .9,
-                              child: Column(
+                              SizedBox(height: 25),
+                              Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Заказ из',
-                                    style: FontStyles.regularStyle(
-                                      fontSize: 14,
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xffAAAEB7),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          .1,
+                                      color: Colors.white,
+                                      child: Column(
+                                        children: [
+                                          SvgPicture.asset(
+                                            'assets/icons/location.svg',
+                                            height: 35,
+                                          ),
+                                          SizedBox(height: 5),
+                                          Container(
+                                            width: 5,
+                                            height: 5,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(0xffB6C5EE),
+                                            ),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Container(
+                                            width: 5,
+                                            height: 5,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(0xffB6C5EE),
+                                            ),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Container(
+                                            width: 5,
+                                            height: 5,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(0xffB6C5EE),
+                                            ),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Container(
+                                            width: 10,
+                                            height: 10,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(0xff9F111B),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 7,
+                                    width: 15,
                                   ),
-                                  Text(
-                                    'HAMD центральный филиал',
-                                    style: FontStyles.boldStyle(
-                                      fontSize: 15,
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xff232323),
+                                  Expanded(
+                                    flex: 9,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          .9,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Заказ из',
+                                            style: FontStyles.regularStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xffAAAEB7),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 7,
+                                          ),
+                                          Text(
+                                            'HAMD центральный филиал',
+                                            style: FontStyles.boldStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xff232323),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Divider(
+                                            thickness: 1,
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            'Едем в',
+                                            style: FontStyles.regularStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xffAAAEB7),
+                                            ),
+                                          ),
+                                          Text(
+                                            // 'Ул. Нукусская, 92, кв.21',
+                                            acceptedOrdersController
+                                                .allAcceptedOrdersList[index]
+                                                .address,
+                                            style: FontStyles.boldStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'Montserrat',
+                                              color: Color(0xff232323),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Divider(
-                                    thickness: 1,
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    'Едем в',
-                                    style: FontStyles.regularStyle(
-                                      fontSize: 14,
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xffAAAEB7),
-                                    ),
-                                  ),
-                                  Text(
-                                    'Ул. Нукусская, 92, кв.21',
-                                    style: FontStyles.boldStyle(
-                                      fontSize: 15,
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xff232323),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
                                   ),
                                 ],
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Divider(
-                        thickness: 1,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'Цена:',
-                            style: FontStyles.regularStyle(
-                              fontSize: 16,
-                              fontFamily: 'Montserrat',
-                              color: Color(0xff646974),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '12 500 сум (2500 сум)',
-                            style: FontStyles.regularStyle(
-                              fontSize: 16,
-                              fontFamily: 'Montserrat',
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Divider(
-                        thickness: 1,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          Image.asset('assets/images/cards.png'),
-                          SizedBox(
-                            width: 7,
-                          ),
-                          Text(
-                            'Оплата: Наличными',
-                            style: FontStyles.boldStyle(
-                              fontSize: 15,
-                              fontFamily: 'Montserrat',
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Divider(
-                        thickness: 1,
-                      ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          MyIcons(
-                            icon: IconButton(
-                              icon: Icon(
-                                Icons.map,
-                                color: Colors.black,
+                              Divider(
+                                thickness: 1,
                               ),
-                              // onPressed: () => Get.to(() => MapLauncherDemo()),
-                              onPressed: () {
-                                MapsSheet.show(
-                                  context: context,
-                                  onMapTap: (map) {
-                                    map.showDirections(
-                                      destination: Coords(
-                                        destinationLatitude,
-                                        destinationLongitude,
-                                      ),
-                                      destinationTitle: destinationTitle,
-                                      origin: originLatitude == null ||
-                                              originLongitude == null
-                                          ? null
-                                          : Coords(
-                                              originLatitude, originLongitude),
-                                      originTitle: originTitle,
-                                      waypoints: waypoints,
-                                      // directionsMode: directionsMode,
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                          MyIcons(
-                            icon: IconButton(
-                              icon: Icon(
-                                Icons.phone,
-                                color: Colors.green,
+                              SizedBox(
+                                height: 5,
                               ),
-                              onPressed: () {},
-                            ),
-                          ),
-                          MyIcons(
-                            icon: IconButton(
-                              icon: Icon(
-                                Icons.done,
-                                color: Colors.red,
-                              ),
-                              onPressed: () async {
-                                print('finished order id ');
-                                print(acceptedOrdersController
-                                    .allAcceptedOrdersList[index].id);
-                                await FinishOrder.finishOrder(
+                              Row(
+                                children: [
+                                  Text(
+                                    'Цена:',
+                                    style: FontStyles.regularStyle(
+                                      fontSize: 16,
+                                      fontFamily: 'Montserrat',
+                                      color: Color(0xff646974),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
                                     acceptedOrdersController
-                                        .allAcceptedOrdersList[index].id);
-                                acceptedOrdersController
-                                    .fetchAllAcceptedOrders();
-                              },
-                            ),
+                                            .allAcceptedOrdersList[index]
+                                            .productTotalSum
+                                            .toString() +
+                                        '(2500 сум)',
+                                    style: FontStyles.regularStyle(
+                                      fontSize: 16,
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Divider(
+                                thickness: 1,
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Image.asset('assets/images/cards.png'),
+                                  SizedBox(
+                                    width: 7,
+                                  ),
+                                  Text(
+                                    // acceptedOrdersController
+                                    //             .allAcceptedOrdersList[index]
+                                    //             .paymentType ==
+                                    //         16
+                                    'Оплата: Наличными',
+                                    // : 'C Карты',
+                                    style: FontStyles.boldStyle(
+                                      fontSize: 15,
+                                      fontFamily: 'Montserrat',
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  // Text(prefix),
+                                  // Text('asdas'),
+                                  // Text(date),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Divider(
+                                thickness: 1,
+                              ),
+
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  MyIcons(
+                                    icon: IconButton(
+                                      icon: Icon(
+                                        Icons.map,
+                                        color: Colors.black,
+                                      ),
+                                      // onPressed: () => Get.to(() => MapLauncherDemo()),
+                                      onPressed: () {
+                                        MapsSheet.show(
+                                          context: context,
+                                          onMapTap: (map) {
+                                            map.showDirections(
+                                              destination: Coords(
+                                                destinationLatitude,
+                                                destinationLongitude,
+                                              ),
+                                              destinationTitle:
+                                                  destinationTitle,
+                                              origin: originLatitude == null ||
+                                                      originLongitude == null
+                                                  ? null
+                                                  : Coords(originLatitude,
+                                                      originLongitude),
+                                              originTitle: originTitle,
+                                              // waypoints: waypoints,
+                                              // directionsMode: directionsMode,
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  MyIcons(
+                                    icon: IconButton(
+                                      icon: Icon(
+                                        Icons.phone,
+                                        color: Colors.green,
+                                      ),
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                                  MyIcons(
+                                    icon: IconButton(
+                                      icon: Icon(
+                                        Icons.done,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () async {
+                                        print('finished order id ');
+                                        print(acceptedOrdersController
+                                            .allAcceptedOrdersList[index].id);
+                                        await FinishOrder.finishOrder(
+                                            acceptedOrdersController
+                                                .allAcceptedOrdersList[index]
+                                                .id);
+                                        acceptedOrdersController
+                                            .fetchAllAcceptedOrders();
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              // SizedBox(
+                              //   width: MediaQuery.of(context).size.width * 0.86,
+                              //   height: 50,
+                              //   child: RaisedButton(
+                              //     elevation: 0,
+                              //     color: Color(0xff9F111B),
+                              //     onPressed: () {},
+                              //     shape: RoundedRectangleBorder(
+                              //         borderRadius: BorderRadius.circular(15)),
+                              //     child: Text(
+                              //       'Пожаловаться на клиента',
+                              //       style: FontStyles.mediumStyle(
+                              //         fontSize: 16,
+                              //         fontFamily: 'Montserrat',
+                              //         color: Colors.white,
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
                           ),
-                        ],
-                      ),
-                      // SizedBox(
-                      //   width: MediaQuery.of(context).size.width * 0.86,
-                      //   height: 50,
-                      //   child: RaisedButton(
-                      //     elevation: 0,
-                      //     color: Color(0xff9F111B),
-                      //     onPressed: () {},
-                      //     shape: RoundedRectangleBorder(
-                      //         borderRadius: BorderRadius.circular(15)),
-                      //     child: Text(
-                      //       'Пожаловаться на клиента',
-                      //       style: FontStyles.mediumStyle(
-                      //         fontSize: 16,
-                      //         fontFamily: 'Montserrat',
-                      //         color: Colors.white,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+                        ),
+                      );
+                    }),
           );
         }
       },
