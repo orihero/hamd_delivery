@@ -1,18 +1,19 @@
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/controllers/profile_controller.dart';
 import 'package:flutter/material.dart';
-
+import 'package:HAMD_Delivery/controllers/my_profile_controller.dart';
 import 'package:get/get.dart';
 
 class UserInfo extends StatelessWidget {
   final UserProfileController ppController = Get.find<UserProfileController>();
+  final MyProfileController myProfileController =
+      Get.find<MyProfileController>();
   @override
   Widget build(BuildContext context) {
     // final UserDataController userDataController = Get.put(UserDataController());
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Obx(() {
-        print(ppController.profileList.first.phone);
         if (ppController.isLoading.value) {
           return Center(
             child: CircularProgressIndicator(),

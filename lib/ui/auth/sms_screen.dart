@@ -254,9 +254,9 @@ class _SmsScreenState extends State<SmsScreen> {
                                 ),
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return "Value can not be empty";
+                                    return "поле не может быть пустым";
                                   } else if (value.length < 6) {
-                                    return 'Value can not be less than 13';
+                                    return 'поле не может быть меньше 6 цифр';
                                   }
                                   return null;
                                 },
@@ -339,7 +339,21 @@ class _SmsScreenState extends State<SmsScreen> {
                       horizontal: 50,
                     ),
                     child: Center(
-                        child: Text('Запросить новый код через $_start сек')),
+                        child: _start == 0
+                            ? GestureDetector(
+                                onTap: () {
+                                  if (_start == 0) {
+                                    setState(() {
+                                      _start = 30;
+                                    });
+                                    startTimer();
+                                  } else {
+                                    // _showSnackBar(context);
+                                    validateAndSave();
+                                  }
+                                },
+                                child: Text('ОТПРАВАИТЬ КОД'))
+                            : Text('Запросить новый код через $_start сек')),
                     // child:
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * .07),
@@ -353,20 +367,14 @@ class _SmsScreenState extends State<SmsScreen> {
                         color: ColorPalatte.strongRedColor,
                         onPressed: () {
                           print(MyPref.token);
-                          if (_start == 0) {
-                            setState(() {
-                              _start = 30;
-                            });
-                            startTimer();
-                          } else {
-                            // _showSnackBar(context);
-                            validateAndSave();
-                          }
+
+                          // _showSnackBar(context);
+                          validateAndSave();
                         },
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
                         child: Text(
-                          _start == 0 ? "ОТПРАВИТЬ КОД" : 'ЗАРЕГИСТРИРОВАТЬСЯ',
+                          'ЗАРЕГИСТРИРОВАТЬСЯ',
                           style: FontStyles.boldStyle(
                               fontSize: 16,
                               fontFamily: 'Ubuntu',

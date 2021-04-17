@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AccptedOrders extends StatefulWidget {
   @override
@@ -362,12 +363,18 @@ class _AccptedOrdersState extends State<AccptedOrders> {
                                   ),
                                   MyIcons(
                                     icon: IconButton(
-                                      icon: Icon(
-                                        Icons.phone,
-                                        color: Colors.green,
-                                      ),
-                                      onPressed: () {},
-                                    ),
+                                        icon: Icon(
+                                          Icons.phone,
+                                          color: Colors.green,
+                                        ),
+                                        onPressed: () => launch(
+                                            'tel://${acceptedOrdersController.allAcceptedOrdersList[index].user.phone}')
+                                        // print(
+                                        //     acceptedOrdersController
+                                        //         .allAcceptedOrdersList[index]
+                                        //         .user
+                                        //         .phone),
+                                        ),
                                   ),
                                   MyIcons(
                                     icon: IconButton(

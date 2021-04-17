@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:HAMD_Delivery/constants/api.dart';
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
+import 'package:HAMD_Delivery/controllers/plastic_card_type_controller.dart';
+import 'package:HAMD_Delivery/controllers/platic_card_humo_controller.dart';
 import 'package:HAMD_Delivery/controllers/profile_controller.dart';
+import 'package:HAMD_Delivery/services/add_plastic_card.dart';
 import 'package:HAMD_Delivery/ui/landing/landing_screen.dart';
 import 'package:HAMD_Delivery/ui/masks/masks.dart';
 import 'package:HAMD_Delivery/utils/my_prefs.dart';
@@ -20,8 +23,13 @@ class ProfileSettings extends StatefulWidget {
 }
 
 class _ProfileSettingsState extends State<ProfileSettings> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final UserProfileController usrController =
       g.Get.find<UserProfileController>();
+  final PlasticCardHumoController plasticCardHumoController =
+      g.Get.find<PlasticCardHumoController>();
+  final PlasticCardTypeController plasticCardTypeController =
+      g.Get.find<PlasticCardTypeController>();
   Dio dio = Dio();
   int cardNumber = 0;
   String cardDetail;
@@ -36,35 +44,20 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     selectedRadio = val;
   }
 
-  String nameValue;
-  MaskedTextController cardNumberConteoller =
-      MaskedTextController(mask: '0000 0000 0000 0000');
+  // TextEditingController uzCardController = TextEditingController();
+  // TextEditingController humoController = TextEditingController();
+  // TextEditingController expireDateController = TextEditingController();
 
-  MaskedTextController uzCardNumberConteoller =
-      MaskedTextController(mask: '0000 0000 0000 0000', text: '8600');
-  MaskedTextController humoCardNumberConteoller =
-      MaskedTextController(mask: '0000 0000 0000 0000', text: '9860');
-
-  MaskedTextController expireController = MaskedTextController(mask: '00/00');
-  MaskedTextController phoneNumberController =
-      MaskedTextController(mask: '000 00 000 00 00', text: '998');
-
-  TextEditingController nameController = TextEditingController();
-  TextEditingController uzCardController = TextEditingController();
-  TextEditingController humoController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController expireDateController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController dateHumoController = TextEditingController();
+  TextEditingController phoneUzController = TextEditingController();
+  TextEditingController phoneHumoController = TextEditingController();
+  TextEditingController humoController = TextEditingController();
+  TextEditingController uzCardController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  // void validateAndSave(form) {
-  //   // final FormState form = _formKey.currentState;
-  //   if (form.currens.validate()) {
-  //     print('Form is valid');
-  //     Get.back();
-  //   } else {
-  //     print('Form is invalid');
-  //   }
-  // }
 
   String _phoneNumber = "998905858565";
 
@@ -75,11 +68,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   File _userImage;
   File _drivingLicence;
-  File _drivingCertificate;
+  File _drivingPassport;
 
   final userImagePicker = ImagePicker();
   final drivingLicencePicker = ImagePicker();
-  final drivingCertificatePicker = ImagePicker();
+  final drivingPassportPicker = ImagePicker();
 
   Future getUserImage() async {
     final pickedUserImage =
@@ -91,6 +84,38 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         print('No Image Selected');
       }
     });
+    // FormData formData = FormData.fromMap({
+    //   'name': nameController.text,
+    //   'phone': phoneController.text,
+    // });
+    // if (_userImage != null) {
+    //   print('user image pah');
+    //   print(_userImage.path);
+    //   String fileName = _userImage.path.split('/').last;
+    //   formData.files.addAll([
+    //     MapEntry(
+    //       "photo",
+    //       await MultipartFile.fromFile(
+    //         _userImage.path,
+    //         filename: fileName,
+    //       ),
+    //     ),
+    //   ]);
+    // }
+    // final token = MyPref.secondToken;
+    // var response = await dio.post(
+    //   ApiUrl.updateProfile,
+    //   data: formData,
+    //   options: Options(
+    //     headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+    //   ),
+    // );
+    // if (response.statusCode == 200) {
+    //   print('okayy');
+    //   g.Get.snackbar('ваши данные были успешно изменены', '',
+    //       colorText: Colors.white, backgroundColor: Colors.grey[500]);
+    //   usrController.fetchProfileData();
+    // }
   }
 
   Future getdrivingLicencee() async {
@@ -99,22 +124,91 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     setState(() {
       if (pickedDrivingLicence != null) {
         _drivingLicence = File(pickedDrivingLicence.path);
+        print(_drivingLicence);
       } else {
         print('No Image Selected');
       }
     });
+    // FormData formDataL = FormData.fromMap({
+    //   'name': nameController.text,
+    //   'phone': phoneController.text,
+    // });
+    // if (_drivingLicence != null) {
+    //   print('driving licnec path');
+    //   print(
+    //     _drivingLicence.path,
+    //   );
+    //   String fileDL = _drivingLicence.path.split('/').last;
+    //   formDataL.files.addAll([
+    //     MapEntry(
+    //       "driverLicensePhoto",
+    //       await MultipartFile.fromFile(
+    //         _drivingLicence.path,
+    //         filename: fileDL,
+    //       ),
+    //     ),
+    //   ]);
+    // }
+    // final token = MyPref.secondToken;
+    // var response = await dio.post(
+    //   ApiUrl.updateProfile,
+    //   data: formDataL,
+    //   options: Options(
+    //     headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+    //   ),
+    // );
+    // if (response.statusCode == 200) {
+    //   print('seocnd toke');
+    //   print(token);
+    //   print('okayy');
+    //   g.Get.snackbar('ваши данные были успешно изменены', '',
+    //       colorText: Colors.white, backgroundColor: Colors.grey[500]);
+    //   usrController.fetchProfileData();
+    // }
   }
 
-  Future getdrivingCertificate() async {
+  Future getdrivingPassport() async {
     final pickedDrivingCertificate =
-        await drivingCertificatePicker.getImage(source: ImageSource.gallery);
+        await drivingPassportPicker.getImage(source: ImageSource.gallery);
     setState(() {
       if (pickedDrivingCertificate != null) {
-        _drivingCertificate = File(pickedDrivingCertificate.path);
+        _drivingPassport = File(pickedDrivingCertificate.path);
       } else {
         print('No Image Selected');
       }
     });
+    // FormData formDataP = FormData.fromMap({
+    //   'name': nameController.text,
+    //   'phone': phoneController.text,
+    // });
+    // if (_drivingPassport != null) {
+    //   String fileP = _drivingPassport.path.split('/').last;
+    //   formDataP.files.addAll([
+    //     MapEntry(
+    //       "passportPhoto",
+    //       await MultipartFile.fromFile(
+    //         _drivingPassport.path,
+    //         filename: fileP,
+    //       ),
+    //     ),
+    //   ]);
+    // }
+    // final token = MyPref.secondToken;
+    // var response = await dio.post(
+    //   ApiUrl.updateProfile,
+    //   data: formDataP,
+    //   options: Options(
+    //     headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+    //   ),
+    // );
+    // if (response.statusCode == 200) {
+    //   print('seocnd toke');
+    //   print(token);
+    //   print('okayy');
+    //   g.Get.snackbar('ваши данные были успешно изменены', '',
+    //       colorText: Colors.white, backgroundColor: Colors.grey[500]);
+    //   usrController.fetchProfileData();
+    // }
   }
 
   @override
@@ -125,17 +219,38 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   }
 
   @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    await plasticCardTypeController.fetchPlasticCardType(14);
+    await plasticCardHumoController.fetchPlasticCardHumo(15);
+    setState(() {
+      if (plasticCardTypeController.plasticCardTypeList.isNotEmpty) {
+        print(plasticCardTypeController.plasticCardTypeList.first.cardNumber);
+        uzCardController.text =
+            plasticCardTypeController.plasticCardTypeList.first.cardNumber;
+        dateController.text =
+            plasticCardTypeController.plasticCardTypeList.first.cardExpire;
+        phoneUzController.text =
+            plasticCardTypeController.plasticCardTypeList.first.cardPhoneNumber;
+      }
+      if (plasticCardHumoController.plasticCardTypeList.isNotEmpty) {
+        humoController.text =
+            plasticCardHumoController.plasticCardTypeList.first.cardNumber;
+        dateHumoController.text =
+            plasticCardHumoController.plasticCardTypeList.first.cardExpire;
+        phoneHumoController.text =
+            plasticCardHumoController.plasticCardTypeList.first.cardPhoneNumber;
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       backgroundColor: ColorPalatte.mainPageColor,
       appBar: PreferredSize(
-        // child: customAppBar(
-        //   context,
-        //   title: 'Мой профиль',
-        //   onpress1: () => g.Get.back(),
-        // ),
-        //
         child: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: ColorPalatte.strongRedColor,
@@ -394,7 +509,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     ),
                   ),
                   SizedBox(height: 10),
-
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -413,28 +527,35 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         child: Padding(
                           padding: const EdgeInsets.all(30),
                           child: Container(
-                            child: _drivingCertificate == null
+                            child: _drivingPassport == null
                                 ? IconButton(
                                     icon: Icon(
                                       Icons.add,
                                       size: 35,
                                     ),
-                                    onPressed: getdrivingCertificate,
+                                    onPressed: getdrivingPassport,
                                   )
-                                : Image.file(
-                                    _drivingCertificate,
+                                : Container(
                                     height: 140,
+                                    // radius: 60,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: FileImage(
+                                          _drivingPassport,
+                                          // height: 140,
+                                        ),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
                                   ),
                           ),
                         ),
                       ),
                     ],
                   ),
-
                   SizedBox(
                     height: 15,
                   ),
-
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -463,10 +584,19 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                       onPressed: getdrivingLicencee,
                                     ),
                                   )
-                                : Image.file(
-                                    _drivingLicence,
-                                    width: MediaQuery.of(context).size.width,
+                                : Container(
                                     height: 140,
+                                    // radius: 60,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: FileImage(
+                                          _drivingLicence,
+                                          scale: 1.0,
+                                          // height: 140,
+                                        ),
+                                        fit: BoxFit.scaleDown,
+                                      ),
+                                    ),
                                   ),
                           ),
                         ),
@@ -478,163 +608,22 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     child: Stack(
                       children: [
                         Positioned(
-                            child: Center(
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: cardNumber == 1
-                                ? Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * .9,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(20.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 11, bottom: 11),
-                                              child: ssCard == 1
-                                                  ? SvgPicture.asset(
-                                                      'assets/icons/uzcard.svg',
-                                                      height: 30,
-                                                    )
-                                                  : SvgPicture.asset(
-                                                      'assets/icons/humo.svg',
-                                                      height: 30,
-                                                    )),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                ssCard == 1
-                                                    ? uzCardController.text
-                                                        .toString()
-                                                        .substring(0, 4)
-                                                    : humoController.text
-                                                        .toString()
-                                                        .substring(0, 4),
-                                                style: FontStyles.boldStyle(
-                                                  fontSize: 18,
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xff646974),
-                                                ),
-                                              ),
-                                              Text(
-                                                ssCard == 1
-                                                    ? uzCardController.text
-                                                        .toString()
-                                                        .substring(4, 8)
-                                                    : humoController.text
-                                                        .toString()
-                                                        .substring(4, 8),
-                                                style: FontStyles.boldStyle(
-                                                  fontSize: 18,
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xff646974),
-                                                ),
-                                              ),
-                                              Text(
-                                                ssCard == 1
-                                                    ? uzCardController.text
-                                                        .toString()
-                                                        .substring(8, 12)
-                                                    : humoController.text
-                                                        .toString()
-                                                        .substring(8, 12),
-                                                style: FontStyles.boldStyle(
-                                                  fontSize: 18,
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xff646974),
-                                                ),
-                                              ),
-                                              Text(
-                                                ssCard == 1
-                                                    ? uzCardController.text
-                                                        .toString()
-                                                        .substring(12, 19)
-                                                    : humoController.text
-                                                        .toString()
-                                                        .substring(12, 19),
-                                                style: FontStyles.boldStyle(
-                                                  fontSize: 18,
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xff646974),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  Text(
-                                                    'год/месяц',
-                                                    style:
-                                                        FontStyles.regularStyle(
-                                                      fontSize: 13,
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xff646974),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    expireDateController.text
-                                                        .toString(),
-                                                    style: FontStyles.boldStyle(
-                                                      fontSize: 13,
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xff646974),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Column(
-                                                children: [
-                                                  Text(
-                                                    'номер телефона',
-                                                    style:
-                                                        FontStyles.regularStyle(
-                                                      fontSize: 13,
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xff646974),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    phoneController.text
-                                                        .toString(),
-                                                    style: FontStyles.boldStyle(
-                                                      fontSize: 13,
-                                                      fontFamily: 'Montserrat',
-                                                      color: Color(0xff646974),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: 20),
-                                          Padding(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 15),
-                                              child: Text(
-                                                'Фарход Мирмахмудов',
-                                                style: FontStyles.regularStyle(
-                                                  fontSize: 13,
-                                                  fontFamily: 'Montserrat',
-                                                  color: Color(0xff646974),
-                                                ),
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                : Container(
+                          child: Center(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: g.Obx(() {
+                                if (plasticCardHumoController.isLoading.value ||
+                                    plasticCardTypeController.isLoading.value) {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else if (plasticCardHumoController
+                                        .plasticCardTypeList.isEmpty ||
+                                    plasticCardTypeController
+                                        .plasticCardTypeList.isEmpty) {
+                                  return Container(
                                     width:
                                         MediaQuery.of(context).size.width * .9,
                                     child: Padding(
@@ -837,7 +826,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                                         keyboardType: TextInputType.number,
                                                                                                         decoration: InputDecoration(
                                                                                                           contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
-                                                                                                          // hintText: '0000 0000 0000 0000',
+                                                                                                          hintText: '8600',
                                                                                                           hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
                                                                                                           border: InputBorder.none,
                                                                                                         ),
@@ -847,13 +836,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                                         ),
                                                                                                         validator: (value) {
                                                                                                           if (value.isEmpty) {
-                                                                                                            return "Value can not be empty";
+                                                                                                            return "поле не может быть пустым";
                                                                                                           } else if (value.length < 19) {
-                                                                                                            return 'Value can not be less than 16';
+                                                                                                            return 'поле не может быть меньше 16 цифр';
                                                                                                           }
                                                                                                           return null;
                                                                                                         },
-                                                                                                        onSaved: (input) => nameValue = input,
                                                                                                       ),
                                                                                                     ),
                                                                                                     SizedBox(
@@ -886,13 +874,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                                                       color: Color(0xffE1E1E1),
                                                                                                                     )),
                                                                                                                 child: TextFormField(
-                                                                                                                  controller: expireDateController,
+                                                                                                                  controller: dateController,
                                                                                                                   inputFormatters: [InputMask.maskDate],
                                                                                                                   keyboardType: TextInputType.number,
                                                                                                                   decoration: InputDecoration(
                                                                                                                     contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
-                                                                                                                    // hintText:
-                                                                                                                    //     '08/24',
+                                                                                                                    hintText: '08/24',
                                                                                                                     hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
                                                                                                                     border: InputBorder.none,
                                                                                                                   ),
@@ -902,9 +889,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                                                   ),
                                                                                                                   validator: (value) {
                                                                                                                     if (value.isEmpty) {
-                                                                                                                      return "Value can not be empty";
+                                                                                                                      return "поле не может быть пустым";
                                                                                                                     } else if (value.length < 5) {
-                                                                                                                      return 'Value can not be less than 5';
+                                                                                                                      return 'поле не может быть меньше 4 цифр';
                                                                                                                     }
                                                                                                                     return null;
                                                                                                                   },
@@ -942,13 +929,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                                                       color: Color(0xffE1E1E1),
                                                                                                                     )),
                                                                                                                 child: TextFormField(
-                                                                                                                  controller: phoneController,
+                                                                                                                  controller: phoneUzController,
                                                                                                                   inputFormatters: [InputMask.maskPhoneNumber],
                                                                                                                   keyboardType: TextInputType.number,
                                                                                                                   decoration: InputDecoration(
                                                                                                                     contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
-                                                                                                                    // hintText:
-                                                                                                                    //     hintText,
+                                                                                                                    hintText: '998',
                                                                                                                     hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
                                                                                                                     border: InputBorder.none,
                                                                                                                   ),
@@ -958,9 +944,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                                                   ),
                                                                                                                   validator: (value) {
                                                                                                                     if (value.isEmpty) {
-                                                                                                                      return "Value can not be empty";
+                                                                                                                      return "поле не может быть пустым";
                                                                                                                     } else if (value.length < 17) {
-                                                                                                                      return 'Value can not be less than 13';
+                                                                                                                      return 'поле не может быть меньше 12 цифр';
                                                                                                                     }
                                                                                                                     return null;
                                                                                                                   },
@@ -989,13 +975,20 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                             child: RaisedButton(
                                                                                               elevation: 0,
                                                                                               color: ColorPalatte.strongRedColor,
-                                                                                              onPressed: () {
+                                                                                              onPressed: () async {
                                                                                                 setState(() {
-                                                                                                  ++cardNumber;
+                                                                                                  cardNumber = 1;
                                                                                                 });
                                                                                                 print('index is: $cardNumber');
                                                                                                 if (_formKey.currentState.validate()) {
-                                                                                                  g.Get.back();
+                                                                                                  await AddPlasticCardType.addPlasticCardType(
+                                                                                                    typeId: 14,
+                                                                                                    cardNumber: uzCardController.text,
+                                                                                                    cardPhoneNumber: phoneUzController.text,
+                                                                                                    cardExpire: dateController.text,
+                                                                                                  );
+
+                                                                                                  // g.Get.back();
                                                                                                 } else {
                                                                                                   print('no');
                                                                                                 }
@@ -1175,7 +1168,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                                         keyboardType: TextInputType.number,
                                                                                                         decoration: InputDecoration(
                                                                                                           contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
-                                                                                                          // hintText: '0000 0000 0000 0000',
+                                                                                                          hintText: '9860',
                                                                                                           hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
                                                                                                           border: InputBorder.none,
                                                                                                         ),
@@ -1185,13 +1178,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                                         ),
                                                                                                         validator: (value) {
                                                                                                           if (value.isEmpty) {
-                                                                                                            return "Value can not be empty";
+                                                                                                            return "поле не может быть пустым";
                                                                                                           } else if (value.length < 19) {
-                                                                                                            return 'Value can not be less than 16';
+                                                                                                            return 'поле не может быть меньше 16 цифр';
                                                                                                           }
                                                                                                           return null;
                                                                                                         },
-                                                                                                        onSaved: (input) => nameValue = input,
                                                                                                       ),
                                                                                                     ),
                                                                                                     SizedBox(
@@ -1224,13 +1216,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                                                       color: Color(0xffE1E1E1),
                                                                                                                     )),
                                                                                                                 child: TextFormField(
-                                                                                                                  controller: expireDateController,
+                                                                                                                  controller: dateHumoController,
                                                                                                                   inputFormatters: [InputMask.maskDate],
                                                                                                                   keyboardType: TextInputType.number,
                                                                                                                   decoration: InputDecoration(
                                                                                                                     contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
-                                                                                                                    // hintText:
-                                                                                                                    //     '08/24',
+                                                                                                                    hintText: '08/24',
                                                                                                                     hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
                                                                                                                     border: InputBorder.none,
                                                                                                                   ),
@@ -1240,9 +1231,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                                                   ),
                                                                                                                   validator: (value) {
                                                                                                                     if (value.isEmpty) {
-                                                                                                                      return "Value can not be empty";
+                                                                                                                      return "поле не может быть пустым";
                                                                                                                     } else if (value.length < 5) {
-                                                                                                                      return 'Value can not be less than 4';
+                                                                                                                      return 'поле не может быть меньше 4 цифр';
                                                                                                                     }
                                                                                                                     return null;
                                                                                                                   },
@@ -1280,14 +1271,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                                                       color: Color(0xffE1E1E1),
                                                                                                                     )),
                                                                                                                 child: TextFormField(
-                                                                                                                  controller: phoneController,
+                                                                                                                  controller: phoneHumoController,
                                                                                                                   inputFormatters: [InputMask.maskPhoneNumber],
                                                                                                                   keyboardType: TextInputType.number,
                                                                                                                   decoration: InputDecoration(
                                                                                                                     contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
-                                                                                                                    // hintText:
-                                                                                                                    //     hintText,
-                                                                                                                    hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
+                                                                                                                    hintText: '+998',
                                                                                                                     border: InputBorder.none,
                                                                                                                   ),
                                                                                                                   style: TextStyle(
@@ -1296,9 +1285,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                                                   ),
                                                                                                                   validator: (value) {
                                                                                                                     if (value.isEmpty) {
-                                                                                                                      return "Value can not be empty";
+                                                                                                                      return "поле не может быть пустым";
                                                                                                                     } else if (value.length < 17) {
-                                                                                                                      return 'Value can not be less than 13';
+                                                                                                                      return 'поле не может быть меньше 12 цифр';
                                                                                                                     }
                                                                                                                     return null;
                                                                                                                   },
@@ -1329,14 +1318,20 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                                                               color: ColorPalatte.strongRedColor,
                                                                                               onPressed: () async {
                                                                                                 setState(() {
-                                                                                                  ++cardNumber;
+                                                                                                  cardNumber = 2;
                                                                                                 });
                                                                                                 print('index is: $cardNumber');
 
                                                                                                 // Scaffold.of(context).hideCurrentSnackBar();
                                                                                                 // validateAndSave();
                                                                                                 if (_formKey.currentState.validate()) {
-                                                                                                  g.Get.back();
+                                                                                                  await AddPlasticCardType.addPlasticCardType(
+                                                                                                    typeId: 15,
+                                                                                                    cardNumber: humoController.text,
+                                                                                                    cardPhoneNumber: phoneHumoController.text,
+                                                                                                    cardExpire: dateHumoController.text,
+                                                                                                  );
+                                                                                                  // g.Get.back();
                                                                                                 } else {
                                                                                                   print('no');
                                                                                                 }
@@ -1391,14 +1386,1126 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                         ],
                                       ),
                                     ),
-                                  ),
+                                  );
+                                } else {
+                                  return Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * .9,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 11, bottom: 11),
+                                              child: plasticCardTypeController
+                                                      .plasticCardTypeList
+                                                      .isNotEmpty
+                                                  ? SvgPicture.asset(
+                                                      'assets/icons/uzcard.svg',
+                                                      height: 30,
+                                                    )
+                                                  : SvgPicture.asset(
+                                                      'assets/icons/humo.svg',
+                                                      height: 30,
+                                                    )),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                plasticCardTypeController
+                                                        .plasticCardTypeList
+                                                        .isNotEmpty
+                                                    ? uzCardController.text
+                                                        .toString()
+                                                        .substring(0, 4)
+                                                    : humoController.text
+                                                        .toString()
+                                                        .substring(0, 4),
+                                                style: FontStyles.boldStyle(
+                                                  fontSize: 18,
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xff646974),
+                                                ),
+                                              ),
+                                              Text(
+                                                plasticCardTypeController
+                                                        .plasticCardTypeList
+                                                        .isNotEmpty
+                                                    ? uzCardController.text
+                                                        .toString()
+                                                        .substring(4, 8)
+                                                    : humoController.text
+                                                        .toString()
+                                                        .substring(4, 8),
+                                                style: FontStyles.boldStyle(
+                                                  fontSize: 18,
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xff646974),
+                                                ),
+                                              ),
+                                              Text(
+                                                plasticCardTypeController
+                                                        .plasticCardTypeList
+                                                        .isNotEmpty
+                                                    ? uzCardController.text
+                                                        .toString()
+                                                        .substring(8, 12)
+                                                    : humoController.text
+                                                        .toString()
+                                                        .substring(8, 12),
+                                                style: FontStyles.boldStyle(
+                                                  fontSize: 18,
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xff646974),
+                                                ),
+                                              ),
+                                              Text(
+                                                plasticCardTypeController
+                                                        .plasticCardTypeList
+                                                        .isNotEmpty
+                                                    ? uzCardController.text
+                                                        .toString()
+                                                        .substring(12, 19)
+                                                    : humoController.text
+                                                        .toString()
+                                                        .substring(12, 19),
+                                                style: FontStyles.boldStyle(
+                                                  fontSize: 18,
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xff646974),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    'год/месяц',
+                                                    style:
+                                                        FontStyles.regularStyle(
+                                                      fontSize: 13,
+                                                      fontFamily: 'Montserrat',
+                                                      color: Color(0xff646974),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    plasticCardTypeController
+                                                            .plasticCardTypeList
+                                                            .isNotEmpty
+                                                        ? dateController.text
+                                                            .toString()
+                                                        : dateHumoController
+                                                            .text
+                                                            .toString(),
+                                                    style: FontStyles.boldStyle(
+                                                      fontSize: 13,
+                                                      fontFamily: 'Montserrat',
+                                                      color: Color(0xff646974),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    'номер телефона',
+                                                    style:
+                                                        FontStyles.regularStyle(
+                                                      fontSize: 13,
+                                                      fontFamily: 'Montserrat',
+                                                      color: Color(0xff646974),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    plasticCardTypeController
+                                                            .plasticCardTypeList
+                                                            .isNotEmpty
+                                                        ? phoneUzController.text
+                                                            .toString()
+                                                        : phoneHumoController
+                                                            .text
+                                                            .toString(),
+                                                    style: FontStyles.boldStyle(
+                                                      fontSize: 13,
+                                                      fontFamily: 'Montserrat',
+                                                      color: Color(0xff646974),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 20),
+                                          Padding(
+                                              padding:
+                                                  EdgeInsets.only(bottom: 15),
+                                              child: Text(
+                                                nameController.text.toString(),
+                                                style: FontStyles.regularStyle(
+                                                  fontSize: 13,
+                                                  fontFamily: 'Montserrat',
+                                                  color: Color(0xff646974),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }),
+                              // selectedRadio == 1 || selectedRadio == 2
+
+                              //     ? Container(
+                              //         width: MediaQuery.of(context).size.width *
+                              //             .9,
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.all(20.0),
+                              //           child: Column(
+                              //             crossAxisAlignment:
+                              //                 CrossAxisAlignment.start,
+                              //             children: [
+                              //               Padding(
+                              //                   padding: EdgeInsets.only(
+                              //                       top: 11, bottom: 11),
+                              //                   child: ssCard == 1
+                              //                       ? SvgPicture.asset(
+                              //                           'assets/icons/uzcard.svg',
+                              //                           height: 30,
+                              //                         )
+                              //                       : SvgPicture.asset(
+                              //                           'assets/icons/humo.svg',
+                              //                           height: 30,
+                              //                         )),
+                              //               Row(
+                              //                 children: [
+                              //                   Text(
+                              //                     ssCard == 1
+                              //                         ? uzCardController.text
+                              //                             .toString()
+                              //                             .substring(0, 4)
+                              //                         : humoController.text
+                              //                             .toString()
+                              //                             .substring(0, 4),
+                              //                     style: FontStyles.boldStyle(
+                              //                       fontSize: 18,
+                              //                       fontFamily: 'Montserrat',
+                              //                       color: Color(0xff646974),
+                              //                     ),
+                              //                   ),
+                              //                   Text(
+                              //                     ssCard == 1
+                              //                         ? uzCardController.text
+                              //                             .toString()
+                              //                             .substring(4, 8)
+                              //                         : humoController.text
+                              //                             .toString()
+                              //                             .substring(4, 8),
+                              //                     style: FontStyles.boldStyle(
+                              //                       fontSize: 18,
+                              //                       fontFamily: 'Montserrat',
+                              //                       color: Color(0xff646974),
+                              //                     ),
+                              //                   ),
+                              //                   Text(
+                              //                     ssCard == 1
+                              //                         ? uzCardController.text
+                              //                             .toString()
+                              //                             .substring(8, 12)
+                              //                         : humoController.text
+                              //                             .toString()
+                              //                             .substring(8, 12),
+                              //                     style: FontStyles.boldStyle(
+                              //                       fontSize: 18,
+                              //                       fontFamily: 'Montserrat',
+                              //                       color: Color(0xff646974),
+                              //                     ),
+                              //                   ),
+                              //                   Text(
+                              //                     ssCard == 1
+                              //                         ? uzCardController.text
+                              //                             .toString()
+                              //                             .substring(12, 19)
+                              //                         : humoController.text
+                              //                             .toString()
+                              //                             .substring(12, 19),
+                              //                     style: FontStyles.boldStyle(
+                              //                       fontSize: 18,
+                              //                       fontFamily: 'Montserrat',
+                              //                       color: Color(0xff646974),
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //               SizedBox(
+                              //                 height: 10,
+                              //               ),
+                              //               Row(
+                              //                 mainAxisAlignment:
+                              //                     MainAxisAlignment
+                              //                         .spaceBetween,
+                              //                 children: [
+                              //                   Column(
+                              //                     children: [
+                              //                       Text(
+                              //                         'год/месяц',
+                              //                         style: FontStyles
+                              //                             .regularStyle(
+                              //                           fontSize: 13,
+                              //                           fontFamily:
+                              //                               'Montserrat',
+                              //                           color:
+                              //                               Color(0xff646974),
+                              //                         ),
+                              //                       ),
+                              //                       Text(
+                              //                         ssCard == 1
+                              //                             ? dateController.text
+                              //                                 .toString()
+                              //                             : dateHumoController
+                              //                                 .text
+                              //                                 .toString(),
+                              //                         style:
+                              //                             FontStyles.boldStyle(
+                              //                           fontSize: 13,
+                              //                           fontFamily:
+                              //                               'Montserrat',
+                              //                           color:
+                              //                               Color(0xff646974),
+                              //                         ),
+                              //                       ),
+                              //                     ],
+                              //                   ),
+                              //                   Column(
+                              //                     children: [
+                              //                       Text(
+                              //                         'номер телефона',
+                              //                         style: FontStyles
+                              //                             .regularStyle(
+                              //                           fontSize: 13,
+                              //                           fontFamily:
+                              //                               'Montserrat',
+                              //                           color:
+                              //                               Color(0xff646974),
+                              //                         ),
+                              //                       ),
+                              //                       Text(
+                              //                         ssCard == 1
+                              //                             ? phoneUzController
+                              //                                 .text
+                              //                                 .toString()
+                              //                             : phoneHumoController
+                              //                                 .text
+                              //                                 .toString(),
+                              //                         style:
+                              //                             FontStyles.boldStyle(
+                              //                           fontSize: 13,
+                              //                           fontFamily:
+                              //                               'Montserrat',
+                              //                           color:
+                              //                               Color(0xff646974),
+                              //                         ),
+                              //                       ),
+                              //                     ],
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //               SizedBox(height: 20),
+                              //               Padding(
+                              //                   padding:
+                              //                       EdgeInsets.only(bottom: 15),
+                              //                   child: Text(
+                              //                     nameController.text
+                              //                         .toString(),
+                              //                     style:
+                              //                         FontStyles.regularStyle(
+                              //                       fontSize: 13,
+                              //                       fontFamily: 'Montserrat',
+                              //                       color: Color(0xff646974),
+                              //                     ),
+                              //                   )),
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       )
+                              //     : Container(
+                              //         width: MediaQuery.of(context).size.width *
+                              //             .9,
+                              //         child: Padding(
+                              //           padding: const EdgeInsets.symmetric(
+                              //               horizontal: 20, vertical: 40),
+                              //           child: Column(
+                              //             children: [
+                              //               Text(
+                              //                 'Добавить карту',
+                              //                 style: FontStyles.regularStyle(
+                              //                   fontSize: 17,
+                              //                   fontFamily: 'Montserrat',
+                              //                   color: Color(0xff232323),
+                              //                 ),
+                              //               ),
+                              //               SizedBox(height: 20),
+                              //               IconButton(
+                              //                 icon: Icon(
+                              //                   Icons.add_circle_outline,
+                              //                   size: 50,
+                              //                 ),
+                              //                 onPressed: () {
+                              //                   ////////////////////////////////////
+                              //                   ////////////////////////////////////
+                              //                   /////////First Modal BottomShit/////
+                              //                   /////////////////////////////////////
+                              //                   //////////////////////////////////
+                              //                   //////////////////////////////////////
+
+                              //                   showModalBottomSheet(
+                              //                     shape: RoundedRectangleBorder(
+                              //                       borderRadius:
+                              //                           BorderRadius.only(
+                              //                         topLeft:
+                              //                             Radius.circular(20),
+                              //                         topRight:
+                              //                             Radius.circular(20),
+                              //                       ),
+                              //                     ),
+                              //                     context: context,
+                              //                     builder: (context) {
+                              //                       return StatefulBuilder(
+                              //                         builder: (context,
+                              //                             StateSetter state) {
+                              //                           return Container(
+                              //                             padding:
+                              //                                 EdgeInsets.only(
+                              //                                     top: 10,
+                              //                                     left: 20,
+                              //                                     right: 20),
+                              //                             child: Column(
+                              //                               mainAxisSize:
+                              //                                   MainAxisSize
+                              //                                       .min,
+                              //                               children: [
+                              //                                 Text(
+                              //                                   ' Добавить новую карту',
+                              //                                   style: FontStyles
+                              //                                       .mediumStyle(
+                              //                                     fontSize: 20,
+                              //                                     fontFamily:
+                              //                                         'Montserrat',
+                              //                                     color: Color(
+                              //                                         0xff0E0E0E),
+                              //                                   ),
+                              //                                 ),
+                              //                                 Row(
+                              //                                   children: [
+                              //                                     Container(
+                              //                                       child: SvgPicture
+                              //                                           .asset(
+                              //                                         'assets/icons/uzcard.svg',
+                              //                                         width: 40,
+                              //                                       ),
+                              //                                     ),
+                              //                                     Expanded(
+                              //                                       child:
+                              //                                           RadioListTile(
+                              //                                         activeColor:
+                              //                                             Color(
+                              //                                                 0xffFFBC41),
+                              //                                         controlAffinity:
+                              //                                             ListTileControlAffinity
+                              //                                                 .trailing,
+                              //                                         value: 1,
+                              //                                         groupValue:
+                              //                                             selectedRadio,
+                              //                                         onChanged:
+                              //                                             (val) {
+                              //                                           print(
+                              //                                               'Radio $val');
+                              //                                           if (selectedCard ==
+                              //                                               2) {
+                              //                                             setState(
+                              //                                                 () {
+                              //                                               selectedCard =
+                              //                                                   1;
+                              //                                               ssCard =
+                              //                                                   val;
+                              //                                               print('your ssCard : $ssCard');
+                              //                                             });
+                              //                                             print(
+                              //                                                 'your selecte Card: $selectedCard');
+                              //                                           }
+                              //                                           state(
+                              //                                               () {
+                              //                                             print(
+                              //                                                 'your selected radio is: $selectedRadio');
+                              //                                             ssCard =
+                              //                                                 val;
+                              //                                             print(
+                              //                                                 'your ssCard : $ssCard');
+                              //                                             selectedRadioValue(
+                              //                                                 val);
+                              //                                           });
+
+                              //                                           ////////////////////////////////////
+                              //                                           ////////////////////////////////////
+                              //                                           /////////Second Modal BottomShit/////
+                              //                                           /////////////////////////////////////
+                              //                                           //////////////////////////////////
+                              //                                           //////////////////////////////////////
+
+                              //                                           g.Get
+                              //                                               .back();
+                              //                                           showModalBottomSheet(
+                              //                                               shape:
+                              //                                                   RoundedRectangleBorder(
+                              //                                                 borderRadius: BorderRadius.only(
+                              //                                                   topLeft: Radius.circular(20),
+                              //                                                   topRight: Radius.circular(20),
+                              //                                                 ),
+                              //                                               ),
+                              //                                               isScrollControlled:
+                              //                                                   true,
+                              //                                               context:
+                              //                                                   context,
+                              //                                               builder:
+                              //                                                   (context) {
+                              //                                                 return Form(
+                              //                                                   key: _formKey,
+                              //                                                   child: Padding(
+                              //                                                     padding: MediaQuery.of(context).viewInsets,
+                              //                                                     child: StatefulBuilder(builder: (context, StateSetter state) {
+                              //                                                       return Container(
+                              //                                                         padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                              //                                                         child: Padding(
+                              //                                                           padding: const EdgeInsets.symmetric(vertical: 15),
+                              //                                                           child: Column(
+                              //                                                             crossAxisAlignment: CrossAxisAlignment.start,
+                              //                                                             mainAxisSize: MainAxisSize.min,
+                              //                                                             children: [
+                              //                                                               Text(
+                              //                                                                 'Добавление карты',
+                              //                                                                 style: FontStyles.boldStyle(
+                              //                                                                   fontSize: 17,
+                              //                                                                   fontFamily: 'Montserrat',
+                              //                                                                   color: Color(0xff232323),
+                              //                                                                 ),
+                              //                                                               ),
+                              //                                                               SizedBox(
+                              //                                                                 height: 15,
+                              //                                                               ),
+                              //                                                               Container(
+                              //                                                                 width: MediaQuery.of(context).size.width,
+                              //                                                                 child: Card(
+                              //                                                                   color: Colors.white,
+                              //                                                                   shape: RoundedRectangleBorder(
+                              //                                                                     borderRadius: BorderRadius.all(
+                              //                                                                       Radius.circular(15),
+                              //                                                                     ),
+                              //                                                                   ),
+                              //                                                                   child: Padding(
+                              //                                                                     padding: EdgeInsets.symmetric(horizontal: 18, vertical: 17),
+                              //                                                                     child: Column(
+                              //                                                                       crossAxisAlignment: CrossAxisAlignment.start,
+                              //                                                                       children: [
+                              //                                                                         Text(
+                              //                                                                           'Номер карты',
+                              //                                                                           style: FontStyles.regularStyle(
+                              //                                                                             fontSize: 13,
+                              //                                                                             fontFamily: 'Montserrat',
+                              //                                                                             color: Color(0xff646974),
+                              //                                                                           ),
+                              //                                                                         ),
+                              //                                                                         Container(
+                              //                                                                           margin: EdgeInsets.only(top: 5),
+                              //                                                                           padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                              //                                                                           decoration: BoxDecoration(
+                              //                                                                               color: const Color(0xffFFFFFF),
+                              //                                                                               borderRadius: BorderRadius.circular(15),
+                              //                                                                               border: Border.all(
+                              //                                                                                 width: 1,
+                              //                                                                                 color: Color(0xffE1E1E1),
+                              //                                                                               )),
+                              //                                                                           child: TextFormField(
+                              //                                                                             controller: uzCardController,
+                              //                                                                             inputFormatters: [InputMask.maskUzCard],
+                              //                                                                             keyboardType: TextInputType.number,
+                              //                                                                             decoration: InputDecoration(
+                              //                                                                               contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
+                              //                                                                               hintText: '8600',
+                              //                                                                               hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
+                              //                                                                               border: InputBorder.none,
+                              //                                                                             ),
+                              //                                                                             style: TextStyle(
+                              //                                                                               color: Colors.black,
+                              //                                                                               fontSize: 16.0,
+                              //                                                                             ),
+                              //                                                                             validator: (value) {
+                              //                                                                               if (value.isEmpty) {
+                              //                                                                                 return "поле не может быть пустым";
+                              //                                                                               } else if (value.length < 19) {
+                              //                                                                                 return 'поле не может быть меньше 16 цифр';
+                              //                                                                               }
+                              //                                                                               return null;
+                              //                                                                             },
+                              //                                                                           ),
+                              //                                                                         ),
+                              //                                                                         SizedBox(
+                              //                                                                           height: 8,
+                              //                                                                         ),
+                              //                                                                         Row(
+                              //                                                                           children: [
+                              //                                                                             Expanded(
+                              //                                                                               flex: 3,
+                              //                                                                               child: Column(
+                              //                                                                                 mainAxisSize: MainAxisSize.min,
+                              //                                                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                                                                                 children: [
+                              //                                                                                   Text(
+                              //                                                                                     'год/месяц',
+                              //                                                                                     style: FontStyles.regularStyle(
+                              //                                                                                       fontSize: 13,
+                              //                                                                                       fontFamily: 'Montserrat',
+                              //                                                                                       color: Color(0xff646974),
+                              //                                                                                     ),
+                              //                                                                                   ),
+                              //                                                                                   Container(
+                              //                                                                                     margin: EdgeInsets.only(top: 5),
+                              //                                                                                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              //                                                                                     decoration: BoxDecoration(
+                              //                                                                                         color: const Color(0xffFFFFFF),
+                              //                                                                                         borderRadius: BorderRadius.circular(15),
+                              //                                                                                         border: Border.all(
+                              //                                                                                           width: 1,
+                              //                                                                                           color: Color(0xffE1E1E1),
+                              //                                                                                         )),
+                              //                                                                                     child: TextFormField(
+                              //                                                                                       controller: dateController,
+                              //                                                                                       inputFormatters: [InputMask.maskDate],
+                              //                                                                                       keyboardType: TextInputType.number,
+                              //                                                                                       decoration: InputDecoration(
+                              //                                                                                         contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
+                              //                                                                                         hintText: '08/24',
+                              //                                                                                         hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
+                              //                                                                                         border: InputBorder.none,
+                              //                                                                                       ),
+                              //                                                                                       style: TextStyle(
+                              //                                                                                         color: Colors.black,
+                              //                                                                                         fontSize: 16.0,
+                              //                                                                                       ),
+                              //                                                                                       validator: (value) {
+                              //                                                                                         if (value.isEmpty) {
+                              //                                                                                           return "поле не может быть пустым";
+                              //                                                                                         } else if (value.length < 5) {
+                              //                                                                                           return 'поле не может быть меньше 4 цифр';
+                              //                                                                                         }
+                              //                                                                                         return null;
+                              //                                                                                       },
+                              //                                                                                       onSaved: (input) => expireDate = input,
+                              //                                                                                     ),
+                              //                                                                                   )
+                              //                                                                                 ],
+                              //                                                                               ),
+                              //                                                                             ),
+                              //                                                                             SizedBox(
+                              //                                                                               width: 16,
+                              //                                                                             ),
+                              //                                                                             Expanded(
+                              //                                                                               flex: 8,
+                              //                                                                               child: Column(
+                              //                                                                                 mainAxisSize: MainAxisSize.min,
+                              //                                                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                                                                                 children: [
+                              //                                                                                   Text(
+                              //                                                                                     'номер телефона',
+                              //                                                                                     style: FontStyles.regularStyle(
+                              //                                                                                       fontSize: 13,
+                              //                                                                                       fontFamily: 'Montserrat',
+                              //                                                                                       color: Color(0xff646974),
+                              //                                                                                     ),
+                              //                                                                                   ),
+                              //                                                                                   Container(
+                              //                                                                                     margin: EdgeInsets.only(top: 5),
+                              //                                                                                     padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                              //                                                                                     decoration: BoxDecoration(
+                              //                                                                                         color: const Color(0xffFFFFFF),
+                              //                                                                                         borderRadius: BorderRadius.circular(15),
+                              //                                                                                         border: Border.all(
+                              //                                                                                           width: 1,
+                              //                                                                                           color: Color(0xffE1E1E1),
+                              //                                                                                         )),
+                              //                                                                                     child: TextFormField(
+                              //                                                                                       controller: phoneUzController,
+                              //                                                                                       inputFormatters: [InputMask.maskPhoneNumber],
+                              //                                                                                       keyboardType: TextInputType.number,
+                              //                                                                                       decoration: InputDecoration(
+                              //                                                                                         contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
+                              //                                                                                         hintText: '998',
+                              //                                                                                         hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
+                              //                                                                                         border: InputBorder.none,
+                              //                                                                                       ),
+                              //                                                                                       style: TextStyle(
+                              //                                                                                         color: Colors.black,
+                              //                                                                                         fontSize: 16.0,
+                              //                                                                                       ),
+                              //                                                                                       validator: (value) {
+                              //                                                                                         if (value.isEmpty) {
+                              //                                                                                           return "поле не может быть пустым";
+                              //                                                                                         } else if (value.length < 17) {
+                              //                                                                                           return 'поле не может быть меньше 12 цифр';
+                              //                                                                                         }
+                              //                                                                                         return null;
+                              //                                                                                       },
+                              //                                                                                       onSaved: (input) => phoneNumber = input,
+                              //                                                                                     ),
+                              //                                                                                   ),
+                              //                                                                                 ],
+                              //                                                                               ),
+                              //                                                                             ),
+                              //                                                                           ],
+                              //                                                                         ),
+                              //                                                                         SizedBox(
+                              //                                                                           height: 8,
+                              //                                                                         ),
+                              //                                                                       ],
+                              //                                                                     ),
+                              //                                                                   ),
+                              //                                                                 ),
+                              //                                                               ),
+                              //                                                               SizedBox(
+                              //                                                                 height: 15,
+                              //                                                               ),
+                              //                                                               Container(
+                              //                                                                 height: 54,
+                              //                                                                 width: double.infinity,
+                              //                                                                 child: RaisedButton(
+                              //                                                                   elevation: 0,
+                              //                                                                   color: ColorPalatte.strongRedColor,
+                              //                                                                   onPressed: () async {
+                              //                                                                     setState(() {
+                              //                                                                       cardNumber = 1;
+                              //                                                                     });
+                              //                                                                     print('index is: $cardNumber');
+                              //                                                                     if (_formKey.currentState.validate()) {
+                              //                                                                       await AddPlasticCardType.addPlasticCardType(
+                              //                                                                         typeId: 14,
+                              //                                                                         cardNumber: uzCardController.text,
+                              //                                                                         cardPhoneNumber: phoneUzController.text,
+                              //                                                                         cardExpire: dateController.text,
+                              //                                                                       );
+
+                              //                                                                       // g.Get.back();
+                              //                                                                     } else {
+                              //                                                                       print('no');
+                              //                                                                     }
+                              //                                                                     // Scaffold.of(context).hideCurrentSnackBar();
+                              //                                                                     // validateAndSave();
+                              //                                                                   },
+                              //                                                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                              //                                                                   child: Text(
+                              //                                                                     'ДОБАВИТЬ',
+                              //                                                                     style: FontStyles.boldStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Colors.white),
+                              //                                                                   ),
+                              //                                                                 ),
+                              //                                                               ),
+                              //                                                             ],
+                              //                                                           ),
+                              //                                                         ),
+                              //                                                       );
+                              //                                                     }),
+                              //                                                   ),
+                              //                                                 );
+                              //                                               });
+
+                              //                                           //////////////////////////////////////
+                              //                                           //////////////////////////////////////
+                              //                                           ////////////End of Second/////////////
+                              //                                           /////////////////////////////////////
+                              //                                         },
+                              //                                         title:
+                              //                                             Text(
+                              //                                           'UzCard',
+                              //                                           style: FontStyles
+                              //                                               .mediumStyle(
+                              //                                             fontSize:
+                              //                                                 18,
+                              //                                             fontFamily:
+                              //                                                 'Montserrat',
+                              //                                             color:
+                              //                                                 Color(0xff0E0E0E),
+                              //                                           ),
+                              //                                         ),
+                              //                                       ),
+                              //                                     ),
+                              //                                   ],
+                              //                                 ),
+                              //                                 Row(
+                              //                                   children: [
+                              //                                     Container(
+                              //                                       child: Image
+                              //                                           .asset(
+                              //                                         'assets/images/humo.png',
+                              //                                         width: 40,
+                              //                                       ),
+                              //                                     ),
+                              //                                     Expanded(
+                              //                                       child:
+                              //                                           RadioListTile(
+                              //                                         activeColor:
+                              //                                             Color(
+                              //                                                 0xffFFBC41),
+                              //                                         controlAffinity:
+                              //                                             ListTileControlAffinity
+                              //                                                 .trailing,
+                              //                                         value: 2,
+                              //                                         groupValue:
+                              //                                             selectedRadio,
+                              //                                         onChanged:
+                              //                                             (val) {
+                              //                                           if (selectedCard ==
+                              //                                               1) {
+                              //                                             setState(
+                              //                                                 () {
+                              //                                               selectedCard =
+                              //                                                   2;
+                              //                                               ssCard =
+                              //                                                   val;
+                              //                                               print('your ssCard : $ssCard');
+                              //                                             });
+                              //                                             print(
+                              //                                                 'your selecte Card: $selectedCard');
+                              //                                           }
+                              //                                           state(
+                              //                                               () {
+                              //                                             print(
+                              //                                                 'your selected radio is: $selectedRadio');
+                              //                                             selectedRadioValue(
+                              //                                                 val);
+                              //                                             ssCard =
+                              //                                                 val;
+                              //                                             print(
+                              //                                                 'your ssCard : $ssCard');
+                              //                                           });
+                              //                                           print(
+                              //                                               'Radio $val');
+                              //                                           selectedRadioValue(
+                              //                                               val);
+
+                              //                                           //////////////////////////////////////////
+                              //                                           /////////////////////////////////////////
+                              //                                           /////////////THird ModalShitt//////////////
+                              //                                           //////////////////////////////////////////
+
+                              //                                           g.Get
+                              //                                               .back();
+                              //                                           showModalBottomSheet(
+                              //                                               shape:
+                              //                                                   RoundedRectangleBorder(
+                              //                                                 borderRadius: BorderRadius.only(
+                              //                                                   topLeft: Radius.circular(20),
+                              //                                                   topRight: Radius.circular(20),
+                              //                                                 ),
+                              //                                               ),
+                              //                                               isScrollControlled:
+                              //                                                   true,
+                              //                                               context:
+                              //                                                   context,
+                              //                                               builder:
+                              //                                                   (context) {
+                              //                                                 return Form(
+                              //                                                   key: _formKey,
+                              //                                                   child: Padding(
+                              //                                                     padding: MediaQuery.of(context).viewInsets,
+                              //                                                     child: StatefulBuilder(builder: (context, StateSetter state) {
+                              //                                                       return Container(
+                              //                                                         padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                              //                                                         child: Padding(
+                              //                                                           padding: const EdgeInsets.symmetric(vertical: 15),
+                              //                                                           child: Column(
+                              //                                                             crossAxisAlignment: CrossAxisAlignment.start,
+                              //                                                             mainAxisSize: MainAxisSize.min,
+                              //                                                             children: [
+                              //                                                               Text(
+                              //                                                                 'Добавление карты',
+                              //                                                                 style: FontStyles.regularStyle(
+                              //                                                                   fontSize: 17,
+                              //                                                                   fontFamily: 'Montserrat',
+                              //                                                                   color: Color(0xff232323),
+                              //                                                                 ),
+                              //                                                               ),
+                              //                                                               SizedBox(
+                              //                                                                 height: 15,
+                              //                                                               ),
+                              //                                                               Container(
+                              //                                                                 width: MediaQuery.of(context).size.width,
+                              //                                                                 child: Card(
+                              //                                                                   color: Colors.white,
+                              //                                                                   shape: RoundedRectangleBorder(
+                              //                                                                     borderRadius: BorderRadius.all(
+                              //                                                                       Radius.circular(15),
+                              //                                                                     ),
+                              //                                                                   ),
+                              //                                                                   child: Padding(
+                              //                                                                     padding: EdgeInsets.symmetric(horizontal: 18, vertical: 17),
+                              //                                                                     child: Column(
+                              //                                                                       crossAxisAlignment: CrossAxisAlignment.start,
+                              //                                                                       children: [
+                              //                                                                         Text(
+                              //                                                                           'Номер карты',
+                              //                                                                           style: FontStyles.regularStyle(
+                              //                                                                             fontSize: 13,
+                              //                                                                             fontFamily: 'Montserrat',
+                              //                                                                             color: Color(0xff646974),
+                              //                                                                           ),
+                              //                                                                         ),
+                              //                                                                         Container(
+                              //                                                                           margin: EdgeInsets.only(top: 5),
+                              //                                                                           padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                              //                                                                           decoration: BoxDecoration(
+                              //                                                                               color: const Color(0xffFFFFFF),
+                              //                                                                               borderRadius: BorderRadius.circular(15),
+                              //                                                                               border: Border.all(
+                              //                                                                                 width: 1,
+                              //                                                                                 color: Color(0xffE1E1E1),
+                              //                                                                               )),
+                              //                                                                           child: TextFormField(
+                              //                                                                             controller: humoController,
+                              //                                                                             inputFormatters: [InputMask.maskHumo],
+                              //                                                                             keyboardType: TextInputType.number,
+                              //                                                                             decoration: InputDecoration(
+                              //                                                                               contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
+                              //                                                                               hintText: '9860',
+                              //                                                                               hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
+                              //                                                                               border: InputBorder.none,
+                              //                                                                             ),
+                              //                                                                             style: TextStyle(
+                              //                                                                               color: Colors.black,
+                              //                                                                               fontSize: 16.0,
+                              //                                                                             ),
+                              //                                                                             validator: (value) {
+                              //                                                                               if (value.isEmpty) {
+                              //                                                                                 return "поле не может быть пустым";
+                              //                                                                               } else if (value.length < 19) {
+                              //                                                                                 return 'поле не может быть меньше 16 цифр';
+                              //                                                                               }
+                              //                                                                               return null;
+                              //                                                                             },
+                              //                                                                           ),
+                              //                                                                         ),
+                              //                                                                         SizedBox(
+                              //                                                                           height: 8,
+                              //                                                                         ),
+                              //                                                                         Row(
+                              //                                                                           children: [
+                              //                                                                             Expanded(
+                              //                                                                               flex: 3,
+                              //                                                                               child: Column(
+                              //                                                                                 mainAxisSize: MainAxisSize.min,
+                              //                                                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                                                                                 children: [
+                              //                                                                                   Text(
+                              //                                                                                     'год/месяц',
+                              //                                                                                     style: FontStyles.regularStyle(
+                              //                                                                                       fontSize: 13,
+                              //                                                                                       fontFamily: 'Montserrat',
+                              //                                                                                       color: Color(0xff646974),
+                              //                                                                                     ),
+                              //                                                                                   ),
+                              //                                                                                   Container(
+                              //                                                                                     margin: EdgeInsets.only(top: 5),
+                              //                                                                                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              //                                                                                     decoration: BoxDecoration(
+                              //                                                                                         color: const Color(0xffFFFFFF),
+                              //                                                                                         borderRadius: BorderRadius.circular(15),
+                              //                                                                                         border: Border.all(
+                              //                                                                                           width: 1,
+                              //                                                                                           color: Color(0xffE1E1E1),
+                              //                                                                                         )),
+                              //                                                                                     child: TextFormField(
+                              //                                                                                       controller: dateHumoController,
+                              //                                                                                       inputFormatters: [InputMask.maskDate],
+                              //                                                                                       keyboardType: TextInputType.number,
+                              //                                                                                       decoration: InputDecoration(
+                              //                                                                                         contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
+                              //                                                                                         hintText: '08/24',
+                              //                                                                                         hintStyle: FontStyles.regularStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Color(0xff9E9E9E)),
+                              //                                                                                         border: InputBorder.none,
+                              //                                                                                       ),
+                              //                                                                                       style: TextStyle(
+                              //                                                                                         color: Colors.black,
+                              //                                                                                         fontSize: 16.0,
+                              //                                                                                       ),
+                              //                                                                                       validator: (value) {
+                              //                                                                                         if (value.isEmpty) {
+                              //                                                                                           return "поле не может быть пустым";
+                              //                                                                                         } else if (value.length < 5) {
+                              //                                                                                           return 'поле не может быть меньше 4 цифр';
+                              //                                                                                         }
+                              //                                                                                         return null;
+                              //                                                                                       },
+                              //                                                                                       onSaved: (input) => expireDate = input,
+                              //                                                                                     ),
+                              //                                                                                   )
+                              //                                                                                 ],
+                              //                                                                               ),
+                              //                                                                             ),
+                              //                                                                             SizedBox(
+                              //                                                                               width: 16,
+                              //                                                                             ),
+                              //                                                                             Expanded(
+                              //                                                                               flex: 8,
+                              //                                                                               child: Column(
+                              //                                                                                 mainAxisSize: MainAxisSize.min,
+                              //                                                                                 crossAxisAlignment: CrossAxisAlignment.start,
+                              //                                                                                 children: [
+                              //                                                                                   Text(
+                              //                                                                                     'номер телефона',
+                              //                                                                                     style: FontStyles.regularStyle(
+                              //                                                                                       fontSize: 13,
+                              //                                                                                       fontFamily: 'Montserrat',
+                              //                                                                                       color: Color(0xff646974),
+                              //                                                                                     ),
+                              //                                                                                   ),
+                              //                                                                                   Container(
+                              //                                                                                     margin: EdgeInsets.only(top: 5),
+                              //                                                                                     padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                              //                                                                                     decoration: BoxDecoration(
+                              //                                                                                         color: const Color(0xffFFFFFF),
+                              //                                                                                         borderRadius: BorderRadius.circular(15),
+                              //                                                                                         border: Border.all(
+                              //                                                                                           width: 1,
+                              //                                                                                           color: Color(0xffE1E1E1),
+                              //                                                                                         )),
+                              //                                                                                     child: TextFormField(
+                              //                                                                                       controller: phoneHumoController,
+                              //                                                                                       inputFormatters: [InputMask.maskPhoneNumber],
+                              //                                                                                       keyboardType: TextInputType.number,
+                              //                                                                                       decoration: InputDecoration(
+                              //                                                                                         contentPadding: const EdgeInsets.only(left: 8.0, bottom: 2, top: 2),
+                              //                                                                                         hintText: '+998',
+                              //                                                                                         border: InputBorder.none,
+                              //                                                                                       ),
+                              //                                                                                       style: TextStyle(
+                              //                                                                                         color: Colors.black,
+                              //                                                                                         fontSize: 16.0,
+                              //                                                                                       ),
+                              //                                                                                       validator: (value) {
+                              //                                                                                         if (value.isEmpty) {
+                              //                                                                                           return "поле не может быть пустым";
+                              //                                                                                         } else if (value.length < 17) {
+                              //                                                                                           return 'поле не может быть меньше 12 цифр';
+                              //                                                                                         }
+                              //                                                                                         return null;
+                              //                                                                                       },
+                              //                                                                                       onSaved: (input) => phoneNumber = input,
+                              //                                                                                     ),
+                              //                                                                                   ),
+                              //                                                                                 ],
+                              //                                                                               ),
+                              //                                                                             ),
+                              //                                                                           ],
+                              //                                                                         ),
+                              //                                                                         SizedBox(
+                              //                                                                           height: 8,
+                              //                                                                         ),
+                              //                                                                       ],
+                              //                                                                     ),
+                              //                                                                   ),
+                              //                                                                 ),
+                              //                                                               ),
+                              //                                                               SizedBox(
+                              //                                                                 height: 15,
+                              //                                                               ),
+                              //                                                               Container(
+                              //                                                                 height: 54,
+                              //                                                                 width: double.infinity,
+                              //                                                                 child: RaisedButton(
+                              //                                                                   elevation: 0,
+                              //                                                                   color: ColorPalatte.strongRedColor,
+                              //                                                                   onPressed: () async {
+                              //                                                                     setState(() {
+                              //                                                                       cardNumber = 2;
+                              //                                                                     });
+                              //                                                                     print('index is: $cardNumber');
+
+                              //                                                                     // Scaffold.of(context).hideCurrentSnackBar();
+                              //                                                                     // validateAndSave();
+                              //                                                                     if (_formKey.currentState.validate()) {
+                              //                                                                       await AddPlasticCardType.addPlasticCardType(
+                              //                                                                         typeId: 15,
+                              //                                                                         cardNumber: humoController.text,
+                              //                                                                         cardPhoneNumber: phoneHumoController.text,
+                              //                                                                         cardExpire: dateHumoController.text,
+                              //                                                                       );
+                              //                                                                       // g.Get.back();
+                              //                                                                     } else {
+                              //                                                                       print('no');
+                              //                                                                     }
+                              //                                                                   },
+                              //                                                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                              //                                                                   child: Text(
+                              //                                                                     'ДОБАВИТЬ',
+                              //                                                                     style: FontStyles.boldStyle(fontSize: 16, fontFamily: 'Ubuntu', color: Colors.white),
+                              //                                                                   ),
+                              //                                                                 ),
+                              //                                                               ),
+                              //                                                             ],
+                              //                                                           ),
+                              //                                                         ),
+                              //                                                       );
+                              //                                                     }),
+                              //                                                   ),
+                              //                                                 );
+                              //                                               });
+
+                              //                                           //////////////////////////////////////////
+                              //                                           /////////////////////////////////////////
+                              //                                           /////////////End Third ModalShitt//////////////
+                              //                                           //////////////////////////////////////////
+                              //                                         },
+                              //                                         title:
+                              //                                             Text(
+                              //                                           'Humo',
+                              //                                           style: FontStyles
+                              //                                               .mediumStyle(
+                              //                                             fontSize:
+                              //                                                 18,
+                              //                                             fontFamily:
+                              //                                                 'Montserrat',
+                              //                                             color:
+                              //                                                 Color(0xff0E0E0E),
+                              //                                           ),
+                              //                                         ),
+                              //                                       ),
+                              //                                     ),
+                              //                                   ],
+                              //                                 ),
+                              //                               ],
+                              //                             ),
+                              //                           );
+                              //                         },
+                              //                       );
+                              //                     },
+                              //                   );
+                              //                 },
+                              //               ),
+                              //               SizedBox(height: 20),
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
+                            ),
                           ),
-                        ))
+                        ),
                       ],
                     ),
                   ),
-
-                  // Spacer(),
                 ],
               ),
             ),
@@ -1415,7 +2522,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       'name': nameController.text,
                       'phone': phoneController.text,
                     });
-
                     if (_userImage != null) {
                       String fileName = _userImage.path.split('/').last;
                       formData.files.addAll([
@@ -1444,9 +2550,20 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     );
                     if (response.statusCode == 200) {
                       print('okayy');
-                      g.Get.snackbar('ваши данные были успешно изменены', '',
-                          colorText: Colors.white,
-                          backgroundColor: Colors.grey[500]);
+                      // _scaffoldKey.currentState.showSnackBar(
+                      //   SnackBar(
+                      //     behavior: SnackBarBehavior.floating,
+                      //     action: SnackBarAction()
+                      //     backgroundColor: Color(0xff007E33),
+                      //     content: Text('asdas'),
+                      //   ),
+                      // );
+                      g.Get.snackbar(null, null,
+                          messageText: Text(
+                            'Ваши данные сохранены!',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: Color(0xff007E33));
                       usrController.fetchProfileData();
                     }
                   },

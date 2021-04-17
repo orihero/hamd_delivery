@@ -55,58 +55,6 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
       );
       SignIn.signInUser(userNumber: smsController.text);
-      // showDialog(
-      //     context: context,
-      //     barrierDismissible: false,
-      //     builder: (BuildContext context) {
-      //       return Dialog(
-      //         child: new Row(
-      //           mainAxisSize: MainAxisSize.min,
-      //           children: [
-      //             new CircularProgressIndicator(),
-      //             new Text("Loading"),
-      //           ],
-      //         ),
-      //       );
-      //     });
-
-      // var response = await http.post(
-      //   ApiUrl.signIn,
-      //   body: {'phone': authSmsController.text, 'role': '4'},
-      // );
-      // if (response.statusCode == 200) {
-      //   var body = SignUpModel.fromJson(json.decode(response.body));
-      //   print(response.body);
-      //   print('bu yearda toke');
-      //   print(body.data.token);
-      //   print('bu yearda code');
-      //   print(body.data.code.code);
-
-      //   MyPref.token = body.data.token;
-      //   MyPref.code = body.data.code.code;
-      //   //confirm sms
-      //   // var confirmSmsRresponse = await http.post(
-      //   //   ApiUrl.sendSmsCode,
-      //   //   body: {
-      //   //     'code': MyPref.code,
-      //   //   },
-      //   // );
-
-      //   //Start Confirm number
-
-      //   ConfrimSms.smsFonfirm();
-
-      //   //End Confirm
-
-      //   // ConfrimSms.smsFonfirm();
-      //   Get.to(MainOrders());
-      // } else {
-      //   Get.back();
-      //   _scaffoldKey.currentState.showSnackBar(SnackBar(
-      //     content: Text('Error in server'),
-      //   ));
-      //   print(response.reasonPhrase);
-      // }
     } else {
       print('Form is invalid');
     }
@@ -300,9 +248,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return "Value can not be empty";
+                                    return "поле не может быть пустым";
                                   } else if (value.length < 17) {
-                                    return 'Value can not be less than 13';
+                                    return 'поле не может быть меньше 12 цифр';
                                   }
                                   return null;
                                 }),

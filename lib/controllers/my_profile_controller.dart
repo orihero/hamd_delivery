@@ -1,16 +1,16 @@
-import 'package:HAMD_Delivery/models/auth/code_confirm_model.dart';
-import 'package:HAMD_Delivery/services/profile.dart';
 import 'package:get/get.dart';
+import 'package:HAMD_Delivery/models/my_profiel_model.dart';
+import 'package:HAMD_Delivery/services/my_profile.dart';
 
-class UserProfileController extends GetxController {
+class MyProfileController extends GetxController {
   var profileList = List<Data>().obs;
   var isLoading = true.obs;
 
-  void fetchProfileData() async {
-    print('fetching user data');
+  void fetchMyProfileData() async {
+    print('fetching my profile user data');
     try {
       isLoading(true);
-      var profile = await ProfileFetch.profileFetch();
+      var profile = await MyProfile.fetchMyProfile();
 
       if (profile != null) {
         profileList.clear();

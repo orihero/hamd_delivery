@@ -3,6 +3,9 @@ import 'package:HAMD_Delivery/controllers/all_orders_controller.dart';
 import 'package:HAMD_Delivery/controllers/my_accepted_month_orders_controller.dart';
 import 'package:HAMD_Delivery/controllers/my_accepted_orders_unversal_controller.dart';
 import 'package:HAMD_Delivery/controllers/my_income_controller.dart';
+import 'package:HAMD_Delivery/controllers/my_profile_controller.dart';
+import 'package:HAMD_Delivery/controllers/plastic_card_type_controller.dart';
+import 'package:HAMD_Delivery/controllers/platic_card_humo_controller.dart';
 import 'package:HAMD_Delivery/controllers/profile_controller.dart';
 import 'package:HAMD_Delivery/controllers/screen_controller.dart';
 import 'package:HAMD_Delivery/services/my_accepted_orders_day.dart';
@@ -48,12 +51,19 @@ class _MyAppState extends State<MyApp> {
       myAcceptedOrdersUniversalController =
       Get.put(MyAcceptedOrdersUniversalController());
   final ScreenController screenController = Get.put(ScreenController());
+  final MyProfileController myProfileController =
+      Get.put(MyProfileController());
+  final PlasticCardHumoController plasticCardHumoController =
+      Get.put(PlasticCardHumoController());
+  final PlasticCardTypeController plasticCardTypeController =
+      Get.put(PlasticCardTypeController());
   var secondToken = MyPref.secondToken ?? '';
 
   @override
   void initState() {
     print('Second token: $secondToken');
     if (secondToken != null && secondToken != '') {
+      myProfileController.fetchMyProfileData();
       profileController.fetchProfileData();
       allOrdersController.fetchAllOrders();
       accMonth.allAcceptedOrdersMonthList();

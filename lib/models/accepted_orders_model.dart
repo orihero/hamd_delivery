@@ -33,6 +33,8 @@ class Data {
   PaymentType deliveryType;
   List<OrderProducts> orderProducts;
   String date;
+  User user;
+  Branch branch;
 
   Data(
       {this.id,
@@ -45,7 +47,9 @@ class Data {
       this.paymentType,
       this.deliveryType,
       this.orderProducts,
-      this.date});
+      this.date,
+      this.user,
+      this.branch});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -69,6 +73,9 @@ class Data {
       });
     }
     date = json['date'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    branch =
+        json['branch'] != null ? new Branch.fromJson(json['branch']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -93,6 +100,12 @@ class Data {
           this.orderProducts.map((v) => v.toJson()).toList();
     }
     data['date'] = this.date;
+    if (this.user != null) {
+      data['user'] = this.user.toJson();
+    }
+    if (this.branch != null) {
+      data['branch'] = this.branch.toJson();
+    }
     return data;
   }
 }
@@ -266,6 +279,75 @@ class Gallery {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['photo'] = this.photo;
+    return data;
+  }
+}
+
+class User {
+  int id;
+  String token;
+  String language;
+  String phone;
+  Null name;
+  Null lastname;
+  String photo;
+
+  User(
+      {this.id,
+      this.token,
+      this.language,
+      this.phone,
+      this.name,
+      this.lastname,
+      this.photo});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    token = json['token'];
+    language = json['language'];
+    phone = json['phone'];
+    name = json['name'];
+    lastname = json['lastname'];
+    photo = json['photo'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['token'] = this.token;
+    data['language'] = this.language;
+    data['phone'] = this.phone;
+    data['name'] = this.name;
+    data['lastname'] = this.lastname;
+    data['photo'] = this.photo;
+    return data;
+  }
+}
+
+class Branch {
+  int id;
+  String name;
+  String address;
+  String description;
+  String photo;
+
+  Branch({this.id, this.name, this.address, this.description, this.photo});
+
+  Branch.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    address = json['address'];
+    description = json['description'];
+    photo = json['photo'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['address'] = this.address;
+    data['description'] = this.description;
     data['photo'] = this.photo;
     return data;
   }
