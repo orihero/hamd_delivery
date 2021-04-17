@@ -39,6 +39,12 @@ class _AccptedOrdersState extends State<AccptedOrders> {
 //   ];
 
   @override
+  void initState() {
+    acceptedOrdersController.fetchAllAcceptedOrders();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     print('accepted orders');
     print(acceptedOrdersController.allAcceptedOrdersList.length);
@@ -64,8 +70,12 @@ class _AccptedOrdersState extends State<AccptedOrders> {
             color: ColorPalatte.strongRedColor,
             onRefresh: () => acceptedOrdersController.fetchAllAcceptedOrders(),
             child: acceptedOrdersController.allAcceptedOrdersList.isEmpty
-                ? Center(
-                    child: Text('У вас ещё нет принятые заказы'),
+                ? ListView(
+                    children: [
+                      Center(
+                        child: Text('У вас ещё нет принятые заказы'),
+                      )
+                    ],
                   )
                 : ListView.separated(
                     separatorBuilder: (context, index) => SizedBox(
@@ -365,16 +375,38 @@ class _AccptedOrdersState extends State<AccptedOrders> {
                                         Icons.done,
                                         color: Colors.red,
                                       ),
-                                      onPressed: () async {
-                                        print('finished order id ');
-                                        print(acceptedOrdersController
-                                            .allAcceptedOrdersList[index].id);
-                                        await FinishOrder.finishOrder(
-                                            acceptedOrdersController
-                                                .allAcceptedOrdersList[index]
-                                                .id);
-                                        acceptedOrdersController
-                                            .fetchAllAcceptedOrders();
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                content: Text(
+                                                    'Вы действительно хотите завершить?'),
+                                                actions: [
+                                                  FlatButton(
+                                                    onPressed: () => Get.back(),
+                                                    child: Text('нет'),
+                                                  ),
+                                                  FlatButton(
+                                                    onPressed: () async {
+                                                      await FinishOrder.finishOrder(
+                                                          acceptedOrdersController
+                                                              .allAcceptedOrdersList[
+                                                                  index]
+                                                              .id);
+                                                      Get.back();
+                                                      acceptedOrdersController
+                                                          .fetchAllAcceptedOrders();
+                                                    },
+                                                    child: Text('да'),
+                                                  ),
+                                                ],
+                                              );
+                                            });
+                                        // await FinishOrder.finishOrder(
+                                        //     acceptedOrdersController
+                                        //         .allAcceptedOrdersList[index]
+                                        //         .id);
                                       },
                                     ),
                                   ),

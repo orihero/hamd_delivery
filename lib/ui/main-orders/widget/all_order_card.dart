@@ -1,6 +1,7 @@
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/controllers/all_orders_controller.dart';
+import 'package:HAMD_Delivery/controllers/screen_controller.dart';
 import 'package:HAMD_Delivery/services/accept_order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +15,7 @@ class AllOrderCard extends StatefulWidget {
 class _AllOrderCardState extends State<AllOrderCard> {
   final AllOrdersController allOrdersController =
       Get.find<AllOrdersController>();
+  final ScreenController screenController = Get.find<ScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +34,17 @@ class _AllOrderCardState extends State<AllOrderCard> {
         color: ColorPalatte.strongRedColor,
         onRefresh: () => allOrdersController.fetchAllOrders(),
         child: allOrdersController.allOrdersList.isEmpty
-            ? Center(
-                child: Text('Заказов пока нет02111111'),
+            ? ListView(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Text('Заказов пока нет'),
+                      ),
+                    ],
+                  )
+                ],
               )
             : ListView.separated(
                 itemCount: allOrdersController.allOrdersList.length,
@@ -189,14 +200,6 @@ class _AllOrderCardState extends State<AllOrderCard> {
                             SizedBox(
                               width: 5,
                             ),
-                            // Text(
-                            //   '12 500 сум (2500 сум)',
-                            //   style: FontStyles.regularStyle(
-                            //     fontSize: 16,
-                            //     fontFamily: 'Montserrat',
-                            //     color: Colors.black,
-                            //   ),
-                            // ),
                           ],
                         ),
                         SizedBox(
@@ -241,6 +244,7 @@ class _AllOrderCardState extends State<AllOrderCard> {
                                     await AcceptOrder.acceptOrder(
                                         allOrdersController
                                             .allOrdersList[index].id);
+                                    screenController.selectTwo();
                                     allOrdersController.fetchAllOrders();
                                   },
                                   shape: RoundedRectangleBorder(

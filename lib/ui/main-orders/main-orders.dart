@@ -2,6 +2,7 @@ import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/controllers/accepted_orders_controller.dart';
 import 'package:HAMD_Delivery/controllers/all_orders_controller.dart';
+import 'package:HAMD_Delivery/controllers/screen_controller.dart';
 import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/accpted_order.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/all_order_card.dart';
@@ -20,11 +21,12 @@ class _MainOrdersState extends State<MainOrders> {
     _scaffoldKey.currentState.openDrawer();
   }
 
-  int selectedIndex = 0;
+  // int selectedIndex = 0;
   final AllOrdersController allOrdersController =
       Get.find<AllOrdersController>();
   final AcceptedOrdersController acceptedOrdersController =
       Get.find<AcceptedOrdersController>();
+  final ScreenController screenController = Get.find<ScreenController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,112 +52,115 @@ class _MainOrdersState extends State<MainOrders> {
         preferredSize: Size.fromHeight(
             kToolbarHeight + MediaQuery.of(context).viewPadding.top),
       ),
-      body: Column(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
+      body: Obx(() {
+        return Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
+                ),
+                color: ColorPalatte.strongRedColor,
               ),
-              color: ColorPalatte.strongRedColor,
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(left: 16, right: 16, bottom: 14),
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 3),
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Color(0xffC3696F),
-                    width: 1,
+              child: Padding(
+                padding: EdgeInsets.only(left: 16, right: 16, bottom: 14),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Color(0xffC3696F),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(30),
+                    color: ColorPalatte.strongRedColor,
                   ),
-                  borderRadius: BorderRadius.circular(30),
-                  color: ColorPalatte.strongRedColor,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 44,
-                        child: RaisedButton(
-                          elevation: 0,
-                          color: selectedIndex == 0
-                              ? Colors.white
-                              : Colors.transparent,
-                          onPressed: () {
-                            if (selectedIndex == 1 || selectedIndex == 2) {
-                              setState(() {
-                                selectedIndex = 0;
-                              });
-                              allOrdersController.fetchAllOrders();
-                              print(selectedIndex.toString());
-                            }
-                          },
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Text(
-                            'Все заказы',
-                            style: FontStyles.boldStyle(
-                              fontSize: 13,
-                              fontFamily: 'Montserrat',
-                              color: selectedIndex == 0
-                                  ? Colors.black
-                                  : Color(
-                                      0xffCDE8F4,
-                                    ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 44,
+                          child: RaisedButton(
+                            elevation: 0,
+                            color: screenController.screenIndex.value == 0
+                                ? Colors.white
+                                : Colors.transparent,
+                            onPressed: () {
+                              if (screenController.screenIndex.value == 1) {
+                                screenController.selectOne();
+                                allOrdersController.fetchAllOrders();
+                                // print(selectedIndex.toString());
+                              }
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30)),
+                            child: Text(
+                              'Все заказы',
+                              style: FontStyles.boldStyle(
+                                fontSize: 13,
+                                fontFamily: 'Montserrat',
+                                color: screenController.screenIndex.value == 0
+                                    ? Colors.black
+                                    : Color(
+                                        0xffCDE8F4,
+                                      ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: SizedBox(
-                        height: 44,
-                        child: RaisedButton(
-                          elevation: 0,
-                          color: selectedIndex == 1
-                              ? Colors.white
-                              : Colors.transparent,
-                          onPressed: () {
-                            if (selectedIndex == 0 || selectedIndex == 2) {
-                              setState(() {
-                                selectedIndex = 1;
-                              });
-                              acceptedOrdersController.fetchAllAcceptedOrders();
-                            }
-                            print(selectedIndex.toString());
-                          },
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25)),
-                          child: Text(
-                            'Принятые заказы',
-                            style: FontStyles.boldStyle(
-                              fontSize: 13,
-                              fontFamily: 'Montserrat',
-                              color: selectedIndex == 1
-                                  ? Colors.black
-                                  : Color(
-                                      0xffCDE8F4,
-                                    ),
+                      Expanded(
+                        child: SizedBox(
+                          height: 44,
+                          child: RaisedButton(
+                            elevation: 0,
+                            color: screenController.screenIndex.value == 1
+                                ? Colors.white
+                                : Colors.transparent,
+                            onPressed: () {
+                              if (screenController.screenIndex.value == 0) {
+                                screenController.selectTwo();
+                                acceptedOrdersController
+                                    .fetchAllAcceptedOrders();
+                              }
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25)),
+                            child: Text(
+                              'Принятые заказы',
+                              style: FontStyles.boldStyle(
+                                fontSize: 13,
+                                fontFamily: 'Montserrat',
+                                color: screenController.screenIndex.value == 1
+                                    ? Colors.black
+                                    : Color(
+                                        0xffCDE8F4,
+                                      ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 12,
-          ),
-          Expanded(
-              child: selectedIndex == 0 ? AllOrderCard() : AccptedOrders()),
-        ],
-      ),
+            SizedBox(
+              height: 12,
+            ),
+            Expanded(
+              child: screenController.screenIndex.value == 0
+                  ? AllOrderCard()
+                  : AccptedOrders(),
+            ),
+
+            //  selectedIndex == 0 ? AllOrderCard() : AccptedOrders()),
+          ],
+        );
+      }),
     );
   }
 }

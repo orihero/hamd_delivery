@@ -4,6 +4,7 @@ import 'package:HAMD_Delivery/controllers/my_accepted_month_orders_controller.da
 import 'package:HAMD_Delivery/controllers/my_accepted_orders_unversal_controller.dart';
 import 'package:HAMD_Delivery/controllers/my_income_controller.dart';
 import 'package:HAMD_Delivery/controllers/profile_controller.dart';
+import 'package:HAMD_Delivery/controllers/screen_controller.dart';
 import 'package:HAMD_Delivery/services/my_accepted_orders_day.dart';
 import 'package:HAMD_Delivery/ui/landing/landing_screen.dart';
 import 'package:HAMD_Delivery/ui/main-orders/main-orders.dart';
@@ -46,6 +47,7 @@ class _MyAppState extends State<MyApp> {
   final MyAcceptedOrdersUniversalController
       myAcceptedOrdersUniversalController =
       Get.put(MyAcceptedOrdersUniversalController());
+  final ScreenController screenController = Get.put(ScreenController());
   var secondToken = MyPref.secondToken ?? '';
 
   @override

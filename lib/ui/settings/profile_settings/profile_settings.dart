@@ -337,31 +337,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             Divider(
                               thickness: 1,
                             ),
-                            // Text(
-                            //   'Фамилия',
-                            //   style: FontStyles.regularStyle(
-                            //     fontSize: 14,
-                            //     fontFamily: 'Montserrat',
-                            //     color: Color(0xff232323),
-                            //   ),
-                            // ),
-                            // TextFormField(
-                            //   keyboardType: TextInputType.name,
-                            //   decoration: InputDecoration(
-                            //     contentPadding:
-                            //         const EdgeInsets.only(left: 15.0),
-                            //     hintText: 'Введите ваше фамилию',
-                            //     hintStyle: FontStyles.regularStyle(
-                            //         fontSize: 17,
-                            //         fontFamily: 'Ubuntu',
-                            //         color: Color(0xff232323)),
-                            //     border: InputBorder.none,
-                            //   ),
-                            //   style: TextStyle(
-                            //     color: Colors.black,
-                            //     fontSize: 16.0,
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
