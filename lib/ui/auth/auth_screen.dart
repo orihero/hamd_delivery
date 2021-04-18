@@ -23,19 +23,7 @@ class _AuthScreenState extends State<AuthScreen> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    configureFCM();
-    _firebaseMessaging.configure(
-      onMessage: (message) async {
-        showDialog(context: context, child: Text("RECIEVED"));
-      },
-      onResume: (message) async {
-        showDialog(context: context, child: Text("Resumed"));
-      },
-    );
-  }
+  
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController smsController = TextEditingController();
@@ -43,7 +31,7 @@ class _AuthScreenState extends State<AuthScreen> {
   void validateAndSave() async {
     final FormState form = _formKey.currentState;
     if (form.validate()) {
-      Get.to(SmsScreen());
+    //   Get.to(SmsScreen());
       print('Form is valid');
       Get.dialog(
         Scaffold(

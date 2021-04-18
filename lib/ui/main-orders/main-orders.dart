@@ -18,6 +18,7 @@ class MainOrders extends StatefulWidget {
 
 class _MainOrdersState extends State<MainOrders> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   void _openDrawer() {
     _scaffoldKey.currentState.openDrawer();
@@ -29,6 +30,20 @@ class _MainOrdersState extends State<MainOrders> {
   final AcceptedOrdersController acceptedOrdersController =
       Get.find<AcceptedOrdersController>();
   final ScreenController screenController = Get.find<ScreenController>();
+
+  @override
+  void initState() {
+    super.initState();
+   
+    _firebaseMessaging.configure(
+      onMessage: (message) async {
+        showDialog(context: context, child: Text("RECIEVED"));
+      },
+      onResume: (message) async {
+        showDialog(context: context, child: Text("Resumed"));
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
