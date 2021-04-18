@@ -3,7 +3,7 @@ import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/services/sign_in.dart';
 import 'package:HAMD_Delivery/ui/auth/sms_screen.dart';
 import 'package:HAMD_Delivery/ui/masks/masks.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:get/get.dart';
@@ -14,6 +14,29 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String fcmToken;
+  configureFCM() async {
+    var token = await _firebaseMessaging.getToken();
+    setState(() {
+      fcmToken = token;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    configureFCM();
+    _firebaseMessaging.configure(
+      onMessage: (message) async {
+        showDialog(context: context, child: Text("RECIEVED"));
+      },
+      onResume: (message) async {
+        showDialog(context: context, child: Text("Resumed"));
+      },
+    );
+  }
+
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController smsController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();

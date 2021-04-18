@@ -1,4 +1,4 @@
-package com.example.HAMD_Delivery
+package uz.hamd.delivery
 
 import io.flutter.embedding.android.FlutterActivity
 
