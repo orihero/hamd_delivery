@@ -18,6 +18,12 @@ class _AllOrderCardState extends State<AllOrderCard> {
   final ScreenController screenController = Get.find<ScreenController>();
 
   @override
+  void initState() {
+    allOrdersController.fetchAllOrders();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     print(allOrdersController.allOrdersList.length);
     return Obx(() {

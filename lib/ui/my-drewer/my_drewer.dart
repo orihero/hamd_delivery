@@ -3,6 +3,7 @@ import 'package:HAMD_Delivery/ui/income/income_sceen.dart';
 import 'package:HAMD_Delivery/ui/my-drewer/menu_options.dart';
 import 'package:HAMD_Delivery/ui/my-drewer/widgets/user_info.dart';
 import 'package:HAMD_Delivery/ui/my-order/my_order_srceen.dart';
+import 'package:HAMD_Delivery/ui/settings/profile_settings/profile_settings_screen.dart';
 import 'package:HAMD_Delivery/ui/settings/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -124,6 +125,10 @@ class MyDrewer extends StatelessWidget {
                       title: 'Мой профиль',
                       onpress: () => Get.to(ProfileSettings()),
                     ),
+                    // MenuOptions(
+                    //   title: 'Мой профиль',
+                    //   onpress: () => Get.to(ProfileSettingsScreen()),
+                    // ),
 
                     // MenuOptions(
                     //   title: 'Моя карта',

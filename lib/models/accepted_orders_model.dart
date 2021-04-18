@@ -289,8 +289,8 @@ class User {
   String token;
   String language;
   String phone;
-  Null name;
-  Null lastname;
+  String name;
+  String lastname;
   String photo;
 
   User(

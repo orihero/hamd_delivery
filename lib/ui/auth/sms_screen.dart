@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
+import 'package:HAMD_Delivery/controllers/all_orders_controller.dart';
 import 'package:HAMD_Delivery/services/code_confirm.dart';
 import 'package:HAMD_Delivery/ui/main-orders/main-orders.dart';
 import 'package:HAMD_Delivery/utils/my_prefs.dart';
@@ -17,6 +18,8 @@ class SmsScreen extends StatefulWidget {
 
 class _SmsScreenState extends State<SmsScreen> {
   GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
+  final AllOrdersController allOrdersController =
+      Get.find<AllOrdersController>();
   final TextEditingController codeController = TextEditingController();
   bool hasError = false;
   String currentText = "";
@@ -365,8 +368,11 @@ class _SmsScreenState extends State<SmsScreen> {
                       child: RaisedButton(
                         elevation: 0,
                         color: ColorPalatte.strongRedColor,
-                        onPressed: () {
-                          print(MyPref.token);
+                        onPressed: () async {
+                          if (MyPref.secondToken != null) {
+                            await allOrdersController.fetchAllOrders();
+                            print('Orders fetched');
+                          }
 
                           // _showSnackBar(context);
                           validateAndSave();

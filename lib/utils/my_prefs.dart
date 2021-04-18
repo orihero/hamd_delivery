@@ -16,4 +16,9 @@ class MyPref {
   static clearToken() => prefs.remove(SPKeys.token);
   static clearSecondToken() => prefs.remove(SPKeys.secondToken);
   static clearCode() => prefs.remove(SPKeys.code);
+
+  static allTokentsClear() {
+    prefs.remove(SPKeys.token);
+    prefs.remove(SPKeys.secondToken);
+  }
 }
