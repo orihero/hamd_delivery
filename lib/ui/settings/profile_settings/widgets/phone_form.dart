@@ -1,4 +1,5 @@
 import 'package:HAMD_Delivery/constants/fonts.dart';
+import 'package:HAMD_Delivery/ui/masks/masks.dart';
 import 'package:flutter/material.dart';
 
 class UserPhonForm extends StatelessWidget {
@@ -33,6 +34,7 @@ class UserPhonForm extends StatelessWidget {
           Flexible(
             child: TextFormField(
               controller: phoneController,
+              inputFormatters: [InputMask.maskPhoneNumber],
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(left: 15.0),
