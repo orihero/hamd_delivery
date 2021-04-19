@@ -4,6 +4,7 @@ import 'package:HAMD_Delivery/controllers/my_accepted_month_orders_controller.da
 import 'package:HAMD_Delivery/controllers/my_accepted_orders_unversal_controller.dart';
 import 'package:HAMD_Delivery/controllers/my_income_controller.dart';
 import 'package:HAMD_Delivery/controllers/my_profile_controller.dart';
+import 'package:HAMD_Delivery/controllers/plastic_card_controller.dart';
 import 'package:HAMD_Delivery/controllers/plastic_card_type_controller.dart';
 import 'package:HAMD_Delivery/controllers/platic_card_humo_controller.dart';
 import 'package:HAMD_Delivery/controllers/profile_controller.dart';
@@ -35,7 +36,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final UserProfileController profileController =
       Get.put(UserProfileController());
-
   final AllOrdersController allOrdersController =
       Get.put(AllOrdersController());
   final AcceptedOrdersController acceptedOrdersController =
@@ -53,10 +53,12 @@ class _MyAppState extends State<MyApp> {
   final ScreenController screenController = Get.put(ScreenController());
   final MyProfileController myProfileController =
       Get.put(MyProfileController());
+
   final PlasticCardHumoController plasticCardHumoController =
       Get.put(PlasticCardHumoController());
   final PlasticCardTypeController plasticCardTypeController =
       Get.put(PlasticCardTypeController());
+
   var secondToken = MyPref.secondToken ?? '';
 
   @override

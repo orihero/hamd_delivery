@@ -112,11 +112,11 @@ class MyDrewer extends StatelessWidget {
                       thickness: 2.0,
                     ),
                     MenuOptions(
-                        title: 'Настройка',
-                        onpress: () => Get.to(
-                              SettingScreen(),
-                            )),
-
+                      title: 'Настройка',
+                      onpress: () => Get.to(
+                        SettingScreen(),
+                      ),
+                    ),
                     Divider(
                       color: Color(0xffEAECF1),
                       thickness: 2.0,
@@ -125,10 +125,10 @@ class MyDrewer extends StatelessWidget {
                       title: 'Мой профиль',
                       onpress: () => Get.to(ProfileSettings()),
                     ),
-                    // MenuOptions(
-                    //   title: 'Мой профиль',
-                    //   onpress: () => Get.to(ProfileSettingsScreen()),
-                    // ),
+                    MenuOptions(
+                      title: 'Мой профиль',
+                      onpress: () => Get.to(ProfileSettingsScreen()),
+                    ),
 
                     // MenuOptions(
                     //   title: 'Моя карта',

@@ -12,7 +12,7 @@ class PlaticCardController extends GetxController {
     super.onInit();
   }
 
-  void fetchPlasticCard() async {
+  Future fetchPlasticCard() async {
     print('fetching plastic card');
     try {
       isLoading(true);
