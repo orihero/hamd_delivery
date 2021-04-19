@@ -34,7 +34,7 @@ class _SmsScreenState extends State<SmsScreen> {
     if (form.validate()) {
       if (codeController.text == MyPref.code) {
         ConfirmCode.codeConfirmFunction(code: codeController.text);
-        Get.to(MainOrders());
+        Get.offAll(MainOrders());
       } else {
         print('hatolik');
       }

@@ -6,6 +6,7 @@ import 'package:HAMD_Delivery/controllers/screen_controller.dart';
 import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/accpted_order.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/all_order_card.dart';
+// import 'package:HAMD_Delivery/ui/main-orders/widget/push_notification_message.dart';
 import 'package:HAMD_Delivery/ui/my-drewer/my_drewer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,8 @@ class _MainOrdersState extends State<MainOrders> {
   }
 
   // int selectedIndex = 0;
+  // List<PushNotificationMessage> notifications = [];
+  String _messageTitle = '';
   final AllOrdersController allOrdersController =
       Get.find<AllOrdersController>();
   final AcceptedOrdersController acceptedOrdersController =
@@ -34,13 +37,33 @@ class _MainOrdersState extends State<MainOrders> {
   @override
   void initState() {
     super.initState();
-   
+    allOrdersController.fetchAllOrders();
     _firebaseMessaging.configure(
-      onMessage: (message) async {
-        showDialog(context: context, child: Text("RECIEVED"));
+      onMessage: (Map<String, dynamic> message) async {
+        Get.snackbar(
+          message['notification']['title'],
+          message['notification']['body'],
+          backgroundColor: Color(0xff007E33),
+        );
+        // showDialog(
+        //   context: context,
+        //   builder: (context) => AlertDialog(
+        //     content: ListTile(
+        //       title: Text(message['notification']['title']),
+        //       subtitle: Text(message['notification']['body']),
+        //     ),
+        //     actions: <Widget>[
+        //       FlatButton(
+        //         child: Text('Ok'),
+        //         onPressed: () => Navigator.of(context).pop(),
+        //       ),
+        //     ],
+        //   ),
+        // );
       },
       onResume: (message) async {
-        showDialog(context: context, child: Text("Resumed"));
+        print('on resume $message');
+        // showDialog(context: context, child: Text("Resumed"));
       },
     );
   }
@@ -181,4 +204,18 @@ class _MainOrdersState extends State<MainOrders> {
       }),
     );
   }
+}
+
+class PushNotificationMessage {
+  final String title;
+  final String body;
+  final String type;
+  final int orderId;
+
+  const PushNotificationMessage({
+    @required this.title,
+    @required this.body,
+    @required this.type,
+    @required this.orderId,
+  });
 }

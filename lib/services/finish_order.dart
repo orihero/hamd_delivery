@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'dart:io';
@@ -19,6 +20,7 @@ class FinishOrder {
     if (response.statusCode == 200) {
       print('*********');
       print('success in finishing order');
+      Get.back();
 
       print(response.body);
     } else {

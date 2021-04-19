@@ -31,6 +31,9 @@ class ConfirmCode {
       MyPref.secondToken = body.data.token;
       print('token after confirm');
       print(MyPref.secondToken);
+      print('my fcmToken is ');
+      print(body.data.deviceToken);
+      print(body.data.phone);
       pController.fetchProfileData();
       return body;
     } else {

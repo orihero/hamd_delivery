@@ -13,19 +13,21 @@ class AllOrderCard extends StatefulWidget {
 }
 
 class _AllOrderCardState extends State<AllOrderCard> {
+  var length;
   final AllOrdersController allOrdersController =
       Get.find<AllOrdersController>();
   final ScreenController screenController = Get.find<ScreenController>();
 
   @override
   void initState() {
+    print('this is initstate in all order srcreen');
     allOrdersController.fetchAllOrders();
+    length = allOrdersController.allOrdersList.length;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(allOrdersController.allOrdersList.length);
     return Obx(() {
       if (allOrdersController.isLoading.value) {
         return Center(
@@ -39,7 +41,8 @@ class _AllOrderCardState extends State<AllOrderCard> {
       return RefreshIndicator(
         color: ColorPalatte.strongRedColor,
         onRefresh: () => allOrdersController.fetchAllOrders(),
-        child: allOrdersController.allOrdersList.isEmpty
+        child: length < 1
+            // allOrdersController.allOrdersList.isEmpty
             ? ListView(
                 children: [
                   Column(

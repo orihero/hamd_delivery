@@ -20,10 +20,15 @@ class _AuthScreenState extends State<AuthScreen> {
     var token = await _firebaseMessaging.getToken();
     setState(() {
       fcmToken = token;
+      print('fcm tokein is $fcmToken');
     });
   }
 
-  
+  @override
+  void initState() {
+    super.initState();
+    configureFCM();
+  }
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController smsController = TextEditingController();
@@ -31,7 +36,7 @@ class _AuthScreenState extends State<AuthScreen> {
   void validateAndSave() async {
     final FormState form = _formKey.currentState;
     if (form.validate()) {
-    //   Get.to(SmsScreen());
+      //   Get.to(SmsScreen());
       print('Form is valid');
       Get.dialog(
         Scaffold(
@@ -65,7 +70,7 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
         ),
       );
-      SignIn.signInUser(userNumber: smsController.text);
+      SignIn.signInUser(userNumber: smsController.text, fcmToken: fcmToken);
     } else {
       print('Form is invalid');
     }

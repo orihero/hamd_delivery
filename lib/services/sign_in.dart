@@ -9,10 +9,13 @@ import 'package:http/http.dart' as http;
 
 class SignIn {
   static var client = http.Client();
-  static Future signInUser({String userNumber, String fcmToken }) async {
+  static Future signInUser({String userNumber, String fcmToken}) async {
     try {
-      var response = await client
-          .post(ApiUrl.signIn, body: {'phone': userNumber, 'role': '4', 'device_token': fcmToken,});
+      var response = await client.post(ApiUrl.signIn, body: {
+        'phone': userNumber,
+        'role': '4',
+        'device_token': fcmToken,
+      });
       if (response.statusCode == 200) {
         var body = SignInModel.fromJson(json.decode(response.body));
         print(response.body);
