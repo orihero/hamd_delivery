@@ -8,6 +8,7 @@ import 'package:HAMD_Delivery/ui/main-orders/widget/accpted_order.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/all_order_card.dart';
 // import 'package:HAMD_Delivery/ui/main-orders/widget/push_notification_message.dart';
 import 'package:HAMD_Delivery/ui/my-drewer/my_drewer.dart';
+import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -33,10 +34,12 @@ class _MainOrdersState extends State<MainOrders> {
   final AcceptedOrdersController acceptedOrdersController =
       Get.find<AcceptedOrdersController>();
   final ScreenController screenController = Get.find<ScreenController>();
-
+  var length;
   @override
   void initState() {
     super.initState();
+    print('this is main order to show token');
+    print(MyPref.secondToken);
     allOrdersController.fetchAllOrders();
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -66,6 +69,18 @@ class _MainOrdersState extends State<MainOrders> {
         // showDialog(context: context, child: Text("Resumed"));
       },
     );
+    length = allOrdersController.allOrdersList.length;
+    print('this is legnth in main');
+    print(length);
+  }
+
+  @override
+  void didChangeDependencies() {
+    allOrdersController.fetchAllOrders();
+    super.didChangeDependencies();
+    length = allOrdersController.allOrdersList.length;
+    print('this is legnth in main');
+    print(length);
   }
 
   @override

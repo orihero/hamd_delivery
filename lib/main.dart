@@ -12,6 +12,8 @@ import 'package:HAMD_Delivery/controllers/screen_controller.dart';
 import 'package:HAMD_Delivery/services/my_accepted_orders_day.dart';
 import 'package:HAMD_Delivery/ui/landing/landing_screen.dart';
 import 'package:HAMD_Delivery/ui/main-orders/main-orders.dart';
+import 'package:HAMD_Delivery/ui/main-orders/main_order_tab.dart';
+import 'package:HAMD_Delivery/ui/main-orders/tab_screen.dart';
 import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -67,7 +69,7 @@ class _MyAppState extends State<MyApp> {
     if (secondToken != null && secondToken != '') {
       myProfileController.fetchMyProfileData();
       profileController.fetchProfileData();
-      allOrdersController.fetchAllOrders();
+      // allOrdersController.fetchAllOrders();
       accMonth.allAcceptedOrdersMonthList();
       accWeek.allAcceptedOrdersWeekList();
       accDay.fetchAllAcceptedOrdersDay();
@@ -87,6 +89,8 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      // home: MyPref.secondToken == null ? LandingScreen() : FirstTab(),
+      // home: MyPref.secondToken == null ? LandingScreen() : MainOrderTab(),
       home: MyPref.secondToken == null ? LandingScreen() : MainOrders(),
     );
   }

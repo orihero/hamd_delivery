@@ -121,10 +121,10 @@ class MyDrewer extends StatelessWidget {
                       color: Color(0xffEAECF1),
                       thickness: 2.0,
                     ),
-                    MenuOptions(
-                      title: 'Мой профиль',
-                      onpress: () => Get.to(ProfileSettings()),
-                    ),
+                    // MenuOptions(
+                    //   title: 'Мой профиль',
+                    //   onpress: () => Get.to(ProfileSettings()),
+                    // ),
                     MenuOptions(
                       title: 'Мой профиль',
                       onpress: () => Get.to(ProfileSettingsScreen()),

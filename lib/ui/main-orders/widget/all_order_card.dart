@@ -3,6 +3,7 @@ import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/controllers/all_orders_controller.dart';
 import 'package:HAMD_Delivery/controllers/screen_controller.dart';
 import 'package:HAMD_Delivery/services/accept_order.dart';
+import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -20,10 +21,23 @@ class _AllOrderCardState extends State<AllOrderCard> {
 
   @override
   void initState() {
+    print('this is all  order to show token');
+    print(MyPref.secondToken);
     print('this is initstate in all order srcreen');
     allOrdersController.fetchAllOrders();
     length = allOrdersController.allOrdersList.length;
+    print('this is legnth');
+    print(length);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    allOrdersController.fetchAllOrders();
+    super.didChangeDependencies();
+    length = allOrdersController.allOrdersList.length;
+    print('this is didchange legnth in main');
+    print(length);
   }
 
   @override

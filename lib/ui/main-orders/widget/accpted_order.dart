@@ -4,6 +4,7 @@ import 'package:HAMD_Delivery/controllers/accepted_orders_controller.dart';
 import 'package:HAMD_Delivery/services/finish_order.dart';
 import 'package:HAMD_Delivery/ui/main-orders/location/maps_sheet.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/my_icons.dart';
+import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -338,19 +339,27 @@ class _AccptedOrdersState extends State<AccptedOrders> {
                                   ),
                                   // onPressed: () => Get.to(() => MapLauncherDemo()),
                                   onPressed: () {
-                                    // print(acceptedOrdersController
-                                    //     .allAcceptedOrdersList[index]
-                                    //     .mapLocation
-                                    //     .toString());
+                                    print(acceptedOrdersController
+                                        .allAcceptedOrdersList[index]
+                                        .mapLocation
+                                        .toString());
 
                                     var x = acceptedOrdersController
                                         .allAcceptedOrdersList[index]
-                                        .mapLocation;
+                                        .mapLocation
+                                        .split(' ');
                                     print('*******');
-
-                                    List a = x.split(",").toList();
-                                    print(a[0]);
-                                    print(a[1]);
+                                    print(x[0]);
+                                    print('++++++');
+                                    print(x[1]);
+                                    setState(() {
+                                      destinationLatitude = double.parse(x[0]);
+                                      destinationLongitude = double.parse(x[1]);
+                                    });
+                                    print(MyPref.secondToken);
+                                    // List a = x.split(",").toList();
+                                    // print(a[0]);
+                                    // print(a[1]);
                                     // double lt = a[0];
                                     // double ln = a[0];
                                     // setState(() {
@@ -361,21 +370,21 @@ class _AccptedOrdersState extends State<AccptedOrders> {
                                     MapsSheet.show(
                                       context: context,
                                       onMapTap: (map) {
-                                        var x = acceptedOrdersController
-                                            .allAcceptedOrdersList[index]
-                                            .mapLocation;
-                                        List a = x.split(",").toList();
-                                        print(a[0]);
-                                        print(a[1]);
-                                        var lt = a[0];
-                                        var ln = a[1];
+                                        // var x = acceptedOrdersController
+                                        //     .allAcceptedOrdersList[index]
+                                        //     .mapLocation;
+                                        // List a = x.split(" ").toList();
+                                        // print(a[0]);
+                                        // print(a[1]);
+                                        // var lt = a[0];
+                                        // var ln = a[1];
 
-                                        setState(() {
-                                          destinationLatitude =
-                                              double.parse(lt);
-                                          destinationLongitude =
-                                              double.parse(ln);
-                                        });
+                                        // setState(() {
+                                        //   destinationLatitude =
+                                        //       double.parse(lt);
+                                        //   destinationLongitude =
+                                        //       double.parse(ln);
+                                        // });
                                         map.showDirections(
                                           destination: Coords(
                                             destinationLatitude,

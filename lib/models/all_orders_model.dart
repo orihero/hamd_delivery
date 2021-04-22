@@ -1,4 +1,3 @@
-
 class AllOrdersModel {
   List<Data> data;
 
@@ -24,7 +23,7 @@ class AllOrdersModel {
 
 class Data {
   int id;
-  Null courier;
+  String courier;
   int productTotalSum;
   int productCount;
   String address;
@@ -297,8 +296,6 @@ class Branch {
     return data;
   }
 }
-
-
 
 // class AllOrdersModel {
 //   List<Data> data;

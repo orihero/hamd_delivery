@@ -21,8 +21,8 @@ class AllOrdersController extends GetxController {
       isLoading(true);
       var allOrders = await AllOrders.allOrders();
       if (allOrders != null) {
-        print('data $allOrders');
         allOrdersList.assignAll(allOrders.data);
+        print('data $allOrders');
       }
     } finally {
       isLoading(false);
