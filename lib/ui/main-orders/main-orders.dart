@@ -38,7 +38,7 @@ class _MainOrdersState extends State<MainOrders> {
   @override
   void initState() {
     super.initState();
-    print('this is main order to show token');
+    print('this is main order to show tokens');
     print(MyPref.secondToken);
     allOrdersController.fetchAllOrders();
     _firebaseMessaging.configure(
