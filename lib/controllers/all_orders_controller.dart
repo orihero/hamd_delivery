@@ -4,7 +4,7 @@ import 'package:HAMD_Delivery/models/all_orders_model.dart';
 import 'package:HAMD_Delivery/services/all_orders.dart';
 
 class AllOrdersController extends GetxController {
-  var allOrdersList = List<Data>().obs;
+  var allOrdersList = List<Datam>().obs;
   var isLoading = true.obs;
   var secondToken = MyPref.secondToken ?? '';
 

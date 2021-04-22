@@ -1,13 +1,13 @@
 class AllOrdersModel {
-  List<Data> data;
+  List<Datam> data;
 
   AllOrdersModel({this.data});
 
   AllOrdersModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = new List<Datam>();
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data.add(new Datam.fromJson(v));
       });
     }
   }
@@ -21,7 +21,7 @@ class AllOrdersModel {
   }
 }
 
-class Data {
+class Datam {
   int id;
   String courier;
   int productTotalSum;
@@ -36,7 +36,7 @@ class Data {
   User user;
   Branch branch;
 
-  Data(
+  Datam(
       {this.id,
       this.courier,
       this.productTotalSum,
@@ -51,7 +51,7 @@ class Data {
       this.user,
       this.branch});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  Datam.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     courier = json['courier'];
     productTotalSum = json['product_total_sum'];
@@ -296,7 +296,6 @@ class Branch {
     return data;
   }
 }
-
 // class AllOrdersModel {
 //   List<Data> data;
 
@@ -322,7 +321,7 @@ class Branch {
 
 // class Data {
 //   int id;
-//   Courier courier;
+//   String courier;
 //   int productTotalSum;
 //   int productCount;
 //   String address;
@@ -352,8 +351,7 @@ class Branch {
 
 //   Data.fromJson(Map<String, dynamic> json) {
 //     id = json['id'];
-//     courier =
-//         json['courier'] != null ? new Courier.fromJson(json['courier']) : null;
+//     courier = json['courier'];
 //     productTotalSum = json['product_total_sum'];
 //     productCount = json['product_count'];
 //     address = json['address'];
@@ -380,9 +378,7 @@ class Branch {
 //   Map<String, dynamic> toJson() {
 //     final Map<String, dynamic> data = new Map<String, dynamic>();
 //     data['id'] = this.id;
-//     if (this.courier != null) {
-//       data['courier'] = this.courier.toJson();
-//     }
+//     data['courier'] = this.courier;
 //     data['product_total_sum'] = this.productTotalSum;
 //     data['product_count'] = this.productCount;
 //     data['address'] = this.address;
@@ -405,59 +401,6 @@ class Branch {
 //     if (this.branch != null) {
 //       data['branch'] = this.branch.toJson();
 //     }
-//     return data;
-//   }
-// }
-
-// class Courier {
-//   int id;
-//   String token;
-//   String language;
-//   String phone;
-//   String name;
-//   String lastname;
-//   String photo;
-//   int rating;
-//   String passportPhoto;
-//   String driverLicensePhoto;
-
-//   Courier(
-//       {this.id,
-//       this.token,
-//       this.language,
-//       this.phone,
-//       this.name,
-//       this.lastname,
-//       this.photo,
-//       this.rating,
-//       this.passportPhoto,
-//       this.driverLicensePhoto});
-
-//   Courier.fromJson(Map<String, dynamic> json) {
-//     id = json['id'];
-//     token = json['token'];
-//     language = json['language'];
-//     phone = json['phone'];
-//     name = json['name'];
-//     lastname = json['lastname'];
-//     photo = json['photo'];
-//     rating = json['rating'];
-//     passportPhoto = json['passportPhoto'];
-//     driverLicensePhoto = json['driverLicensePhoto'];
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['id'] = this.id;
-//     data['token'] = this.token;
-//     data['language'] = this.language;
-//     data['phone'] = this.phone;
-//     data['name'] = this.name;
-//     data['lastname'] = this.lastname;
-//     data['photo'] = this.photo;
-//     data['rating'] = this.rating;
-//     data['passportPhoto'] = this.passportPhoto;
-//     data['driverLicensePhoto'] = this.driverLicensePhoto;
 //     return data;
 //   }
 // }
@@ -589,7 +532,7 @@ class Branch {
 //   String language;
 //   String phone;
 //   String name;
-//   Null lastname;
+//   String lastname;
 //   String photo;
 
 //   User(

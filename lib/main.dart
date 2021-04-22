@@ -9,11 +9,13 @@ import 'package:HAMD_Delivery/controllers/plastic_card_type_controller.dart';
 import 'package:HAMD_Delivery/controllers/platic_card_humo_controller.dart';
 import 'package:HAMD_Delivery/controllers/profile_controller.dart';
 import 'package:HAMD_Delivery/controllers/screen_controller.dart';
+import 'package:HAMD_Delivery/provider/all_order_provider.dart';
 import 'package:HAMD_Delivery/services/my_accepted_orders_day.dart';
 import 'package:HAMD_Delivery/ui/landing/landing_screen.dart';
 import 'package:HAMD_Delivery/ui/main-orders/main-orders.dart';
 import 'package:HAMD_Delivery/ui/main-orders/main_order_tab.dart';
 import 'package:HAMD_Delivery/ui/main-orders/tab_screen.dart';
+import 'package:HAMD_Delivery/ui/main-orders/widget/splash_screen.dart';
 import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +24,7 @@ import 'package:get_storage/get_storage.dart';
 
 import 'controllers/my_accepted_day_orders_controller.dart';
 import 'controllers/my_accepted_week_orders_controller.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   await GetStorage.init();
@@ -82,16 +85,20 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return ChangeNotifierProvider(
+      create: (_) => AllOrderPrivder(),
+      child: GetMaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        // home: MyPref.secondToken == null ? LandingScreen() : FirstTab(),
+        // home: MyPref.secondToken == null ? LandingScreen() : MainOrderTab(),
+        home: MyPref.secondToken == null ? LandingScreen() : SplashScreen(),
+        // home: MyPref.secondToken == null ? LandingScreen() : MainOrders(),
       ),
-      // home: MyPref.secondToken == null ? LandingScreen() : FirstTab(),
-      // home: MyPref.secondToken == null ? LandingScreen() : MainOrderTab(),
-      home: MyPref.secondToken == null ? LandingScreen() : MainOrders(),
     );
   }
 }

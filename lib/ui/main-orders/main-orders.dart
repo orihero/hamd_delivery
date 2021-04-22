@@ -3,6 +3,7 @@ import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/controllers/accepted_orders_controller.dart';
 import 'package:HAMD_Delivery/controllers/all_orders_controller.dart';
 import 'package:HAMD_Delivery/controllers/screen_controller.dart';
+import 'package:HAMD_Delivery/services/repository.dart';
 import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/accpted_order.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/all_order_card.dart';
@@ -34,13 +35,15 @@ class _MainOrdersState extends State<MainOrders> {
   final AcceptedOrdersController acceptedOrdersController =
       Get.find<AcceptedOrdersController>();
   final ScreenController screenController = Get.find<ScreenController>();
+  Repository repository = Repository();
   var length;
   @override
   void initState() {
     super.initState();
     print('this is main order to show tokens');
     print(MyPref.secondToken);
-    allOrdersController.fetchAllOrders();
+    // allOrdersController.fetchAllOrders();
+    repository.fetchOrders(context);
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         Get.snackbar(
@@ -48,21 +51,6 @@ class _MainOrdersState extends State<MainOrders> {
           message['notification']['body'],
           backgroundColor: Color(0xff007E33),
         );
-        // showDialog(
-        //   context: context,
-        //   builder: (context) => AlertDialog(
-        //     content: ListTile(
-        //       title: Text(message['notification']['title']),
-        //       subtitle: Text(message['notification']['body']),
-        //     ),
-        //     actions: <Widget>[
-        //       FlatButton(
-        //         child: Text('Ok'),
-        //         onPressed: () => Navigator.of(context).pop(),
-        //       ),
-        //     ],
-        //   ),
-        // );
       },
       onResume: (message) async {
         print('on resume $message');
@@ -76,7 +64,8 @@ class _MainOrdersState extends State<MainOrders> {
 
   @override
   void didChangeDependencies() {
-    allOrdersController.fetchAllOrders();
+    // allOrdersController.fetchAllOrders();
+    repository.fetchOrders(context);
     super.didChangeDependencies();
     length = allOrdersController.allOrdersList.length;
     print('this is legnth in main');
@@ -146,8 +135,9 @@ class _MainOrdersState extends State<MainOrders> {
                             onPressed: () {
                               if (screenController.screenIndex.value == 1) {
                                 screenController.selectOne();
-                                allOrdersController.fetchAllOrders();
+                                // allOrdersController.fetchAllOrders();
                                 // print(selectedIndex.toString());
+                                repository.fetchOrders(context);
                               }
                             },
                             shape: RoundedRectangleBorder(
