@@ -252,7 +252,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                                     ? GestureDetector(
                                         onTap: getdrivingLicencee,
                                         child: userController.profileList.first
-                                                .driverLicensePhoto.isEmpty
+                                                    .driverLicensePhoto ==
+                                                null
                                             ? Container(
                                                 child: Icon(
                                                   Icons.add,
@@ -320,7 +321,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                                     ? GestureDetector(
                                         onTap: getdrivingPassport,
                                         child: userController.profileList.first
-                                                .passportPhoto.isEmpty
+                                                    .passportPhoto ==
+                                                null
                                             ? Container(
                                                 child: Icon(
                                                   Icons.add,
@@ -453,30 +455,38 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     if (plasticCardUzcardController
                         .plasticCardTypeList.isNotEmpty) if (index == 0) {
                       return PaymentCard(
-                          isUzCard: true,
-                          plasticCardUzcardController:
-                              plasticCardUzcardController,
-                          uzCardController: uzCardController,
-                          humoCardController: humoCardController,
-                          dateUzCardController: dateUzCardController,
-                          dateHumoController: dateHumoController,
-                          phoneUzCardController: phoneUzCardController,
-                          phoneHumoController: phoneHumoController,
-                          nameController: nameController);
+                        isUzCard: true,
+                        plasticCardUzcardController:
+                            plasticCardUzcardController,
+                        uzCardController: uzCardController,
+                        humoCardController: humoCardController,
+                        dateUzCardController: dateUzCardController,
+                        dateHumoController: dateHumoController,
+                        phoneUzCardController: phoneUzCardController,
+                        phoneHumoController: phoneHumoController,
+                        nameController: nameController,
+                        plasticId: plasticCardUzcardController
+                            .plasticCardTypeList.first.id,
+                        editFunction: buildCardChange,
+                      );
                     }
                     if (plasticCardHumoController
                         .plasticCardTypeList.isNotEmpty)
                       return PaymentCard(
-                          isUzCard: false,
-                          plasticCardUzcardController:
-                              plasticCardUzcardController,
-                          uzCardController: uzCardController,
-                          humoCardController: humoCardController,
-                          dateUzCardController: dateUzCardController,
-                          dateHumoController: dateHumoController,
-                          phoneUzCardController: phoneUzCardController,
-                          phoneHumoController: phoneHumoController,
-                          nameController: nameController);
+                        isUzCard: false,
+                        plasticCardUzcardController:
+                            plasticCardUzcardController,
+                        uzCardController: uzCardController,
+                        humoCardController: humoCardController,
+                        dateUzCardController: dateUzCardController,
+                        dateHumoController: dateHumoController,
+                        phoneUzCardController: phoneUzCardController,
+                        phoneHumoController: phoneHumoController,
+                        nameController: nameController,
+                        plasticId: plasticCardHumoController
+                            .plasticCardTypeList.first.id,
+                        editFunction: buildCardChange,
+                      );
                     return Text('');
                   }),
                 );

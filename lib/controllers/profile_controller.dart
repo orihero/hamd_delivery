@@ -6,7 +6,7 @@ class UserProfileController extends GetxController {
   var profileList = List<Data>().obs;
   var isLoading = true.obs;
 
-  void fetchProfileData() async {
+  Future fetchProfileData() async {
     print('fetching user data');
     try {
       isLoading(true);

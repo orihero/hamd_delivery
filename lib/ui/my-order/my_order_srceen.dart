@@ -30,33 +30,6 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     super.initState();
   }
 
-  // _callContent() {
-  //   switch (selectedIndex) {
-  //     case 0:
-  //       return OrderListCard();
-  //       break;
-  //     case 1:
-  //       return OrderListCard();
-
-  //       break;
-  //     default:
-  //       return OrderListCard();
-  //   }
-  // }
-
-  // _callContent2() {
-  //   switch (selectedIndex) {
-  //     case 0:
-  //       return OrderListCardDay();
-  //       break;
-  //     case 1:
-  //       return OrderListCardWeek();
-  //       break;
-  //     default:
-  //       return OrderListCardMonth();
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -213,33 +186,6 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
             child: OrderListCardUniversal(
               selected: selectedIndex,
             ),
-
-            // ListView.builder(
-            //     itemCount: 1,
-            //     itemBuilder: (context, index) => Padding(
-            //           padding: EdgeInsets.symmetric(horizontal: 16),
-            //           child: Column(
-            //             children: [
-            //               // _callContent(),
-            //               SizedBox(
-            //                 height: 15,
-            //               ),
-            //               _callContent2(),
-            //               // SizedBox(
-            //               //   height: 15,
-            //               // ),
-            //               // _callContent(),
-            //               // SizedBox(
-            //               //   height: 15,
-            //               // ),
-            //               // _callContent2(),
-            //               // SizedBox(
-            //               //   height: 15,
-            //               // ),
-            //               // SizedBox(height: 25),
-            //             ],
-            //           ),
-            //         )),
           ),
         ],
       ),

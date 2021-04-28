@@ -142,7 +142,8 @@ class _IncomeListCardState extends State<IncomeListCard> {
                           width: 12,
                         ),
                         Text(
-                          '${widget.selected == 0 ? day.orders[index].productTotalSum : widget.selected == 1 ? week.orders[index].productTotalSum : month.orders[index].productTotalSum}',
+                          "12 500 сум",
+                          // '${widget.selected == 0 ? day.orders[index].productTotalSum : widget.selected == 1 ? week.orders[index].productTotalSum : month.orders[index].productTotalSum}',
                           style: FontStyles.boldStyle(
                             fontSize: 16,
                             fontFamily: 'Montserrat',

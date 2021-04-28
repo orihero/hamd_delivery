@@ -38,76 +38,90 @@ class SendFormButton extends StatelessWidget {
       child: Container(
         height: 54,
         width: double.infinity,
-        child: RaisedButton(
-          elevation: 0,
-          color: ColorPalatte.strongRedColor,
-          onPressed: () async {
-            FormData formData = FormData.fromMap({
-              'name': nameController.text,
-              'phone': phoneController.text,
-            });
-            if (_userImage != null) {
-              String fileName = _userImage.path.split('/').last;
-              formData.files.addAll([
-                MapEntry(
-                  "photo",
-                  await MultipartFile.fromFile(
-                    _userImage.path,
-                    filename: fileName,
-                  ),
-                ),
-              ]);
-            }
+        child: g.Obx(
+          () => RaisedButton(
+            elevation: 0,
+            color: ColorPalatte.strongRedColor,
+            onPressed: () async {
+              if (!userController.isLoading.value) {
+                FormData formData = FormData.fromMap({
+                  'name': nameController.text,
+                  'phone': phoneController.text,
+                });
+                if (_userImage != null) {
+                  String fileName = _userImage.path.split('/').last;
+                  formData.files.addAll([
+                    MapEntry(
+                      "photo",
+                      await MultipartFile.fromFile(
+                        _userImage.path,
+                        filename: fileName,
+                      ),
+                    ),
+                  ]);
+                }
 
-            if (_drivingPassport != null) {
-              String fileName = _drivingPassport.path.split('/').last;
-              formData.files.addAll([
-                MapEntry(
-                  "passport",
-                  await MultipartFile.fromFile(
-                    _drivingPassport.path,
-                    filename: fileName,
+                if (_drivingPassport != null) {
+                  String fileName = _drivingPassport.path.split('/').last;
+                  formData.files.addAll([
+                    MapEntry(
+                      "passport",
+                      await MultipartFile.fromFile(
+                        _drivingPassport.path,
+                        filename: fileName,
+                      ),
+                    ),
+                  ]);
+                }
+                if (drivingLicence != null) {
+                  String fileName = drivingLicence.path.split('/').last;
+                  formData.files.addAll([
+                    MapEntry(
+                      "driver_license",
+                      await MultipartFile.fromFile(
+                        drivingLicence.path,
+                        filename: fileName,
+                      ),
+                    ),
+                  ]);
+                }
+                final token = MyPref.secondToken;
+                var response = await dio.post(
+                  ApiUrl.updateProfile,
+                  data: formData,
+                  options: Options(
+                    headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
                   ),
-                ),
-              ]);
-            }
-            if (drivingLicence != null) {
-              String fileName = drivingLicence.path.split('/').last;
-              formData.files.addAll([
-                MapEntry(
-                  "driver_license",
-                  await MultipartFile.fromFile(
-                    drivingLicence.path,
-                    filename: fileName,
+                );
+                if (response.statusCode == 200) {
+                  print('okayy');
+
+                  await userController.fetchProfileData();
+                  g.Get.snackbar(
+                    null,
+                    null,
+                    messageText: Text(
+                      'Ваши данные сохранены!',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Color(0xff007E33),
+                  );
+                }
+              } else {
+                return null;
+              }
+            },
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            child: userController.isLoading.value
+                ? CircularProgressIndicator()
+                : Text(
+                    'СОХРАНИТЬ ИЗМЕНЕНИЯ',
+                    style: FontStyles.boldStyle(
+                        fontSize: 16,
+                        fontFamily: 'Ubuntu',
+                        color: Colors.white),
                   ),
-                ),
-              ]);
-            }
-            final token = MyPref.secondToken;
-            var response = await dio.post(
-              ApiUrl.updateProfile,
-              data: formData,
-              options: Options(
-                headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
-              ),
-            );
-            if (response.statusCode == 200) {
-              print('okayy');
-              g.Get.snackbar(null, null,
-                  messageText: Text(
-                    'Ваши данные сохранены!',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  backgroundColor: Color(0xff007E33));
-              userController.fetchProfileData();
-            }
-          },
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          child: Text(
-            'СОХРАНИТЬ ИЗМЕНЕНИЯ',
-            style: FontStyles.boldStyle(
-                fontSize: 16, fontFamily: 'Ubuntu', color: Colors.white),
           ),
         ),
       ),

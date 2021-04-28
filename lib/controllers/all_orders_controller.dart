@@ -10,9 +10,8 @@ class AllOrdersController extends GetxController {
 
   @override
   void onInit() {
-    if (secondToken != null && secondToken != '') {
-      fetchAllOrders();
-    }
+    // if (secondToken != null && secondToken != '') {}
+    fetchAllOrders();
     super.onInit();
   }
 

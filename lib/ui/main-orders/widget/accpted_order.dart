@@ -53,7 +53,6 @@ class _AccptedOrdersState extends State<AccptedOrders> {
 
   @override
   Widget build(BuildContext context) {
-    print(acceptedOrdersController.allAcceptedOrdersList.length);
     return Obx(
       () {
         if (acceptedOrdersController.isLoading.value) {
@@ -347,44 +346,26 @@ class _AccptedOrdersState extends State<AccptedOrders> {
                                     var x = acceptedOrdersController
                                         .allAcceptedOrdersList[index]
                                         .mapLocation
-                                        .split(' ');
+                                        .split(',');
                                     print('*******');
                                     print(x[0]);
                                     print('++++++');
+
+                                    print(acceptedOrdersController
+                                        .allAcceptedOrdersList[index]
+                                        .deliveryType
+                                        .name
+                                        .toString());
                                     print(x[1]);
                                     setState(() {
                                       destinationLatitude = double.parse(x[0]);
                                       destinationLongitude = double.parse(x[1]);
                                     });
                                     print(MyPref.secondToken);
-                                    // List a = x.split(",").toList();
-                                    // print(a[0]);
-                                    // print(a[1]);
-                                    // double lt = a[0];
-                                    // double ln = a[0];
-                                    // setState(() {
-                                    //   destinationLatitude = lt;
-                                    //   destinationLongitude = ln;
-                                    // });
 
                                     MapsSheet.show(
                                       context: context,
                                       onMapTap: (map) {
-                                        // var x = acceptedOrdersController
-                                        //     .allAcceptedOrdersList[index]
-                                        //     .mapLocation;
-                                        // List a = x.split(" ").toList();
-                                        // print(a[0]);
-                                        // print(a[1]);
-                                        // var lt = a[0];
-                                        // var ln = a[1];
-
-                                        // setState(() {
-                                        //   destinationLatitude =
-                                        //       double.parse(lt);
-                                        //   destinationLongitude =
-                                        //       double.parse(ln);
-                                        // });
                                         map.showDirections(
                                           destination: Coords(
                                             destinationLatitude,

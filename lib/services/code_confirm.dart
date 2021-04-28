@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:HAMD_Delivery/constants/api.dart';
 import 'package:HAMD_Delivery/controllers/profile_controller.dart';
 import 'package:HAMD_Delivery/models/auth/code_confirm_model.dart';
+import 'package:HAMD_Delivery/ui/main-orders/widget/splash_screen.dart';
 import 'package:HAMD_Delivery/utils/my_prefs.dart';
 
 import 'package:get/get.dart';
@@ -35,6 +36,7 @@ class ConfirmCode {
       print(body.data.deviceToken);
       print(body.data.phone);
       pController.fetchProfileData();
+      Get.offAll(SplashScreen());
       return body;
     } else {
       print(response.reasonPhrase);

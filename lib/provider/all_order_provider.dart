@@ -7,6 +7,7 @@ class AllOrderPrivder with ChangeNotifier {
   AllOrdersApi _allOrdersApi = AllOrdersApi();
 
   AllOrdersModel get allOrderModel => _allOrdersModel;
+
   set allOrderModel(AllOrdersModel allOrdersModel) {
     _allOrdersModel = allOrdersModel;
     notifyListeners();

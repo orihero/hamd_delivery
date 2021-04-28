@@ -222,7 +222,7 @@ class _OrderListCardUniversalState extends State<OrderListCardUniversal> {
                                 ),
                               ),
                               Text(
-                                'Ул. Нукусская, 92, кв.21',
+                                '${widget.selected == 0 ? myAccpetedOrdersUniversalController.allAcceptedOrdersDayList[index].address : widget.selected == 1 ? myAccpetedOrdersUniversalController.allAcceptedOrdersWeekList[index].address : myAccpetedOrdersUniversalController.allAcceptedOrdersMonthList[index].address}',
                                 style: FontStyles.boldStyle(
                                   fontSize: 15,
                                   fontFamily: 'Montserrat',
@@ -258,7 +258,8 @@ class _OrderListCardUniversalState extends State<OrderListCardUniversal> {
                         width: 5,
                       ),
                       Text(
-                        '12 500 сум (2500 сум):',
+                        '${widget.selected == 0 ? myAccpetedOrdersUniversalController.allAcceptedOrdersDayList[index].productTotalSum : widget.selected == 1 ? myAccpetedOrdersUniversalController.allAcceptedOrdersWeekList[index].productTotalSum : myAccpetedOrdersUniversalController.allAcceptedOrdersMonthList[index].productTotalSum}' +
+                            ' сум (2500 сум)',
                         style: FontStyles.regularStyle(
                           fontSize: 16,
                           fontFamily: 'Montserrat',

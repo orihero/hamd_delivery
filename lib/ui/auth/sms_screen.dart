@@ -6,6 +6,7 @@ import 'package:HAMD_Delivery/controllers/all_orders_controller.dart';
 import 'package:HAMD_Delivery/services/code_confirm.dart';
 import 'package:HAMD_Delivery/ui/main-orders/main-orders.dart';
 import 'package:HAMD_Delivery/ui/main-orders/tab_screen.dart';
+import 'package:HAMD_Delivery/ui/main-orders/widget/splash_screen.dart';
 import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,8 +36,8 @@ class _SmsScreenState extends State<SmsScreen> {
     if (form.validate()) {
       if (codeController.text == MyPref.code) {
         ConfirmCode.codeConfirmFunction(code: codeController.text);
-        Get.offAll(MainOrders());
-        // Get.offAll(FirstTab());
+
+        Get.offAll(SplashScreen());
       } else {
         print('hatolik');
       }

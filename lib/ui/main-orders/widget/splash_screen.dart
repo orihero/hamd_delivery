@@ -12,6 +12,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Repository repository = Repository();
   @override
   void initState() {
+    print('this is initsate in splash screen');
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(_callApi);
   }
