@@ -4,17 +4,13 @@ import 'package:HAMD_Delivery/controllers/my_accepted_month_orders_controller.da
 import 'package:HAMD_Delivery/controllers/my_accepted_orders_unversal_controller.dart';
 import 'package:HAMD_Delivery/controllers/my_income_controller.dart';
 import 'package:HAMD_Delivery/controllers/my_profile_controller.dart';
-import 'package:HAMD_Delivery/controllers/plastic_card_controller.dart';
 import 'package:HAMD_Delivery/controllers/plastic_card_type_controller.dart';
 import 'package:HAMD_Delivery/controllers/platic_card_humo_controller.dart';
 import 'package:HAMD_Delivery/controllers/profile_controller.dart';
 import 'package:HAMD_Delivery/controllers/screen_controller.dart';
 import 'package:HAMD_Delivery/provider/all_order_provider.dart';
-import 'package:HAMD_Delivery/services/my_accepted_orders_day.dart';
 import 'package:HAMD_Delivery/ui/landing/landing_screen.dart';
-import 'package:HAMD_Delivery/ui/main-orders/main-orders.dart';
-import 'package:HAMD_Delivery/ui/main-orders/main_order_tab.dart';
-import 'package:HAMD_Delivery/ui/main-orders/tab_screen.dart';
+
 import 'package:HAMD_Delivery/ui/main-orders/widget/splash_screen.dart';
 import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'package:flutter/material.dart';

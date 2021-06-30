@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
-import 'dart:convert';
-import 'package:HAMD_Delivery/models/plastic_card_model.dart';
 import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'package:HAMD_Delivery/controllers/plastic_card_type_controller.dart';
 import 'package:HAMD_Delivery/controllers/platic_card_humo_controller.dart';

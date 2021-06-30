@@ -8,7 +8,6 @@ import 'package:HAMD_Delivery/models/all_orders_model.dart';
 import 'package:HAMD_Delivery/provider/all_order_provider.dart';
 import 'package:HAMD_Delivery/services/accept_order.dart';
 import 'package:HAMD_Delivery/services/repository.dart';
-import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';

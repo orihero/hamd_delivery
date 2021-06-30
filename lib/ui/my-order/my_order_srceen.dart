@@ -1,14 +1,8 @@
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
-import 'package:HAMD_Delivery/controllers/my_accepted_day_orders_controller.dart';
-import 'package:HAMD_Delivery/controllers/my_accepted_month_orders_controller.dart';
 import 'package:HAMD_Delivery/controllers/my_accepted_orders_unversal_controller.dart';
-import 'package:HAMD_Delivery/controllers/my_accepted_week_orders_controller.dart';
 import 'package:HAMD_Delivery/ui/components/cutom_appbar.dart';
-import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card_day.dart';
-import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card_month.dart';
 import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card_univeral.dart';
-import 'package:HAMD_Delivery/ui/my-order/widgets/order_list_card_week.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

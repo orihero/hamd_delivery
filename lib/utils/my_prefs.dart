@@ -2,12 +2,6 @@ import 'package:HAMD_Delivery/constants/sp_keys/shared_preference_constats.dart'
 import 'package:get_storage/get_storage.dart';
 
 import '../constants/sp_keys/shared_preference_constats.dart';
-import '../constants/sp_keys/shared_preference_constats.dart';
-import '../constants/sp_keys/shared_preference_constats.dart';
-import '../constants/sp_keys/shared_preference_constats.dart';
-import '../constants/sp_keys/shared_preference_constats.dart';
-import '../constants/sp_keys/shared_preference_constats.dart';
-import '../constants/sp_keys/shared_preference_constats.dart';
 
 class MyPref {
   static final prefs = GetStorage();

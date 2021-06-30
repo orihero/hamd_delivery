@@ -8,8 +8,6 @@ import 'package:HAMD_Delivery/ui/settings/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../settings/profile_settings/profile_settings.dart';
-
 class MyDrewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

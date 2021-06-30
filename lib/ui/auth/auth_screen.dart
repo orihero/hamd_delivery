@@ -5,7 +5,6 @@ import 'package:HAMD_Delivery/ui/auth/sms_screen.dart';
 import 'package:HAMD_Delivery/ui/masks/masks.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:get/get.dart';
 
 import '../../utils/my_prefs.dart';

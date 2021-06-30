@@ -1,6 +1,7 @@
 import 'package:HAMD_Delivery/constants/colors.dart';
 import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/controllers/accepted_orders_controller.dart';
+import 'package:HAMD_Delivery/services/driver_left.dart';
 import 'package:HAMD_Delivery/services/finish_order.dart';
 import 'package:HAMD_Delivery/ui/main-orders/location/maps_sheet.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/my_icons.dart';
@@ -330,6 +331,21 @@ class _AccptedOrdersState extends State<AccptedOrders> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
+                              MyIcons(
+                                icon: IconButton(
+                                  icon: Icon(
+                                    Icons.delivery_dining,
+                                    color: Colors.green,
+                                    size: 30,
+                                  ),
+                                  onPressed: () {
+                                    DriverLeft.finishOrder(
+                                        acceptedOrdersController
+                                            .allAcceptedOrdersList[index].id);
+                                    //to testing
+                                  },
+                                ),
+                              ),
                               MyIcons(
                                 icon: IconButton(
                                   icon: Icon(
