@@ -5,7 +5,6 @@ import 'package:HAMD_Delivery/constants/fonts.dart';
 import 'package:HAMD_Delivery/controllers/all_orders_controller.dart';
 import 'package:HAMD_Delivery/services/code_confirm.dart';
 import 'package:HAMD_Delivery/ui/main-orders/main-orders.dart';
-import 'package:HAMD_Delivery/ui/main-orders/tab_screen.dart';
 import 'package:HAMD_Delivery/ui/main-orders/widget/splash_screen.dart';
 import 'package:HAMD_Delivery/utils/my_prefs.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +12,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:get/get.dart';
 
+import '../../services/sign_in.dart';
+import '../../utils/my_prefs.dart';
+
 class SmsScreen extends StatefulWidget {
   @override
   _SmsScreenState createState() => _SmsScreenState();
 }
 
 class _SmsScreenState extends State<SmsScreen> {
+  final phoneNumber = MyPref.phoneNumber;
+
   GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
   final AllOrdersController allOrdersController =
       Get.find<AllOrdersController>();
@@ -30,6 +34,7 @@ class _SmsScreenState extends State<SmsScreen> {
   StreamController<ErrorAnimationType> errorController;
   Timer _timer;
   int _start = 30;
+  String errorMessage = '';
 
   void validateAndSave() async {
     final FormState form = _formKey2.currentState;
@@ -260,9 +265,17 @@ class _SmsScreenState extends State<SmsScreen> {
                                 ),
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return "поле не может быть пустым";
+                                    setState(() {
+                                      errorMessage =
+                                          'Поле не может быть пустым';
+                                    });
+                                    return '';
                                   } else if (value.length < 6) {
-                                    return 'поле не может быть меньше 6 цифр';
+                                    setState(() {
+                                      errorMessage =
+                                          'Поле не может быть меньше 6 цифр';
+                                    });
+                                    return '';
                                   }
                                   return null;
                                 },
@@ -339,27 +352,47 @@ class _SmsScreenState extends State<SmsScreen> {
                       // ),
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * .07),
+                  SizedBox(height: MediaQuery.of(context).size.height * .05),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 50,
                     ),
-                    child: Center(
-                        child: _start == 0
-                            ? GestureDetector(
-                                onTap: () {
-                                  if (_start == 0) {
-                                    setState(() {
-                                      _start = 30;
-                                    });
-                                    startTimer();
-                                  } else {
-                                    // _showSnackBar(context);
-                                    validateAndSave();
-                                  }
-                                },
-                                child: Text('ОТПРАВАИТЬ КОД'))
-                            : Text('Запросить новый код через $_start сек')),
+                    child: Column(
+                      children: [
+                        Text(
+                          errorMessage,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: ColorPalatte.strongRedColor,
+                          ),
+                        ),
+                        errorMessage.isEmpty
+                            ? Container()
+                            : SizedBox(
+                                height: 10,
+                              ),
+                        Center(
+                            child: _start == 0
+                                ? GestureDetector(
+                                    onTap: () {
+                                      if (_start == 0) {
+                                        setState(() {
+                                          _start = 30;
+                                        });
+                                        startTimer();
+                                        SignIn.signInUser(
+                                            userNumber: MyPref.phoneNumber,
+                                            fcmToken: MyPref.fToken);
+                                      } else {
+                                        // _showSnackBar(context);
+                                        validateAndSave();
+                                      }
+                                    },
+                                    child: Text('ОТПРАВАИТЬ КОД'))
+                                : Text(
+                                    'Запросить новый код через $_start сек')),
+                      ],
+                    ),
                     // child:
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * .07),

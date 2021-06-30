@@ -8,16 +8,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:get/get.dart';
 
+import '../../utils/my_prefs.dart';
+
 class AuthScreen extends StatefulWidget {
   @override
   _AuthScreenState createState() => _AuthScreenState();
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  String errorMessage = '';
+
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String fcmToken;
   configureFCM() async {
     var token = await _firebaseMessaging.getToken();
+    MyPref.fToken = token;
     setState(() {
       fcmToken = token;
       print('fcm tokein is $fcmToken');
@@ -179,9 +184,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String _phoneNumber;
-    var controllerNumber =
-        MaskedTextController(mask: '000 00 000 00 00', text: '+998 ');
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: ColorPalatte.mainPageColor,
@@ -245,34 +247,50 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                           Flexible(
                             child: TextFormField(
-                                inputFormatters: [InputMask.maskPhoneNumber],
-                                controller: smsController,
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  contentPadding:
-                                      const EdgeInsets.only(left: 15.0),
-                                  hintText: 'Введите свой номер телефона',
-                                  hintStyle: FontStyles.regularStyle(
-                                      fontSize: 12,
-                                      fontFamily: 'Ubuntu',
-                                      color: Color(0xff9E9E9E)),
-                                  border: InputBorder.none,
-                                ),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.0,
-                                ),
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "поле не может быть пустым";
-                                  } else if (value.length < 17) {
-                                    return 'поле не может быть меньше 12 цифр';
-                                  }
-                                  return null;
-                                }),
+                              inputFormatters: [InputMask.maskPhoneNumber],
+                              controller: smsController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                contentPadding:
+                                    const EdgeInsets.only(left: 15.0),
+                                hintText: 'Введите свой номер телефона',
+                                hintStyle: FontStyles.regularStyle(
+                                    fontSize: 12,
+                                    fontFamily: 'Ubuntu',
+                                    color: Color(0xff9E9E9E)),
+                                border: InputBorder.none,
+                              ),
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16.0,
+                              ),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  setState(() {
+                                    errorMessage = 'Поле не может быть пустым';
+                                  });
+                                  return '';
+                                } else if (value.length < 17) {
+                                  setState(() {
+                                    errorMessage =
+                                        'Поле не может быть меньше 12 цифр';
+                                  });
+                                  return '';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                  errorMessage.isEmpty ? Container() : SizedBox(height: 10),
+                  Text(
+                    errorMessage,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: ColorPalatte.strongRedColor,
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * .07),

@@ -99,6 +99,7 @@ PreferredSize buildProfleSettingsAppBar(BuildContext context) {
                                   ),
                                   onPressed: () {
                                     MyPref.allTokentsClear();
+
                                     Get.offAll(LandingScreen());
                                   },
                                 ),
